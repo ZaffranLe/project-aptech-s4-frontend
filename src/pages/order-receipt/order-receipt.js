@@ -1,18 +1,18 @@
 import Layout from "../../components/layout/layout";
 import React from "react";
 
-class AdminDashboard extends React.Component {
+class OrderReceipt extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <Layout>
-                
-            </Layout>
+                <Layout> 
+                    <h2>adsaasasdasd</h2>
+                </Layout>
         );
     }
 }
 
-export default AdminDashboard;
+export default OrderReceipt;
