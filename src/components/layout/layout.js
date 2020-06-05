@@ -18,6 +18,7 @@ class Layout extends React.Component {
                     </Menu.Item>
                 </Menu>
                 <Grid style={{ marginTop: -4 }}>
+                    {this.props.children}
                     <Button.Group vertical style={{ position: "fixed", right: 10, bottom: "30%" }}>
                         <Button icon="facebook" color="facebook" href="#header" />
                         <Button icon="facebook messenger" color="blue" href="#header" />
@@ -33,6 +34,5 @@ class Layout extends React.Component {
         );
     }
 }
-
 
 export default Layout;
