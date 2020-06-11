@@ -21,7 +21,14 @@ export const SidebarMiddleNav = () => (
             title="Widgets"
             to='/widgets'
         />
-        { /* -------- Cards ---------*/ }
+
+        { /* -------- Order Receipt ---------*/}
+        <SidebarMenu.Item icon={<i className="fa fa-file-text"></i>} title="Order Receipt" >
+            <SidebarMenu.Item title="Order Request" to='#' exact />
+            <SidebarMenu.Item title="Order List" to='/order-receipt/order-list' exact />
+        </SidebarMenu.Item>
+
+        { /* -------- Cards ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-clone"></i>}
             title="Cards"
@@ -29,7 +36,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Cards" to='/cards/cards' exact />
             <SidebarMenu.Item title="Cards Headers" to='/cards/cardsheaders' exact />
         </SidebarMenu.Item>
-        { /* -------- Layouts ---------*/ }
+        { /* -------- Layouts ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-columns"></i>}
             title="Layouts"
@@ -40,7 +47,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Sidebar With Navbar" to="/layouts/sidebar-with-navbar" exact />
             <SidebarMenu.Item title="Drag &amp; Drop" to='/layouts/dnd-layout' exact />
         </SidebarMenu.Item>
-        { /* -------- Interface ---------*/ }
+        { /* -------- Interface ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-toggle-on"></i>}
             title="Interface"
@@ -68,14 +75,14 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Drag &amp; Drop Elements" to='/interface/drag-and-drop-elements' />
             <SidebarMenu.Item title="Calendar" to='/interface/calendar' />
         </SidebarMenu.Item>
-        { /* -------- Graphs ---------*/ }
+        { /* -------- Graphs ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-pie-chart"></i>}
             title="Graphs"
         >
             <SidebarMenu.Item title="ReCharts" to='/graphs/re-charts' />
         </SidebarMenu.Item>
-        { /* -------- Forms ---------*/ }
+        { /* -------- Forms ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-check-square-o"></i>}
             title="Forms"
@@ -92,7 +99,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Dropzone" to='/forms/dropzone' />
             <SidebarMenu.Item title="Sliders" to='/forms/sliders' />
         </SidebarMenu.Item>
-        { /* -------- Tables ---------*/ }
+        { /* -------- Tables ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-trello"></i>}
             title="Tables"
@@ -101,7 +108,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Extended Tables" to='/tables/extended-table' />
             <SidebarMenu.Item title="AgGrid" to='/tables/ag-grid' />
         </SidebarMenu.Item>
-        { /* -------- Apps ---------*/ }
+        { /* -------- Apps ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-mouse-pointer"></i>}
             title="Apps"
@@ -150,7 +157,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Clients" to="/apps/clients" exact />
             <SidebarMenu.Item title="Chat" to="/apps/chat" exact />
         </SidebarMenu.Item>
-        { /* -------- Pages ---------*/ }
+        { /* -------- Pages ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-copy"></i>}
             title="Pages"
@@ -176,7 +183,7 @@ export const SidebarMiddleNav = () => (
             title="Docs"
             href='https://webkom.gitbook.io/spin/v/airframe/airframe-react/documentation-react'
         />
-        { /* -------- Versions ---------*/ }
+        { /* -------- Versions ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-folder-open-o"></i>}
             title="Versions"

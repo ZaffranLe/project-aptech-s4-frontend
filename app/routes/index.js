@@ -16,6 +16,8 @@ import Reports from './Dashboards/Reports';
 
 import Widgets from './Widgets';
 
+import OrderLists from './OrderReceipts/OrderLists';
+
 import Cards from './Cards/Cards';
 import CardsHeaders from './Cards/CardsHeaders';
 
@@ -108,6 +110,7 @@ import { DefaultSidebar } from './../layout/components/DefaultSidebar';
 
 import { SidebarANavbar } from './../layout/components/SidebarANavbar';
 import { SidebarASidebar } from './../layout/components/SidebarASidebar';
+import OrderList from '../components/OrderReceipt/OrderList';
 
 //------ Route Definitions --------
 // eslint-disable-next-line no-unused-vars
@@ -128,6 +131,7 @@ export const RoutedContent = () => {
             
             { /*    Cards Routes     */ }
             <Route path='/cards/cards' exact component={Cards} />
+            <Route path='/order-receipt/order-list' exact component={OrderLists} />
             <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
             
             { /*    Layouts     */ }
