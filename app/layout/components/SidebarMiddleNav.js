@@ -4,6 +4,25 @@ import { SidebarMenu } from './../../components';
 
 export const SidebarMiddleNav = () => (
     <SidebarMenu>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-home"></i>} title="Tổng quan" />
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-file-text-o"></i>} title="Đơn hàng">
+            <SidebarMenu.Item title="Yêu cầu đặt hàng" exact />
+            <SidebarMenu.Item title="Danh sách đơn hàng hàng" exact />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-clipboard"></i>} title="Bài viết">
+            <SidebarMenu.Item title="Đăng bài viết mới" />
+            <SidebarMenu.Item title="Danh sách các bài viết" />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-users"></i>} title="Khách hàng"/>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-archive"></i>} title="Sản phẩm">
+            <SidebarMenu.Item title="Thêm sản phẩm mới" />
+            <SidebarMenu.Item title="Danh sách sản phẩm" />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-area-chart"></i>} title="Báo cáo">
+            <SidebarMenu.Item title="Báo cáo 1" />
+            <SidebarMenu.Item title="Báo cáo 2" />
+        </SidebarMenu.Item>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-cog"></i>} title="Cấu hình"/>
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-home"></i>}
             title="Dashboards"
