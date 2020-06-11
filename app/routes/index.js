@@ -110,7 +110,7 @@ import { DefaultSidebar } from './../layout/components/DefaultSidebar';
 
 import { SidebarANavbar } from './../layout/components/SidebarANavbar';
 import { SidebarASidebar } from './../layout/components/SidebarASidebar';
-import OrderList from '../components/OrderReceipt/OrderList';
+
 
 //------ Route Definitions --------
 // eslint-disable-next-line no-unused-vars
