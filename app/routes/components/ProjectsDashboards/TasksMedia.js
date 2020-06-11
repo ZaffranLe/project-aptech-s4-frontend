@@ -12,7 +12,7 @@ const TasksMedia = (props) => (
     <React.Fragment>
         <Media>
             <Media left className="mr-3">
-                <CustomInput className="pt-0 mt-0" type="checkbox" id={`taskMedia-${ props.id }` } label="" />
+                <i className="fa fa-fw fa-eye text-info"></i> 123
             </Media>
             <Media body>
                 <div className="mt-0 mb-2">

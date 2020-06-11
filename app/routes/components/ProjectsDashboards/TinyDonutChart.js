@@ -8,21 +8,22 @@ import {
 import colors from './../../../colors';
 
 const data = [
-    {name: 'Group A', value: 200},
-    {name: 'Group B', value: 300},
-    {name: 'Group C', value: 300}
+    {name: 'Pending', value: 5},
+    {name: 'Waiting for delivery', value: 12},
+    {name: 'Cancelled', value: 3},
+    {name: 'Returned', value: 1},
 ];
 
-const COLORS = [ colors['yellow'], colors['red'], colors['success'], colors['yellow']];
+const COLORS = [ colors['yellow'], colors['success'], colors['red'], colors['primary']];
 
 const TinyDonutChart = () => (
-    <PieChart width={ 80 } height={ 80 }>
+    <PieChart width={ 140 } height={ 140 }>
         <Pie
             data={data}
             dataKey="value"
             stroke={ colors['white'] }
-            innerRadius={ 26 }
-            outerRadius={ 35 } 
+            innerRadius={ 40 }
+            outerRadius={ 65 } 
             fill="#8884d8"
         >
             {
