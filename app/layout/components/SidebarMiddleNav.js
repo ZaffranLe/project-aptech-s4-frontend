@@ -6,8 +6,8 @@ export const SidebarMiddleNav = () => (
     <SidebarMenu>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-home"></i>} title="Tổng quan" />
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-file-text-o"></i>} title="Đơn hàng">
-            <SidebarMenu.Item title="Yêu cầu đặt hàng" exact />
-            <SidebarMenu.Item title="Danh sách đơn hàng hàng" exact />
+            <SidebarMenu.Item title="Yêu cầu đặt hàng" to="#" exact />
+            <SidebarMenu.Item title="Danh sách đơn hàng" to='/order-receipt/order-list' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-clipboard"></i>} title="Bài viết">
             <SidebarMenu.Item title="Đăng bài viết mới" />
@@ -40,12 +40,6 @@ export const SidebarMiddleNav = () => (
             title="Widgets"
             to='/widgets'
         />
-
-        { /* -------- Order Receipt ---------*/}
-        <SidebarMenu.Item icon={<i className="fa fa-file-text"></i>} title="Order Receipt" >
-            <SidebarMenu.Item title="Order Request" to='#' exact />
-            <SidebarMenu.Item title="Order List" to='/order-receipt/order-list' exact />
-        </SidebarMenu.Item>
 
         { /* -------- Cards ---------*/}
         <SidebarMenu.Item
