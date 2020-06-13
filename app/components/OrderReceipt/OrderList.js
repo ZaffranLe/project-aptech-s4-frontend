@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import OrderListHeader from './OrderListHeader';
+import OrderListBody from './OrderListBody';
+
 
 class OrderList extends Component {
     constructor(props) {
@@ -9,30 +13,21 @@ class OrderList extends Component {
     }
     
     render() {
+        
         return (
             <div>
-                { this.props.tieude}
+                <OrderListHeader/>
+                <OrderListBody/>
             </div>
         );
     }
 }
 
-export default OrderList;
-
-
-
-/*
-
-import React from 'react';
-
-
-const OrderList = () => {
-    
-    return (
-        <div>hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</div>
-    );
-
-} 
+OrderList.PropTypes = {
+    tieude: PropTypes.string
+};
 
 export default OrderList;
-*/
+
+
+

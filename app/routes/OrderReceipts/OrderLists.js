@@ -4,7 +4,7 @@ import OrderList from '../../components/OrderReceipt/OrderList'
 class OrderLists extends Component {
     render() {
         return (          
-            <OrderList tieude="oooooooooookkkkkkkkkkkkkkkkk"></OrderList>            
+            <OrderList></OrderList>            
         );
     }
 }
