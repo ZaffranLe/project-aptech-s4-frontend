@@ -88,6 +88,7 @@ import Tasks from './Apps/Tasks';
 import TasksDetails from './Apps/TasksDetails';
 import TasksKanban from './Apps/TasksKanban';
 import Users from './Apps/Users';
+import ProductsList from './Apps/Products';
 import UsersResults from './Apps/UsersResults';
 import VideosResults from './Apps/VideosResults';
 
@@ -210,6 +211,8 @@ export const RoutedContent = () => {
             <Route component={ Users } path="/apps/users/:type" />
             <Route component={ UsersResults } path="/apps/users-results" />
             <Route component={ VideosResults } path="/apps/videos-results" />
+
+            <Route component={ ProductsList } path="/apps/products" />
 
             { /*    Pages Routes    */ }
             <Route component={ ComingSoon } path="/pages/coming-soon" />
