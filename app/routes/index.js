@@ -15,9 +15,6 @@ import Stock from './Dashboards/Stock';
 import Reports from './Dashboards/Reports';
 
 import Widgets from './Widgets';
-
-import OrderLists from './OrderReceipts/OrderLists';
-
 import Cards from './Cards/Cards';
 import CardsHeaders from './Cards/CardsHeaders';
 
@@ -66,6 +63,11 @@ import Sliders from './Forms/Sliders';
 import Tables from './Tables/Tables';
 import ExtendedTable from './Tables/ExtendedTable';
 import AgGrid from './Tables/AgGrid';
+
+// import for new side
+//import OrderLists from './OrderReceipts/OrderLists';
+import OrderLists from './Apps/OrderReceipts/OrderLists';
+// import for new side
 
 import AccountEdit from './Apps/AccountEdit';
 import BillingEdit from './Apps/BillingEdit';
@@ -131,7 +133,11 @@ export const RoutedContent = () => {
             
             { /*    Cards Routes     */ }
             <Route path='/cards/cards' exact component={Cards} />
+
+            
             <Route path='/order-receipt/order-list' exact component={OrderLists} />
+
+
             <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
             
             { /*    Layouts     */ }
