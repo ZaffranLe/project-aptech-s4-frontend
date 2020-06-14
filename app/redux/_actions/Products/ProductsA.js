@@ -14,15 +14,16 @@ function getAllProduct() {
             url: `${utilConstants.HOST}/api/product`,
             method: "get",
             headers: {
-                Authorization: `Bearer ${utilConstants.TOKEN}`,
-            },
+                "Authorization": `Bearer ${utilConstants.TOKEN}`
+            }
+            
         });
     }
 
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const data = await _callApi();
+            const resp = await _callApi();
             toast.success(content("Lấy danh sách sản phẩm thành công"));
             dispatch(_succeed());
         } catch (e) {

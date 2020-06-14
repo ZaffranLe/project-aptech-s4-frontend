@@ -13,18 +13,18 @@ const ProductsLeftNav = () => (
                 </NavItem>
                 <NavItem className="mt-2">
                     <Input type="select" name="sortProduct">
-                        <option selected>Sắp xếp sản phẩm</option>
-                        <option>Mới nhất</option>
-                        <option>Giá tăng dần</option>
-                        <option>Giá giảm dần</option>
-                        <option>Tên A-Z</option>
-                        <option>Tên Z-A</option>
+                        <option value={1}>Sắp xếp sản phẩm</option>
+                        <option value={1}>Mới nhất</option>
+                        <option value={1}>Giá tăng dần</option>
+                        <option value={1}>Giá giảm dần</option>
+                        <option value={1}>Tên A-Z</option>
+                        <option value={1}>Tên Z-A</option>
                     </Input>
                 </NavItem>
                 <NavItem className="mt-2">
                     <Input type="select" name="stockState">
-                        <option selected>Tình trạng kho hàng</option>
-                        <option>Còn hàng</option>
+                        <option value={1}>Tình trạng kho hàng</option>
+                        <option value={1}>Còn hàng</option>
                     </Input>
                 </NavItem>
             </Nav>

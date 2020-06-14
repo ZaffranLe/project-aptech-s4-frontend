@@ -11,6 +11,7 @@ import {
     Form,
     FormGroup,
     Label,
+    Button,
 } from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { ProductsCardGrid } from "../../components/Products/ProductsCardGrid";
@@ -36,6 +37,9 @@ class ProductsList extends React.Component {
                     <div className="d-flex justify-content-center">
                         <Paginations />
                     </div>
+                    <Button color="primary" size="sm" className="float-right">
+                        Tạo sản phẩm mới
+                    </Button>
                     <Row>
                         <Col lg={9}>
                             {/* START Table */}

@@ -88,7 +88,6 @@ import Tasks from './Apps/Tasks';
 import TasksDetails from './Apps/TasksDetails';
 import TasksKanban from './Apps/TasksKanban';
 import Users from './Apps/Users';
-import ProductsList from './Apps/Products';
 import UsersResults from './Apps/UsersResults';
 import VideosResults from './Apps/VideosResults';
 
@@ -104,6 +103,9 @@ import Success from './Pages/Success';
 import Timeline from './Pages/Timeline';
 
 import Icons from './Icons';
+
+import ProductsList from './Apps/Products';
+import CreateProduct from './Apps/CreateProduct';
 
 // ----------- Layout Imports ---------------
 import { DefaultNavbar } from './../layout/components/DefaultNavbar';
@@ -212,6 +214,7 @@ export const RoutedContent = () => {
             <Route component={ UsersResults } path="/apps/users-results" />
             <Route component={ VideosResults } path="/apps/videos-results" />
 
+            <Route component={ CreateProduct } path="/apps/products/create" />
             <Route component={ ProductsList } path="/apps/products" />
 
             { /*    Pages Routes    */ }
