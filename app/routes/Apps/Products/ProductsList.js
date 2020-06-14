@@ -19,6 +19,7 @@ import { ProductsLeftNav } from "../../components/Products/ProductsLeftNav";
 import { Paginations } from "../../components/Paginations";
 import { connect } from "react-redux";
 import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
+import { Link } from "react-router-dom";
 
 class ProductsList extends React.Component {
     constructor(props) {
@@ -37,9 +38,11 @@ class ProductsList extends React.Component {
                     <div className="d-flex justify-content-center">
                         <Paginations />
                     </div>
-                    <Button color="primary" size="sm" className="float-right">
-                        Tạo sản phẩm mới
-                    </Button>
+                    <Link to="/apps/products/create">
+                        <Button color="primary" size="sm" className="float-right">
+                            Tạo sản phẩm mới
+                        </Button>
+                    </Link>
                     <Row>
                         <Col lg={9}>
                             {/* START Table */}
