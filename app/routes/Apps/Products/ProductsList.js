@@ -33,23 +33,38 @@ class ProductsList extends React.Component {
             <React.Fragment>
                 <>
                     <HeaderMain title="Danh sách sản phẩm" className="mb-5 mt-4" />
+                    <div className="d-flex justify-content-center">
+                        <Paginations />
+                    </div>
                     <Row>
                         <Col lg={9}>
-                            <CardColumns>
-                                {/* START Table */}
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                <ProductsCardGrid />
-                                {/* END Table */}
-                            </CardColumns>
-                            <div className="d-flex justify-content-center">
-                                <Paginations />
-                            </div>
+                            {/* START Table */}
+                            <Row>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                                <Col className="mt-3" lg={4}>
+                                    <ProductsCardGrid />
+                                </Col>
+                            </Row>
                         </Col>
                         <Col lg={3}>
                             <ProductsLeftNav />
