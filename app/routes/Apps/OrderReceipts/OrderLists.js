@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Container, Row, Col } from '../../../components';
 import {
     ButtonToolbar,
@@ -9,10 +8,11 @@ import {
 
 import { HeaderMain } from '../../components/HeaderMain';
 import OrderTable from './OrderTable';
-
+//import CreateOrderReceipt from './CreateOrderReceipt/CreateOrderReceipt';
 
 class OrderLists extends Component {
-    render() {
+    
+    render() {       
         return (
             <div>
                 <Container fluid={false}>
@@ -23,9 +23,13 @@ class OrderLists extends Component {
                         />
                         <ButtonToolbar className="ml-auto">
                             <ButtonGroup className="align-self-start  mr-2">
-                                <Button color="primary" className="mb-2 mr-2 px-3">
+                                <Button 
+                                    color="primary" 
+                                    className="mb-2 mr-2 px-3"
+                                    onClick={() => window.location.href='/order-receipt/create-order'}
+                                >
                                     Tạo hóa đơn
-                            </Button>
+                                </Button>
                             </ButtonGroup>
                             <ButtonGroup>
                                 <Button outline className="mb-2 text-decoration-none align-self-start" color="secondary" >

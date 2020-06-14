@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { CustomSearch } from './../../../routes/Tables/ExtendedTable/components/CustomSearch';
 import { Table } from 'reactstrap';
+import './OrderTable.css';
 
 class OrderTable extends Component {
     constructor(props) {
@@ -13,11 +13,11 @@ class OrderTable extends Component {
     }
 
     render() {
-        const arr = [1,2,3];
+        //const arr = [1,2,3];
         return (
             <div>
                 <CustomSearch/>
-                <Table hover responsive>
+                <Table className="border-table" hover responsive>
                     <thead style={{fontSize: 16}}>
                         <tr>
                             <th  style={{width: 14}}></th>

@@ -65,8 +65,10 @@ import ExtendedTable from './Tables/ExtendedTable';
 import AgGrid from './Tables/AgGrid';
 
 // import for new side
-//import OrderLists from './OrderReceipts/OrderLists';
+
 import OrderLists from './Apps/OrderReceipts/OrderLists';
+import CreateOrderReceipt from './Apps/OrderReceipts/CreateOrderReceipt/CreateOrderReceipt';
+
 // import for new side
 
 import AccountEdit from './Apps/AccountEdit';
@@ -134,9 +136,9 @@ export const RoutedContent = () => {
             { /*    Cards Routes     */ }
             <Route path='/cards/cards' exact component={Cards} />
 
-            
+            { /*    Order Receipt Routes     */ }
             <Route path='/order-receipt/order-list' exact component={OrderLists} />
-
+            <Route path='/order-receipt/create-order' exact component={CreateOrderReceipt} />
 
             <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
             
