@@ -34,7 +34,7 @@ class OrderLists extends Component {
                             <ButtonGroup>
                                 <Button outline className="mb-2 text-decoration-none align-self-start" color="secondary" >
                                     Trợ giúp
-                            </Button>
+                                </Button>
                             </ButtonGroup>
                         </ButtonToolbar>
                     </div>

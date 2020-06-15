@@ -68,6 +68,8 @@ import AgGrid from './Tables/AgGrid';
 
 import OrderLists from './Apps/OrderReceipts/OrderLists';
 import CreateOrderReceipt from './Apps/OrderReceipts/CreateOrderReceipt/CreateOrderReceipt';
+import EditOrderReceipt from './Apps/OrderReceipts/EditOrderReceipt/EditOrderReceipt';
+import OrderDetailReceipt from './Apps/OrderReceipts/OrderDetailReceipt/OrderDetailReceipt';
 
 // import for new side
 
@@ -135,12 +137,14 @@ export const RoutedContent = () => {
             
             { /*    Cards Routes     */ }
             <Route path='/cards/cards' exact component={Cards} />
+            <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
 
             { /*    Order Receipt Routes     */ }
             <Route path='/order-receipt/order-list' exact component={OrderLists} />
             <Route path='/order-receipt/create-order' exact component={CreateOrderReceipt} />
-
-            <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
+            <Route path='/order-receipt/edit-order' exact component={EditOrderReceipt} />
+            <Route path='/order-receipt/order-detail' exact component={OrderDetailReceipt} />
+            
             
             { /*    Layouts     */ }
             <Route path='/layouts/navbar' component={NavbarOnly} />

@@ -10,12 +10,13 @@ import { HeaderMain } from '../../../components/HeaderMain';
 import { CustomSearch } from '../../../Tables/ExtendedTable/components/CustomSearch';
 import { Table } from 'reactstrap';
 
-class CreateOrderReceipt extends Component {
+
+class EditOrderReceipt extends Component {
     render() {
         return (
             <div>
                 <div className="d-flex mt-3 mb-5">
-                    <HeaderMain title="Tạo đơn hàng" className="mt-0" />
+                    <HeaderMain title="Sửa đơn hàng" className="mt-0" />
                 </div>
                 <div className="col-md-12 d-flex pl-0">
                     <div className="col-md-9 pl-0">
@@ -23,8 +24,38 @@ class CreateOrderReceipt extends Component {
                             <CardBody>
                                 <CardTitle tag="h4">
                                     Thông tin khách hàng
-                            </CardTitle>
-                                <CustomSearch />
+                                </CardTitle>
+                                <div className="d-flex">
+                                    <div className="mr-2" style={{ color: '#00a8f7'}}>
+                                        <i className="fa fa-user-circle-o fa-3x" aria-hidden="true"></i>
+                                    </div>
+                                    <div>
+                                        <input style={{ borderStyle: 'none', color: '#00a8f7', fontSize: 16 }} type="text" value="Trương Thị Mai" />
+                                        <br/>
+                                        <input style={{ borderStyle: 'none'}} type="tel" value="0966015228" />                            
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr />
+                                </div>
+                                <div>
+                                    <div>
+                                        <spa>
+                                            <b>
+                                                ĐỊA CHỈ GIAO HÀNG
+                                            </b>
+                                        </spa>
+                                    </div>
+                                    <div>
+                                        <input style={{ borderStyle: 'none'}} type="text" value="Trương Thị Mai" readOnly/>
+                                        <br/>
+                                        <input style={{ borderStyle: 'none'}} type="text" value="0966015228" readOnly/>
+                                        <br/>
+                                        <input style={{ borderStyle: 'none', width: '100%'}} type="text" value="Minh Khai - Hoài Đức - Hà Nội"/>
+                                        <br/>
+                                        <input style={{ borderStyle: 'none', color: '#00a8f7', backgroundColor: '#FFF'}} type="button" value="Thay đổi địa chỉ giao hàng"/>
+                                    </div>
+                                </div>
                             </CardBody>
                         </Card>
                         <Card className="mb-3" type="shadow">
@@ -112,4 +143,4 @@ class CreateOrderReceipt extends Component {
     }
 }
 
-export default CreateOrderReceipt;
+export default EditOrderReceipt;
