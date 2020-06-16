@@ -15,9 +15,6 @@ import Stock from './Dashboards/Stock';
 import Reports from './Dashboards/Reports';
 
 import Widgets from './Widgets';
-
-import OrderLists from './OrderReceipts/OrderLists';
-
 import Cards from './Cards/Cards';
 import CardsHeaders from './Cards/CardsHeaders';
 
@@ -66,6 +63,15 @@ import Sliders from './Forms/Sliders';
 import Tables from './Tables/Tables';
 import ExtendedTable from './Tables/ExtendedTable';
 import AgGrid from './Tables/AgGrid';
+
+// import for new side
+
+import OrderLists from './Apps/OrderReceipts/OrderLists';
+import CreateOrderReceipt from './Apps/OrderReceipts/CreateOrderReceipt/CreateOrderReceipt';
+import EditOrderReceipt from './Apps/OrderReceipts/EditOrderReceipt/EditOrderReceipt';
+import OrderDetailReceipt from './Apps/OrderReceipts/OrderDetailReceipt/OrderDetailReceipt';
+
+// import for new side
 
 import AccountEdit from './Apps/AccountEdit';
 import BillingEdit from './Apps/BillingEdit';
@@ -134,8 +140,14 @@ export const RoutedContent = () => {
             
             { /*    Cards Routes     */ }
             <Route path='/cards/cards' exact component={Cards} />
-            <Route path='/order-receipt/order-list' exact component={OrderLists} />
             <Route path='/cards/cardsheaders' exact component={CardsHeaders} />
+
+            { /*    Order Receipt Routes     */ }
+            <Route path='/order-receipt/order-list' exact component={OrderLists} />
+            <Route path='/order-receipt/create-order' exact component={CreateOrderReceipt} />
+            <Route path='/order-receipt/edit-order' exact component={EditOrderReceipt} />
+            <Route path='/order-receipt/order-detail' exact component={OrderDetailReceipt} />
+            
             
             { /*    Layouts     */ }
             <Route path='/layouts/navbar' component={NavbarOnly} />
