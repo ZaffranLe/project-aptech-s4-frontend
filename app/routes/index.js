@@ -70,6 +70,8 @@ import OrderLists from './Apps/OrderReceipts/OrderLists';
 import CreateOrderReceipt from './Apps/OrderReceipts/CreateOrderReceipt/CreateOrderReceipt';
 import EditOrderReceipt from './Apps/OrderReceipts/EditOrderReceipt/EditOrderReceipt';
 import OrderDetailReceipt from './Apps/OrderReceipts/OrderDetailReceipt/OrderDetailReceipt';
+import ProviderList from './Apps/Provider/ProviderList';
+import CreateProvider from './Apps/Provider/CreateProvider/CreateProvider';
 
 // import for new side
 
@@ -145,7 +147,10 @@ export const RoutedContent = () => {
             <Route path='/order-receipt/edit-order' exact component={EditOrderReceipt} />
             <Route path='/order-receipt/order-detail' exact component={OrderDetailReceipt} />
             
-            
+            { /*    Provider Routes     */ }
+            <Route path='/provider/provider-list' exact component={ProviderList} />
+            <Route path='/provider/create-provider' exact component={CreateProvider} />
+
             { /*    Layouts     */ }
             <Route path='/layouts/navbar' component={NavbarOnly} />
             <Route path='/layouts/sidebar' component={SidebarDefault} />

@@ -9,6 +9,10 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Yêu cầu đặt hàng" to="#" exact />
             <SidebarMenu.Item title="Danh sách đơn hàng" to='/order-receipt/order-list' exact />
         </SidebarMenu.Item>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-file-text-o"></i>} title="Nhà cung cấp">
+            <SidebarMenu.Item title="Thêm mới nhà cung cấp" to="/provider/create-provider" exact />
+            <SidebarMenu.Item title="Danh sách nhà cung cấp" to='/provider/provider-list' exact />
+        </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-clipboard"></i>} title="Bài viết">
             <SidebarMenu.Item title="Đăng bài viết mới" />
             <SidebarMenu.Item title="Danh sách các bài viết" />

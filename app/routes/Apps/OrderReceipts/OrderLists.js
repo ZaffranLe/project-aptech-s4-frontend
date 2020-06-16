@@ -5,14 +5,22 @@ import {
     ButtonGroup,
     Button
 } from './../../../components';
-
+import { Link } from "react-router-dom";
 import { HeaderMain } from '../../components/HeaderMain';
 import OrderTable from './OrderTable';
 //import CreateOrderReceipt from './CreateOrderReceipt/CreateOrderReceipt';
 
 class OrderLists extends Component {
-    
-    render() {       
+    constructor(props) {
+        super(props);
+
+    }
+
+    componentDidMount() {
+        //this.props.dispatch();
+    }
+
+    render() {
         return (
             <div>
                 <Container fluid={false}>
@@ -23,28 +31,31 @@ class OrderLists extends Component {
                         />
                         <ButtonToolbar className="ml-auto">
                             <ButtonGroup className="align-self-start  mr-2">
-                                <Button 
-                                    color="primary" 
-                                    className="mb-2 mr-2 px-3"
-                                    onClick={() => window.location.href='/order-receipt/create-order'}
-                                >
-                                    Tạo hóa đơn
-                                </Button>
+                                <Link to="/order-receipt/create-order">
+                                    <Button
+                                        color="primary"
+                                        className="mb-2 mr-2 px-3"
+                                    >
+                                        Tạo hóa đơn
+                                    </Button>
+                                </Link>
                             </ButtonGroup>
                             <ButtonGroup>
-                                <Button outline className="mb-2 text-decoration-none align-self-start" color="secondary" >
-                                    Trợ giúp
-                                </Button>
+                                <Link to="#">
+                                    <Button outline className="mb-2 text-decoration-none align-self-start" color="secondary" >
+                                        Trợ giúp
+                                    </Button>
+                                </Link>
                             </ButtonGroup>
                         </ButtonToolbar>
                     </div>
                 </Container>
-                <Container>
+                <Container  className="shadow">
                     <Row className="mb-5">
                         <Col>
-                            <OrderTable/>
+                            <OrderTable />
                         </Col>
-                    </Row>                                  
+                    </Row>
                 </Container>
             </div>
         );
