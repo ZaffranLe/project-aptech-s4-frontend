@@ -1,0 +1,4 @@
+.border-table {
+    border: 1px solid rgba(31, 45, 61, 0.125);
+    box-shadow: 0 1px 2px 0 rgba(31, 45, 61, 0.07);
+}
