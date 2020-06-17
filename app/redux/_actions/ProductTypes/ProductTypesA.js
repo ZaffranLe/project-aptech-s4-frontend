@@ -17,9 +17,8 @@ function getAllProductType() {
             url: `${utilConstants.HOST}/api/producttype`,
             method: "get",
             headers: {
-                "Authorization": `Bearer ${utilConstants.TOKEN}`
-            }
-            
+                Authorization: `${utilConstants.TOKEN}`,
+            },
         });
     }
 
@@ -50,7 +49,7 @@ function getAllProductType() {
     function _succeed(data) {
         return {
             type: actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_SUCCEED,
-            data
+            data,
         };
     }
 
@@ -61,29 +60,53 @@ function getAllProductType() {
     }
 }
 
-
 function createProductType(data) {
-    function _callApi() {
+    function _callApiCreateType(data) {
         return axios({
             url: `${utilConstants.HOST}/api/producttype`,
             method: "post",
             headers: {
-                "Authorization": `Bearer ${utilConstants.TOKEN}`
+                Authorization: `${utilConstants.TOKEN}`,
             },
-            data
+            data,
+        });
+    }
+
+    function _callApiCreateImage(imageData) {
+        return axios({
+            url: `${utilConstants.HOST}/api/image`,
+            method: "post",
+            headers: {
+                Authorization: `${utilConstants.TOKEN}`,
+                "Content-Type": "multipart/form-data",
+            },
+            data: imageData,
         });
     }
 
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const resp = await _callApi();
-            if (resp.data.IsSuccess) {
-                toast.success(content("Tạo thể loại sản phẩm mới thành công"));
-                dispatch(_succeed(resp.data.ListDataResult));
+            const { Name, ImageId, imageData } = data;
+            const createImgResp = await _callApiCreateImage(imageData);
+            console.log(data);
+            if (createImgResp.data.IsSuccess) {
+                createImgResp.data.ListDataResult.map((img) => {
+                    ImageId.push(img["Id"]);
+                });
+                const typeData = {
+                    Name,
+                    ImageId: ImageId.join(","),
+                };
+                const resp = await _callApiCreateType(typeData);
+                if (resp.data.IsSuccess) {
+                    toast.success(content("Tạo thể loại sản phẩm mới thành công"));
+                    dispatch(_succeed());
+                } else {
+                    throw resp.data.ErrorMsg;
+                }
             } else {
-                toast.error(content("Tạo thể loại sản phẩm mới thất bại!"));
-                dispatch(_failed());
+                throw createImgResp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
@@ -111,16 +134,15 @@ function createProductType(data) {
     }
 }
 
-
-function updateProductType(data) {
+function updateProductType(id, data) {
     function _callApi() {
         return axios({
             url: `${utilConstants.HOST}/api/producttype`,
             method: "put",
             headers: {
-                "Authorization": `Bearer ${utilConstants.TOKEN}`
+                Authorization: `${utilConstants.TOKEN}`,
             },
-            data
+            data,
         });
     }
 
@@ -167,7 +189,7 @@ function deleteProductType(id) {
             url: `${utilConstants.HOST}/api/producttype/${id}`,
             method: "delete",
             headers: {
-                "Authorization": `Bearer ${utilConstants.TOKEN}`
+                Authorization: `${utilConstants.TOKEN}`,
             },
         });
     }
