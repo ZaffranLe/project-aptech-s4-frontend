@@ -43,18 +43,21 @@ class ModifyModal extends React.Component {
         const { type } = this.props;
         if (type) {
             const images = [];
-            if (type["ListImagesUrl"].length > 0) {
-                type["ListImagesỦrl"].map((img, idx) => {
+            if (type["ListImages"].length > 0) {
+                type["ListImages"].map((img, idx) => {
                     images.push({
-                        isDeleted: false,
                         id: img["Id"],
                         url: img["ImageUrl"],
                     });
                 });
             }
+            const ImageId = type["ProductType"]["ImageId"]
+                ? type["ProductType"]["ImageId"].split(",").map((id) => parseInt(id))
+                : [];
+
             this.setState({
                 Name: type["ProductType"]["Name"],
-                ImageId: type["ProductType"]["ImageId"].split(",") || [],
+                ImageId,
                 Images: images,
             });
         }
@@ -87,24 +90,33 @@ class ModifyModal extends React.Component {
         if (mode == "preview") {
             const imagesPreview = [...this.state.imagesPreview];
             const imageData = _.clone(this.state.imageData);
-            imageData.delete(img["name"]);
             imagesPreview.splice(imagesPreview.indexOf(img), 1);
+            imageData.delete(img["name"]);
             this.setState({
                 imagesPreview,
-                imageData
-            })
+                imageData,
+            });
+        } else {
+            const Images = [...this.state.Images];
+            const ImageId = [...this.state.ImageId];
+            ImageId.splice(ImageId.indexOf(img["id"]), 1);
+            Images.splice(Images.indexOf(img), 1);
+            this.setState({
+                ImageId,
+                Images,
+            });
         }
-    }
+    };
 
     handleSave = () => {
         const { Name, imageData, ImageId } = this.state;
         const data = {
             Name,
             ImageId,
-            imageData
+            imageData,
         };
         this.props.onSave(data);
-    }
+    };
 
     render() {
         const { isOpen, onClose } = this.props;
@@ -120,26 +132,47 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Ảnh minh họa</Label>
-                            <Input type="file" multiple accept="image/*" onChange={this.handlePreviewImages} />
+                            <Input
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={this.handlePreviewImages}
+                            />
                         </FormGroup>
                     </Form>
-                    {imagesPreview.length > 0 && (
-                        <Container>
-                            <Row>
-                                {imagesPreview.map((img) => {
+                    <Container>
+                        <Row>
+                            {Images.length > 0 &&
+                                Images.map((img) => {
                                     return (
-                                        <Col lg={3} key={img["name"]}>
-                                            <Button close onClick={() => this.handleRemoveImg(img, "preview")} />
+                                        <Col lg={3} key={img["id"]}>
+                                            <Button
+                                                close
+                                                onClick={() => this.handleRemoveImg(img, "current")}
+                                            />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
                                 })}
-                            </Row>
-                        </Container>
-                    )}
+                            {imagesPreview.length > 0 &&
+                                imagesPreview.map((img) => {
+                                    return (
+                                        <Col lg={3} key={img["name"]}>
+                                            <Button
+                                                close
+                                                onClick={() => this.handleRemoveImg(img, "preview")}
+                                            />
+                                            <img src={img["url"]} height="100" width="100" />
+                                        </Col>
+                                    );
+                                })}
+                        </Row>
+                    </Container>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={this.handleSave}>Lưu</Button>
+                    <Button color="primary" onClick={this.handleSave}>
+                        Lưu
+                    </Button>
                     <Button onClick={onClose}>Đóng</Button>
                 </ModalFooter>
             </Modal>
@@ -160,6 +193,16 @@ class ProductTypesList extends React.Component {
         this.props.dispatch(ProductTypeActions.getAllProductType());
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        const { isReload, isModified } = nextProps;
+        if (isReload) {
+            this.props.dispatch(ProductTypeActions.getAllProductType());
+        }
+        if (isModified) {
+            this.handleCloseModifyModal();
+        }
+    }
+
     handleCloseModifyModal = () => {
         this.setState({
             modifyModal: false,
@@ -175,13 +218,21 @@ class ProductTypesList extends React.Component {
     };
 
     handleSaveProductType = (data) => {
-        const {productType } = this.state;
+        const { productType } = this.state;
         if (productType) {
-            this.props.dispatch(ProductTypeActions.updateProductType(productType["Id"], data));
+            this.props.dispatch(
+                ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data)
+            );
         } else {
             this.props.dispatch(ProductTypeActions.createProductType(data));
         }
-    }
+    };
+
+    handleDeleteProductType = (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá loại sản phẩm này?")) {
+            this.props.dispatch(ProductTypeActions.deleteProductType(id));
+        }
+    };
 
     render() {
         const { productTypes } = this.props;
@@ -206,7 +257,6 @@ class ProductTypesList extends React.Component {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Ảnh</th>
                                             <th>Tên loại sản phẩm</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày chỉnh sửa cuối</th>
@@ -218,15 +268,38 @@ class ProductTypesList extends React.Component {
                                             return (
                                                 <tr key={type["ProductType"]["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>#Ảnh</td>
                                                     <td>{type["ProductType"]["Name"]}</td>
-                                                    <td>{moment(type["ProductType"]["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
-                                                    <td>{moment(type["ProductType"]["UpdatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
                                                     <td>
-                                                        <Button color="yellow" onClick={() => this.handleOpenModifyModal(type)}>
+                                                        {moment(
+                                                            type["ProductType"]["CreatedAt"]
+                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                    </td>
+                                                    <td>
+                                                        {moment(
+                                                            type["ProductType"]["UpdatedAt"]
+                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                    </td>
+                                                    <td>
+                                                        <Button
+                                                            color="yellow"
+                                                            size="sm"
+                                                            onClick={() =>
+                                                                this.handleOpenModifyModal(type)
+                                                            }
+                                                        >
                                                             Edit
                                                         </Button>{" "}
-                                                        <Button color="danger">Delete</Button>
+                                                        <Button
+                                                            size="sm"
+                                                            color="danger"
+                                                            onClick={() =>
+                                                                this.handleDeleteProductType(
+                                                                    type["ProductType"]["Id"]
+                                                                )
+                                                            }
+                                                        >
+                                                            Delete
+                                                        </Button>
                                                     </td>
                                                 </tr>
                                             );
@@ -239,7 +312,13 @@ class ProductTypesList extends React.Component {
                         </Container>
                     </Col>
                 </Row>
-                <ModifyModal key={productType["Id"] || v1()} type={productType} isOpen={modifyModal} onClose={this.handleCloseModifyModal} onSave={this.handleSaveProductType} />
+                <ModifyModal
+                    key={productType["Id"] || v1()}
+                    type={productType}
+                    isOpen={modifyModal}
+                    onClose={this.handleCloseModifyModal}
+                    onSave={this.handleSaveProductType}
+                />
             </React.Fragment>
         );
     }

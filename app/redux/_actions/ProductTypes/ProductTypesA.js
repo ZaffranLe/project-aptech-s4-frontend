@@ -89,7 +89,6 @@ function createProductType(data) {
             dispatch(_beginAction());
             const { Name, ImageId, imageData } = data;
             const createImgResp = await _callApiCreateImage(imageData);
-            console.log(data);
             if (createImgResp.data.IsSuccess) {
                 createImgResp.data.ListDataResult.map((img) => {
                     ImageId.push(img["Id"]);
@@ -135,9 +134,9 @@ function createProductType(data) {
 }
 
 function updateProductType(id, data) {
-    function _callApi() {
+    function _callApiModifyType(id, data) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype`,
+            url: `${utilConstants.HOST}/api/producttype/${id}`,
             method: "put",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -146,16 +145,40 @@ function updateProductType(id, data) {
         });
     }
 
+    function _callApiCreateImage(imageData) {
+        return axios({
+            url: `${utilConstants.HOST}/api/image`,
+            method: "post",
+            headers: {
+                Authorization: `${utilConstants.TOKEN}`,
+                "Content-Type": "multipart/form-data",
+            },
+            data: imageData,
+        });
+    }
+
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const resp = await _callApi();
-            if (resp.data.IsSuccess) {
-                toast.success(content("Chỉnh sửa thể loại sản phẩm thành công"));
-                dispatch(_succeed());
+            const { Name, ImageId, imageData } = data;
+            const createImgResp = await _callApiCreateImage(imageData);
+            if (createImgResp.data.IsSuccess) {
+                createImgResp.data.ListDataResult.map((img) => {
+                    ImageId.push(img["Id"]);
+                });
+                const typeData = {
+                    Name,
+                    ImageId: ImageId.join(","),
+                };
+                const resp = await _callApiModifyType(id, typeData);
+                if (resp.data.IsSuccess) {
+                    toast.success(content("Chỉnh sửa thể loại sản phẩm thành công"));
+                    dispatch(_succeed());
+                } else {
+                    throw resp.data.ErrorMsg;
+                }
             } else {
-                toast.error(content("Chỉnh sửa thể loại sản phẩm thất bại!"));
-                dispatch(_failed());
+                throw createImgResp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
