@@ -2,24 +2,59 @@ import React, { Component } from 'react';
 import {
     Card,
     CardBody,
-    CardTitle,
-    ButtonGroup,
-    Button
+    CardTitle
 } from './../../../../components';
 import { HeaderMain } from '../../../components/HeaderMain';
-import { CustomSearch } from '../../../Tables/ExtendedTable/components/CustomSearch';
 import { Table } from 'reactstrap';
 
-
 class OrderDetailReceipt extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            CreatedBy: new Date(),
+            Id: 1,
+            Name: "Trương Thị Mai",
+            EmployeeName: "Long Pham",
+            Phone: "0966015228",
+            Address: "Minh Khai - Hoai Duc - Ha Noi",
+            ListProductId: "",
+            TotalPrice: 8000,
+            Note: "",
+            Product: {
+                Id: 0,
+                Name: "",
+                Description: "",
+                Quantity: 0,
+                UnitPrice: 0
+            }
+        }
+    }
+
     render() {
+        const obj = {
+            Id: 1,
+            Name: "Bim bim",
+            Description: "Gói",
+            Quantity: 1,
+            UnitPrice: 5000
+        }
+
+        const obj2 = {
+            Id: 2,
+            Name: "Ngô cay",
+            Description: "Gói",
+            Quantity: 1,
+            UnitPrice: 3000
+        }
+
+        const arr = [obj, obj2];
         return (
             <div>
                 <div>
                     <div className="d-flex mt-3 mb-5">
-                        <HeaderMain title="SNO5198" tag="h4" className="mt-0" />
+                        <HeaderMain title={this.state.Id} tag="h4" className="mt-0" />
                         <div className="d-flex justify-content-end">
-                            <input style={{ borderStyle: 'none', fontSize: 18, backgroundColor: 'inherit' }} type="text" value="15/06/2020 23:38" readOnly />
+                            <input style={{ borderStyle: 'none', fontSize: 18, backgroundColor: 'inherit' }} type="text" value={this.state.CreatedBy} readOnly />
                         </div>
                     </div>
                     <div className="col-md-12 d-flex pl-0">
@@ -34,9 +69,9 @@ class OrderDetailReceipt extends Component {
                                             <i className="fa fa-user-circle-o fa-3x" aria-hidden="true"></i>
                                         </div>
                                         <div>
-                                            <input style={{ borderStyle: 'none', color: '#00a8f7', fontSize: 16 }} type="text" value="Trương Thị Mai" readOnly />
+                                            <input style={{ borderStyle: 'none', color: '#00a8f7', fontSize: 16 }} type="text" value={this.state.Name} readOnly />
                                             <br />
-                                            <input style={{ borderStyle: 'none' }} type="tel" value="0966015228" readOnly />
+                                            <input style={{ borderStyle: 'none' }} type="tel" value={this.state.Phone} readOnly />
                                         </div>
                                     </div>
                                     <div>
@@ -51,11 +86,11 @@ class OrderDetailReceipt extends Component {
                                             </spa>
                                         </div>
                                         <div>
-                                            <input style={{ borderStyle: 'none' }} type="text" value="Trương Thị Mai" readOnly />
+                                            <input style={{ borderStyle: 'none' }} type="text" value={this.state.Name} readOnly />
                                             <br />
-                                            <input style={{ borderStyle: 'none' }} type="text" value="0966015228" readOnly />
+                                            <input style={{ borderStyle: 'none' }} type="text" value={this.state.Phone} readOnly />
                                             <br />
-                                            <input style={{ borderStyle: 'none', width: '100%' }} type="text" value="Minh Khai - Hoài Đức - Hà Nội" readOnly />
+                                            <input style={{ borderStyle: 'none', width: '100%' }} type="text" value={this.state.Address} readOnly />
                                         </div>
                                     </div>
                                 </CardBody>
@@ -64,7 +99,7 @@ class OrderDetailReceipt extends Component {
                                 <CardBody>
                                     <CardTitle tag="h4">
                                         Thông tin sản phẩm
-                                    </CardTitle>                                    
+                                    </CardTitle>
                                     <Table className="border-table" hover responsive>
                                         <thead style={{ fontSize: 16 }}>
                                             <tr>
@@ -77,14 +112,19 @@ class OrderDetailReceipt extends Component {
                                             </tr>
                                         </thead>
                                         <tbody style={{ fontSize: 14 }}>
-                                            <tr>
-                                                <td style={{ color: '#00a8f7' }}>DH123</td>
-                                                <td>Bim bim</td>
-                                                <td>Bịch</td>
-                                                <td><input style={{ width: 50 }} type="number" value="1" readOnly /></td>
-                                                <td><input style={{ width: 80 }} type="number" value="30000" readOnly /></td>
-                                                <td>30,000</td>
-                                            </tr>
+                                            {
+                                                arr.map((value, idx) =>
+                                                    <tr key={idx}>
+                                                        <td style={{ color: '#00a8f7' }}>{value.Id}</td>
+                                                        <td>{value.Name}</td>
+                                                        <td>{value.Description}</td>
+                                                        <td><input style={{ width: 50 }} type="number" value={value.Quantity} readOnly /></td>
+                                                        <td><input style={{ width: 80 }} type="number" value={value.UnitPrice} readOnly /></td>
+                                                        <td>{value.UnitPrice}</td>
+                                                    </tr>
+                                                )
+                                            }
+
                                         </tbody>
                                         <tfoot style={{ fontSize: 16 }}>
                                             <tr>
@@ -93,7 +133,7 @@ class OrderDetailReceipt extends Component {
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td>30,000</td>
+                                                <td>{this.state.TotalPrice}</td>
                                                 <td></td>
                                             </tr>
                                         </tfoot>
@@ -108,10 +148,10 @@ class OrderDetailReceipt extends Component {
                                         Thông tin đơn hàng
                                     </CardTitle>
                                     <label htmlFor="InvoiceCode">Mã đơn hàng</label>
-                                    <input name="InvoiceCode" className="input-group" type="text" value="SNO5198" readOnly/>
+                                    <input name="InvoiceCode" className="input-group" type="text" value={this.state.Id} readOnly />
                                     <br />
                                     <label htmlFor="EmployeeName">Nhân viên</label>
-                                    <input name="EmployeeName" className="input-group" type="text" value="Long Phạm" readOnly/>
+                                    <input name="EmployeeName" className="input-group" type="text" value={this.state.EmployeeName} readOnly />
                                 </CardBody>
                             </Card>
                             <Card className="mb-3" type="shadow">
@@ -119,7 +159,7 @@ class OrderDetailReceipt extends Component {
                                     <CardTitle tag="h5">
                                         Ghi chú
                                 </CardTitle>
-                                    <textarea className="input-group" rows={5} cols={20} maxLength={200} defaultValue={""} placeholder={"Chưa có ghi chú..."} readOnly/>
+                                    <textarea className="input-group" rows={5} cols={20} maxLength={200} defaultValue={""} placeholder={this.state.Note} readOnly />
                                 </CardBody>
                             </Card>
                         </div>

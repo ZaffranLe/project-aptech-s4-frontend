@@ -11,7 +11,35 @@ import { CustomSearch } from '../../../Tables/ExtendedTable/components/CustomSea
 import { Table } from 'reactstrap';
 
 class CreateOrderReceipt extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            Id: 0,
+            EmployeeName: "",
+            Note: "",
+            TotalPrice: 0
+        }
+    }
+
     render() {
+        const obj = {
+            Id: 1,
+            Name: "Bim bim",
+            Description: "Gói",
+            Quantity: 1,
+            UnitPrice: 5000
+        }
+
+        const obj2 = {
+            Id: 2,
+            Name: "Ngô cay",
+            Description: "Gói",
+            Quantity: 1,
+            UnitPrice: 3000
+        }
+
+        const arr = [obj, obj2];
+
         return (
             <div>
                 <div className="d-flex mt-3 mb-5">
@@ -32,11 +60,11 @@ class CreateOrderReceipt extends Component {
                                 <div className="d-flex">
                                     <CardTitle tag="h4">
                                         Thông tin sản phẩm
-                                        </CardTitle>
+                                    </CardTitle>
                                     <ButtonGroup className="ml-auto">
                                         <Button outline className="mb-2 text-decoration-none align-self-start" color="secondary" >
                                             Kiểm tra tồn kho
-                                            </Button>
+                                        </Button>
                                     </ButtonGroup>
                                 </div>
                                 <CustomSearch />
@@ -52,15 +80,19 @@ class CreateOrderReceipt extends Component {
                                         </tr>
                                     </thead>
                                     <tbody style={{ fontSize: 14 }}>
-                                        <tr>
-                                            <td style={{ color: '#00a8f7' }}>DH123</td>
-                                            <td>Bim bim</td>
-                                            <td>Bịch</td>
-                                            <td><input style={{ width: 50 }} type="number" /></td>
-                                            <td><input style={{ width: 80 }} type="number" /></td>
-                                            <td>30,000</td>
-                                            <td><h4 style={{ cursor: "pointer" }}><span aria-hidden="true"><b>×</b></span></h4></td>
-                                        </tr>
+                                        {
+                                            arr.map((value, idx) =>
+                                                <tr key={idx}>
+                                                    <td style={{ color: '#00a8f7' }}>{value.Id}</td>
+                                                    <td>{value.Name}</td>
+                                                    <td>{value.Description}</td>
+                                                    <td><input style={{ width: 50 }} type="number" value={value.Quantity} /></td>
+                                                    <td><input style={{ width: 80 }} type="number" value={value.UnitPrice} /></td>
+                                                    <td>{value.UnitPrice}</td>
+                                                    <td><h4 style={{ cursor: "pointer" }}><span aria-hidden="true"><b>×</b></span></h4></td>
+                                                </tr>
+                                            )
+                                        }
                                     </tbody>
                                     <tfoot style={{ fontSize: 16 }}>
                                         <tr>
@@ -69,7 +101,7 @@ class CreateOrderReceipt extends Component {
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td>30,000</td>
+                                            <td>{this.state.TotalPrice}</td>
                                             <td></td>
                                         </tr>
                                         <tr style={{ width: '400%' }} className="d-flex justify-content-center">
@@ -91,10 +123,10 @@ class CreateOrderReceipt extends Component {
                                     Thông tin đơn hàng
                                     </CardTitle>
                                 <label htmlFor="InvoiceCode">Mã đơn hàng</label>
-                                <input name="InvoiceCode" className="input-group" type="text" />
-                                <br/>
+                                <input name="InvoiceCode" className="input-group" value={this.state.Id} type="text" />
+                                <br />
                                 <label htmlFor="EmployeeName">Nhân viên</label>
-                                <input name="EmployeeName" className="input-group" type="text" />
+                                <input name="EmployeeName" className="input-group" value={this.state.EmployeeName} type="text" />
                             </CardBody>
                         </Card>
                         <Card className="mb-3" type="shadow">
@@ -102,7 +134,7 @@ class CreateOrderReceipt extends Component {
                                 <CardTitle tag="h5">
                                     Ghi chú
                                      </CardTitle>
-                                <textarea className="input-group" rows={5} cols={20} maxLength={200} defaultValue={""} />
+                                <textarea className="input-group" rows={5} cols={20} maxLength={200} defaultValue={this.state.Note} />
                             </CardBody>
                         </Card>
                     </div>
