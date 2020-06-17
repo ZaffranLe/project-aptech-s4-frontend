@@ -112,6 +112,7 @@ import Icons from './Icons';
 
 import ProductsList from './Apps/Products';
 import CreateProduct from './Apps/CreateProduct';
+import ProductTypesList from './Apps/ProductTypes';
 
 // ----------- Layout Imports ---------------
 import { DefaultNavbar } from './../layout/components/DefaultNavbar';
@@ -228,6 +229,7 @@ export const RoutedContent = () => {
 
             <Route component={ CreateProduct } path="/apps/products/create" />
             <Route component={ ProductsList } path="/apps/products" />
+            <Route component={ ProductTypesList } path="/apps/product-types" />
 
             { /*    Pages Routes    */ }
             <Route component={ ComingSoon } path="/pages/coming-soon" />

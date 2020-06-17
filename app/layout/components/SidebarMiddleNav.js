@@ -17,6 +17,7 @@ export const SidebarMiddleNav = () => (
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-archive"></i>} title="Sản phẩm">
             <SidebarMenu.Item title="Thêm sản phẩm mới" to='/apps/products/create' exact />
             <SidebarMenu.Item title="Danh sách sản phẩm" to='/apps/products' exact />
+            <SidebarMenu.Item title="Loại sản phẩm" to='/apps/product-types' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-area-chart"></i>} title="Báo cáo">
             <SidebarMenu.Item title="Báo cáo 1" />
