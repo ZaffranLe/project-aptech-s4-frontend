@@ -14,7 +14,7 @@ function getAllProduct() {
             url: `${utilConstants.HOST}/api/product`,
             method: "get",
             headers: {
-                "Authorization": `Bearer ${utilConstants.TOKEN}`
+                "Authorization": `${utilConstants.TOKEN}`
             }
             
         });
