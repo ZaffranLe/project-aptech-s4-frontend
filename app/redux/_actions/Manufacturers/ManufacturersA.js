@@ -4,17 +4,17 @@ import axios from "axios";
 import utilConstants from "../../../utils/_constants";
 import { content } from "../../../components/ToastContainer/ToastContainer";
 
-export const ProductTypeActions = {
-    getAllProductType,
-    createProductType,
-    updateProductType,
-    deleteProductType,
+export const ManufacturerActions = {
+    getAllManufacturer,
+    createManufacturer,
+    updateManufacturer,
+    deleteManufacturer,
 };
 
-function getAllProductType() {
+function getAllManufacturer() {
     function _callApi() {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype`,
+            url: `${utilConstants.HOST}/api/manufacturer`,
             method: "get",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -27,42 +27,42 @@ function getAllProductType() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy thể loại sản phẩm thành công"));
+                toast.success(content("Lấy nhà sản xuất thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Lấy thể loại sản phẩm thất bại!"));
+            toast.error(content("Lấy nhà sản xuất thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE,
+            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER,
         };
     }
 
     function _succeed(data) {
         return {
-            type: actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_SUCCEED,
+            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED,
             data,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_FAILED,
+            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_FAILED,
         };
     }
 }
 
-function createProductType(data) {
-    function _callApiCreateType(data) {
+function createManufacturer(data) {
+    function _callApiCreateManufacturer(data) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype`,
+            url: `${utilConstants.HOST}/api/manufacturer`,
             method: "post",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -96,9 +96,9 @@ function createProductType(data) {
                     Name,
                     ImageId: ImageId.join(","),
                 };
-                const resp = await _callApiCreateType(typeData);
+                const resp = await _callApiCreateManufacturer(typeData);
                 if (resp.data.IsSuccess) {
-                    toast.success(content("Tạo thể loại sản phẩm mới thành công"));
+                    toast.success(content("Tạo nhà sản xuất mới thành công"));
                     dispatch(_succeed());
                 } else {
                     throw resp.data.ErrorMsg;
@@ -108,34 +108,34 @@ function createProductType(data) {
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Tạo thể loại sản phẩm mới thất bại!"));
+            toast.error(content("Tạo nhà sản xuất mới thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.PRODUCT_CREATE_PRODUCT_TYPE,
+            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.PRODUCT_CREATE_PRODUCT_TYPE_SUCCEED,
+            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.PRODUCT_CREATE_PRODUCT_TYPE_FAILED,
+            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER_FAILED,
         };
     }
 }
 
-function updateProductType(id, data) {
-    function _callApiModifyType(id, data) {
+function updateManufacturer(id, data) {
+    function _callApiModifyManufacturer(id, data) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype/${id}`,
+            url: `${utilConstants.HOST}/api/manufacturer/${id}`,
             method: "put",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -169,9 +169,9 @@ function updateProductType(id, data) {
                     Name,
                     ImageId: ImageId.join(","),
                 };
-                const resp = await _callApiModifyType(id, typeData);
+                const resp = await _callApiModifyManufacturer(id, typeData);
                 if (resp.data.IsSuccess) {
-                    toast.success(content("Chỉnh sửa thể loại sản phẩm thành công"));
+                    toast.success(content("Chỉnh sửa nhà sản xuất thành công"));
                     dispatch(_succeed());
                 } else {
                     throw resp.data.ErrorMsg;
@@ -181,34 +181,34 @@ function updateProductType(id, data) {
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Chỉnh sửa thể loại sản phẩm thất bại!"));
+            toast.error(content("Chỉnh sửa nhà sản xuất thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.PRODUCT_UPDATE_PRODUCT_TYPE,
+            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.PRODUCT_UPDATE_PRODUCT_TYPE_SUCCEED,
+            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.PRODUCT_UPDATE_PRODUCT_TYPE_FAILED,
+            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_FAILED,
         };
     }
 }
 
-function deleteProductType(id) {
+function deleteManufacturer(id) {
     function _callApi(id) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype/${id}`,
+            url: `${utilConstants.HOST}/api/manufacturer/${id}`,
             method: "delete",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -221,33 +221,33 @@ function deleteProductType(id) {
             dispatch(_beginAction());
             const resp = await _callApi(id);
             if (resp.data.IsSuccess) {
-                toast.success(content("Xoá thể loại sản phẩm thành công"));
+                toast.success(content("Xoá nhà sản xuất thành công"));
                 dispatch(_succeed());
             } else {
                 throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Xoá thể loại sản phẩm thất bại!"));
+            toast.error(content("Xoá nhà sản xuất thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.PRODUCT_DELETE_PRODUCT_TYPE,
+            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.PRODUCT_DELETE_PRODUCT_TYPE_SUCCEED,
+            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.PRODUCT_DELETE_PRODUCT_TYPE_FAILED,
+            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER_FAILED,
         };
     }
 }
