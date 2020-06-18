@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Container, FormGroup, CardBody, Card, CardTitle } from 'reactstrap';
-import { HeaderMain } from '../../../components/HeaderMain';
-import { Row, Col } from '../../../../components';
-import {
-    ButtonToolbar,
+import { Container, CardBody, Card, CardTitle } from 'reactstrap';
+import {    
     ButtonGroup,
     Button
 } from './../../../../components';
