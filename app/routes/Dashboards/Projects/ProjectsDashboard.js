@@ -11,7 +11,6 @@ import {
     Input,
     ListGroup,
     ListGroupItem,
-    Media,
     Col,
     Table,
 } from "./../../../components";
@@ -20,7 +19,6 @@ import { setupPage } from "./../../../components/Layout/setupPage";
 import { HeaderMain } from "../../components/HeaderMain";
 
 import { TasksMedia } from "../../components/ProjectsDashboards/TasksMedia";
-import { TinyDonutChart } from "../../components/ProjectsDashboards/TinyDonutChart";
 import EventsCarousel from "./EventsCarousel";
 
 const ProjectsDashboard = () => (
