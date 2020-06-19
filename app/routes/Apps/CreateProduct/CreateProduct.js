@@ -30,6 +30,10 @@ class CreateProduct extends React.Component {
             SupportDuration: 0,
             IdManufacturer: "",
             IdProductType: "",
+            Images: [],
+            imageData: new FormData(),
+            imagesPreview: [],
+            ImageId: [],
         }
     }
 
@@ -40,6 +44,7 @@ class CreateProduct extends React.Component {
     }
 
     render() {
+        const { IdDisplay, Name, Description, IdProductType, IdManufacturer, Quantity, SupportDuration, UnitPrice } = this.state;
         return (
             <React.Fragment>
                 <HeaderMain title="Tạo sản phẩm mới" className="mb-5 mt-4" />
@@ -57,12 +62,17 @@ class CreateProduct extends React.Component {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Mã sản phẩm/SKU</Label>
-                                                    <Input onChange={this.handleChange("IdDisplay")} />
+                                                    <Input onChange={this.handleChange("IdDisplay")} value={} />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Mô tả</Label>
                                                     <Input onChange={this.handleChange("Description")} />
                                                 </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col lg={12}>
+                                                <FormGroup></FormGroup>
                                             </Col>
                                         </Row>
                                     </Container>
