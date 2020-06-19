@@ -106,10 +106,10 @@ class CreateProduct extends React.Component {
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col lg={12} className="table-bordered">
+                                            <Col lg={12} className="table-bordered mt-4">
                                                 <FormGroup>
                                                     <Label>Nhà sản xuất</Label>
-                                                    <Input type="select" onChange={this.handleChange("IdManufacturer")}>
+                                                    <Input type="select" onChange={this.handleChange("IdManufacturer")} value={IdManufacturer}>
                                                         <option value={null}>--Chọn nhà sản xuất--</option>
                                                         {manufacturers.map((manufacturer, idx) => {
                                                             return (
@@ -122,7 +122,7 @@ class CreateProduct extends React.Component {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Thời gian bảo hành (tháng)</Label>
-                                                    <Input onChange={this.handleChange("SupportDuration")} />
+                                                    <Input onChange={this.handleChange("SupportDuration")} type="number" />
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -139,7 +139,7 @@ class CreateProduct extends React.Component {
                                             <Col lg={12} className="table-bordered">
                                                 <FormGroup>
                                                     <Label>Loại sản phẩm</Label>
-                                                    <Input type="select" onChange={this.handleChange("IdProductType")}>
+                                                    <Input type="select" onChange={this.handleChange("IdProductType")} value={IdProductType}>
                                                         <option value={null}>--Chọn loại sản phẩm--</option>
                                                         {productTypes.map((type, idx) => {
                                                             return (
@@ -152,7 +152,7 @@ class CreateProduct extends React.Component {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Giá bán</Label>
-                                                    <Input onChange={this.handleChange("UnitPrice")} />
+                                                    <Input onChange={this.handleChange("UnitPrice")} type="number" />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Ảnh sản phẩm</Label>
