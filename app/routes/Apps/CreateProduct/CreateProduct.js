@@ -20,6 +20,7 @@ import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
 import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
 import { v4 } from "uuid";
+import { debounce } from "lodash";
 
 class CreateProduct extends React.Component {
     constructor(props) {
@@ -35,6 +36,7 @@ class CreateProduct extends React.Component {
             IdProductType: "",
             imagesPreview: [],
             imageData: new FormData(),
+            Properties: [],
         };
     }
 
@@ -66,19 +68,74 @@ class CreateProduct extends React.Component {
         });
     };
 
-    handleRemoveImg = (img) => {
-        const imagesPreview = [...this.state.imagesPreview];
-        const imageData = _.clone(this.state.imageData);
-        imagesPreview.splice(imagesPreview.indexOf(img), 1);
-        imageData.delete(img["name"]);
+    handleChangeProperty = (name, idx) => (e) => {
+        const Properties = [...this.state.Properties];
+        Properties[idx][name] = e.target.value;
         this.setState({
-            imagesPreview,
-            imageData,
+            Properties,
         });
     };
 
+    handleAddProperty = () => {
+        this.setState({
+            Properties: [
+                ...this.state.Properties,
+                {
+                    Name: "",
+                    Data: "",
+                },
+            ],
+        });
+    };
+
+    handleCreateProduct = () => {
+        const {
+            imageData,
+            Name,
+            IdDisplay,
+            Description,
+            Quantity,
+            IdProductType,
+            UnitPrice,
+            IdManufacturer,
+            SupportDuration,
+            Properties,
+        } = this.state;
+        const productData = {
+            Product: {
+                Name,
+                IdDisplay,
+                Description,
+                Quantity,
+                IdProductType,
+                UnitPrice,
+                IdManufacturer,
+                SupportDuration,
+                ImageId: [],
+            },
+            Properties,
+        };
+        const info = {
+            productData,
+            imageData,
+        };
+
+        this.props.dispatch(ProductActions.createProduct(info));
+    };
+
     render() {
-        const { imagesPreview, Name, IdDisplay, Description, Quantity, IdProductType, UnitPrice, IdManufacturer, SupportDuration } = this.state;
+        const {
+            imagesPreview,
+            Name,
+            IdDisplay,
+            Description,
+            Quantity,
+            IdProductType,
+            UnitPrice,
+            IdManufacturer,
+            SupportDuration,
+            Properties,
+        } = this.state;
         const { manufacturers, productTypes } = this.props;
         return (
             <React.Fragment>
@@ -91,17 +148,24 @@ class CreateProduct extends React.Component {
                                     <Container>
                                         <Row>
                                             <Col lg={12} className="table-bordered">
+                                                <h4 className="mt-2">Thông tin chung</h4>
                                                 <FormGroup>
                                                     <Label>Tên sản phẩm</Label>
-                                                    <Input onChange={this.handleChange("Name")} />
+                                                    <Input value={Name} onChange={this.handleChange("Name")} />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Mã sản phẩm/SKU</Label>
-                                                    <Input onChange={this.handleChange("IdDisplay")} />
+                                                    <Input
+                                                        value={IdDisplay}
+                                                        onChange={this.handleChange("IdDisplay")}
+                                                    />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Mô tả</Label>
-                                                    <Input onChange={this.handleChange("Description")} />
+                                                    <Input
+                                                        value={Description}
+                                                        onChange={this.handleChange("Description")}
+                                                    />
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -109,11 +173,18 @@ class CreateProduct extends React.Component {
                                             <Col lg={12} className="table-bordered mt-4">
                                                 <FormGroup>
                                                     <Label>Nhà sản xuất</Label>
-                                                    <Input type="select" onChange={this.handleChange("IdManufacturer")} value={IdManufacturer}>
+                                                    <Input
+                                                        type="select"
+                                                        onChange={this.handleChange("IdManufacturer")}
+                                                        value={IdManufacturer}
+                                                    >
                                                         <option value={null}>--Chọn nhà sản xuất--</option>
                                                         {manufacturers.map((manufacturer, idx) => {
                                                             return (
-                                                                <option key={idx} value={manufacturer["Manufacturer"]["Id"]}>
+                                                                <option
+                                                                    key={idx}
+                                                                    value={manufacturer["Manufacturer"]["Id"]}
+                                                                >
                                                                     {manufacturer["Manufacturer"]["Name"]}
                                                                 </option>
                                                             );
@@ -122,13 +193,56 @@ class CreateProduct extends React.Component {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Thời gian bảo hành (tháng)</Label>
-                                                    <Input onChange={this.handleChange("SupportDuration")} type="number" />
+                                                    <Input
+                                                        value={SupportDuration}
+                                                        onChange={this.handleChange("SupportDuration")}
+                                                        type="number"
+                                                    />
                                                 </FormGroup>
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col lg={12}>
-                                                <FormGroup></FormGroup>
+                                            <Col lg={12} className="table-bordered mt-4">
+                                                <h4 className="mt-2">Thuộc tính</h4>
+                                                <Button onClick={this.handleAddProperty} color="info" className="mb-4">
+                                                    <i className="fa fa-fw fa-plus"></i> Thêm thuộc tính mới
+                                                </Button>
+                                                {Properties.map((property, idx) => {
+                                                    return (
+                                                        <Row form key={idx}>
+                                                            <Col lg={5}>
+                                                                <FormGroup>
+                                                                    <Label>Tên</Label>
+                                                                    <Input
+                                                                        value={property["Name"]}
+                                                                        onChange={this.handleChangeProperty(
+                                                                            "Name",
+                                                                            idx
+                                                                        )}
+                                                                    />
+                                                                </FormGroup>
+                                                            </Col>
+                                                            <Col lg={5}>
+                                                                <FormGroup>
+                                                                    <Label>Giá trị</Label>
+                                                                    <Input
+                                                                        value={property["Data"]}
+                                                                        onChange={this.handleChangeProperty(
+                                                                            "Data",
+                                                                            idx
+                                                                        )}
+                                                                    />
+                                                                </FormGroup>
+                                                            </Col>
+                                                            <Col lg={2}>
+                                                                <br />
+                                                                <Button color="danger" className="mt-2">
+                                                                    <i className="fa fa-fw fa-trash"></i>
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    );
+                                                })}
                                             </Col>
                                         </Row>
                                     </Container>
@@ -137,9 +251,14 @@ class CreateProduct extends React.Component {
                                     <Container>
                                         <Row>
                                             <Col lg={12} className="table-bordered">
+                                                <h4 className="mt-2">Phân loại</h4>
                                                 <FormGroup>
                                                     <Label>Loại sản phẩm</Label>
-                                                    <Input type="select" onChange={this.handleChange("IdProductType")} value={IdProductType}>
+                                                    <Input
+                                                        type="select"
+                                                        onChange={this.handleChange("IdProductType")}
+                                                        value={IdProductType}
+                                                    >
                                                         <option value={null}>--Chọn loại sản phẩm--</option>
                                                         {productTypes.map((type, idx) => {
                                                             return (
@@ -152,11 +271,20 @@ class CreateProduct extends React.Component {
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Giá bán</Label>
-                                                    <Input onChange={this.handleChange("UnitPrice")} type="number" />
+                                                    <Input
+                                                        value={UnitPrice}
+                                                        onChange={this.handleChange("UnitPrice")}
+                                                        type="number"
+                                                    />
                                                 </FormGroup>
                                                 <FormGroup>
                                                     <Label>Ảnh sản phẩm</Label>
-                                                    <Input type="file" multiple accept="image/*" onChange={this.handlePreviewImages} />
+                                                    <Input
+                                                        type="file"
+                                                        multiple
+                                                        accept="image/*"
+                                                        onChange={this.handlePreviewImages}
+                                                    />
                                                 </FormGroup>
                                                 <Container>
                                                     <Row>
@@ -164,13 +292,23 @@ class CreateProduct extends React.Component {
                                                             imagesPreview.map((img) => {
                                                                 return (
                                                                     <Col lg={4} key={img["name"]}>
-                                                                        <Button close onClick={() => this.handleRemoveImg(img)} />
-                                                                        <img src={img["url"]} height="100" width="100" />
+                                                                        <img
+                                                                            src={img["url"]}
+                                                                            height="100"
+                                                                            width="100"
+                                                                        />
                                                                     </Col>
                                                                 );
                                                             })}
                                                     </Row>
                                                 </Container>
+                                                <Button
+                                                    onClick={this.handleCreateProduct}
+                                                    color="primary"
+                                                    className="mt-4 mb-4"
+                                                >
+                                                    Tạo sản phẩm
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </Container>
