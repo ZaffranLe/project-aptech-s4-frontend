@@ -22,6 +22,7 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Thêm sản phẩm mới" to='/apps/products/create' exact />
             <SidebarMenu.Item title="Danh sách sản phẩm" to='/apps/products' exact />
             <SidebarMenu.Item title="Loại sản phẩm" to='/apps/product-types' exact />
+            <SidebarMenu.Item title="Nhà sản xuất" to='/apps/manufacturers' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-area-chart"></i>} title="Báo cáo">
             <SidebarMenu.Item title="Báo cáo 1" />
@@ -196,22 +197,5 @@ export const SidebarMiddleNav = () => (
             title="Icons"
             to='/icons'
         />
-        <SidebarMenu.Item
-            icon={<i className="fa fa-fw fa-bookmark-o"></i>}
-            title="Docs"
-            href='https://webkom.gitbook.io/spin/v/airframe/airframe-react/documentation-react'
-        />
-        { /* -------- Versions ---------*/}
-        <SidebarMenu.Item
-            icon={<i className="fa fa-fw fa-folder-open-o"></i>}
-            title="Versions"
-        >
-            <SidebarMenu.Item title="NextJS (React)" href='http://airframe.nextjs.webkom.co/' />
-            <SidebarMenu.Item title="React" href='http://dashboards.webkom.co/react/airframe' />
-            <SidebarMenu.Item title="jQuery" to="http://dashboards.webkom.co/jquery/airframe/" />
-            <SidebarMenu.Item title="Vue" to="http://dashboards.webkom.co/vue/airframe" />
-            <SidebarMenu.Item title="Angular" to="http://dashboards.webkom.co/angular/airframe" />
-            <SidebarMenu.Item title=".NET MVC" to="http://dashboards.webkom.co/net-mvc/airframe" />
-        </SidebarMenu.Item>
-    </SidebarMenu >
+    </SidebarMenu>
 );

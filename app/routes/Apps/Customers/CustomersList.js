@@ -21,7 +21,7 @@ import {
     ModalBody,
     ModalFooter,
 } from "./../../../components";
-import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
+import { CustomerActions } from "../../../redux/_actions/Customers/CustomersA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
@@ -32,53 +32,23 @@ class ModifyModal extends React.Component {
         super(props);
         this.state = {
             Name: "",
-            Images: [],
-            imageData: new FormData(),
-            imagesPreview: [],
-            ImageId: [],
+            Address: "",
+            Email: "",
+            Phone: "",
         };
     }
 
     componentDidMount() {
-        const { type } = this.props;
-        if (type) {
-            const images = [];
-            if (type["ListImages"].length > 0) {
-                type["ListImages"].map((img, idx) => {
-                    images.push({
-                        id: img["Id"],
-                        url: img["ImageUrl"],
-                    });
-                });
-            }
-            const ImageId = type["ProductType"]["ImageId"]
-                ? type["ProductType"]["ImageId"].split(",").map((id) => parseInt(id))
-                : [];
-
+        const { customer } = this.props;
+        if (customer) {
             this.setState({
-                Name: type["ProductType"]["Name"],
-                ImageId,
-                Images: images,
+                Name: customer["Name"],
+                Address: customer["Address"],
+                Email: customer["Email"],
+                Phone: customer["Phone"],
             });
         }
     }
-
-    handlePreviewImages = (e) => {
-        const imagesPreview = [];
-        const imageData = new FormData();
-        for (let file of e.target.files) {
-            const name = v4();
-            imagesPreview.push({
-                url: URL.createObjectURL(file),
-                name,
-            });
-            imageData.append(name, file);
-        }
-        this.setState({
-            imagesPreview,
-            imageData,
-        });
-    };
 
     handleChange = (name) => (e) => {
         this.setState({
@@ -86,48 +56,28 @@ class ModifyModal extends React.Component {
         });
     };
 
-    handleRemoveImg = (img, mode) => {
-        if (mode == "preview") {
-            const imagesPreview = [...this.state.imagesPreview];
-            const imageData = _.clone(this.state.imageData);
-            imagesPreview.splice(imagesPreview.indexOf(img), 1);
-            imageData.delete(img["name"]);
-            this.setState({
-                imagesPreview,
-                imageData,
-            });
-        } else {
-            const Images = [...this.state.Images];
-            const ImageId = [...this.state.ImageId];
-            ImageId.splice(ImageId.indexOf(img["id"]), 1);
-            Images.splice(Images.indexOf(img), 1);
-            this.setState({
-                ImageId,
-                Images,
-            });
-        }
-    };
 
     handleSave = () => {
-        const { Name, imageData, ImageId } = this.state;
+        const { Name, Address, Email, Phone } = this.state;
         const data = {
             Name,
-            ImageId,
-            imageData,
+            Address,
+            Email,
+            Phone
         };
         this.props.onSave(data);
     };
 
     render() {
         const { isOpen, onClose } = this.props;
-        const { Name, Images, imagesPreview } = this.state;
+        const { Name, Address, Phone, Email } = this.state;
         return (
             <Modal isOpen={isOpen} toggle={onClose}>
-                <ModalHeader>Loại sản phẩm</ModalHeader>
+                <ModalHeader>Nhà sản xuất</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label>Loại sản phẩm</Label>
+                            <Label>Nhà sản xuất</Label>
                             <Input value={Name} onChange={this.handleChange("Name")} />
                         </FormGroup>
                         <FormGroup>
@@ -180,23 +130,23 @@ class ModifyModal extends React.Component {
     }
 }
 
-class ProductTypesList extends React.Component {
+class CustomersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productType: "",
+            customer: "",
             modifyModal: false,
         };
     }
 
     componentDidMount() {
-        this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(CustomerActions.getAllCustomer());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { isReload, isModified } = nextProps;
         if (isReload) {
-            this.props.dispatch(ProductTypeActions.getAllProductType());
+            this.props.dispatch(CustomerActions.getAllCustomer());
         }
         if (isModified) {
             this.handleCloseModifyModal();
@@ -206,77 +156,77 @@ class ProductTypesList extends React.Component {
     handleCloseModifyModal = () => {
         this.setState({
             modifyModal: false,
-            productType: "",
+            customer: "",
         });
     };
 
-    handleOpenModifyModal = (productType = "") => {
+    handleOpenModifyModal = (customer = "") => {
         this.setState({
             modifyModal: true,
-            productType,
+            customer,
         });
     };
 
-    handleSaveProductType = (data) => {
-        const { productType } = this.state;
-        if (productType) {
+    handleSaveCustomer = (data) => {
+        const { customer } = this.state;
+        if (customer) {
             this.props.dispatch(
-                ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data)
+                CustomerActions.updateCustomer(customer["Customer"]["Id"], data)
             );
         } else {
-            this.props.dispatch(ProductTypeActions.createProductType(data));
+            this.props.dispatch(CustomerActions.createCustomer(data));
         }
     };
 
-    handleDeleteProductType = (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá loại sản phẩm này?")) {
-            this.props.dispatch(ProductTypeActions.deleteProductType(id));
+    handleDeleteCustomer = (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá nhà sản xuất này?")) {
+            this.props.dispatch(CustomerActions.deleteCustomer(id));
         }
     };
 
     render() {
-        const { productTypes } = this.props;
-        const { productType, modifyModal } = this.state;
+        const { customers } = this.props;
+        const { customer, modifyModal } = this.state;
         return (
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
-                        <HeaderMain title="Thể loại sản phẩm" className="mb-5 mt-4" />
+                        <HeaderMain title="Nhà sản xuất" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
                         <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo loại sản phẩm mới
+                            Tạo nhà sản xuất mới
                         </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={12}>
                         <Container fluid>
-                            {productTypes.length > 0 ? (
+                            {customers.length > 0 ? (
                                 <Table hover striped>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên loại sản phẩm</th>
+                                            <th>Tên nhà sản xuất</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày chỉnh sửa cuối</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {productTypes.map((type, idx) => {
+                                        {customers.map((type, idx) => {
                                             return (
-                                                <tr key={type["ProductType"]["Id"]}>
+                                                <tr key={type["Customer"]["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{type["ProductType"]["Name"]}</td>
+                                                    <td>{type["Customer"]["Name"]}</td>
                                                     <td>
                                                         {moment(
-                                                            type["ProductType"]["CreatedAt"]
+                                                            type["Customer"]["CreatedAt"]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
                                                         {moment(
-                                                            type["ProductType"]["UpdatedAt"]
+                                                            type["Customer"]["UpdatedAt"]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
@@ -293,8 +243,8 @@ class ProductTypesList extends React.Component {
                                                             size="sm"
                                                             color="danger"
                                                             onClick={() =>
-                                                                this.handleDeleteProductType(
-                                                                    type["ProductType"]["Id"]
+                                                                this.handleDeleteCustomer(
+                                                                    type["Customer"]["Id"]
                                                                 )
                                                             }
                                                         >
@@ -313,17 +263,17 @@ class ProductTypesList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={productType["Id"] || v1()}
-                    type={productType}
+                    key={customer["Id"] || v1()}
+                    customer={customer}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
-                    onSave={this.handleSaveProductType}
+                    onSave={this.handleSaveCustomer}
                 />
             </React.Fragment>
         );
     }
 }
 
-const mapStateToProps = ({ ProductTypesReducer }) => ProductTypesReducer;
+const mapStateToProps = ({ CustomersReducer }) => CustomersReducer;
 
-export default connect(mapStateToProps, null)(ProductTypesList);
+export default connect(mapStateToProps, null)(CustomersList);

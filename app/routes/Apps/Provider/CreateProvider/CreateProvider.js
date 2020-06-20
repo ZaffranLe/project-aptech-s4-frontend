@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
-import { Container, CardBody, Card, CardTitle } from 'reactstrap';
-import {    
+import React, { Component } from "react";
+import {
     ButtonGroup,
-    Button
-} from './../../../../components';
+    Button,
+    CardTitle,
+    Card,
+    CardBody,
+    Container,
+    Input,
+    Label,
+} from "./../../../../components";
 import { Link } from "react-router-dom";
 
 class CreateProvider extends Component {
@@ -13,8 +18,8 @@ class CreateProvider extends Component {
             Id: 0,
             Name: "",
             Email: "",
-            Phone: ""
-        }
+            Phone: "",
+        };
     }
 
     render() {
@@ -24,33 +29,52 @@ class CreateProvider extends Component {
                     <CardTitle tag="h3">Thêm mới nhà cung cấp</CardTitle>
                     <Card>
                         <CardBody>
-                            <label htmlFor="InvoiceCode">Tên nhà cung cấp <span style={{ color: 'red' }}>*</span></label>
-                            <input name="InvoiceCode" className="input-group" type="text" value={this.state.Name} required />
+                            <Label htmlFor="InvoiceCode">
+                                Tên nhà cung cấp <span style={{ color: "red" }}>*</span>
+                            </Label>
+                            <Input
+                                name="InvoiceCode"
+                                className="Input-group"
+                                type="text"
+                                value={this.state.Name}
+                                required
+                            />
                             <br />
-                            <label htmlFor="InvoiceCode">Mã nhà cung cấp</label>
-                            <input name="InvoiceCode" className="input-group" type="text" value={this.state.Id} />
+                            <Label htmlFor="InvoiceCode">Mã nhà cung cấp</Label>
+                            <Input
+                                name="InvoiceCode"
+                                className="Input-group"
+                                type="text"
+                                value={this.state.Id}
+                            />
                             <br />
-                            <label htmlFor="InvoiceCode">Số điện thoại</label>
-                            <input name="InvoiceCode" className="input-group" type="tell" value={this.state.Phone} />
+                            <Label htmlFor="InvoiceCode">Số điện thoại</Label>
+                            <Input
+                                name="InvoiceCode"
+                                className="Input-group"
+                                type="tell"
+                                value={this.state.Phone}
+                            />
                             <br />
-                            <label htmlFor="InvoiceCode">Email</label>
-                            <input name="InvoiceCode" className="input-group" type="email" value={this.state.Email} />
+                            <Label htmlFor="InvoiceCode">Email</Label>
+                            <Input
+                                name="InvoiceCode"
+                                className="Input-group"
+                                type="email"
+                                value={this.state.Email}
+                            />
                             <br />
                         </CardBody>
                     </Card>
                     <div className="d-flex justify-content-lg-center">
                         <ButtonGroup className="align-self-start  mt-1">
                             <Link to="/provider/create-provider">
-                                <Button
-                                    color="primary"
-                                    className="mb-2 mr-2 px-3"
-                                >
+                                <Button color="primary" className="mb-2 mr-2 px-3">
                                     Thêm nhà cung cấp
-                                    </Button>
+                                </Button>
                             </Link>
                         </ButtonGroup>
                     </div>
-
                 </Container>
             </div>
         );

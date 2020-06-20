@@ -21,7 +21,7 @@ import {
     ModalBody,
     ModalFooter,
 } from "./../../../components";
-import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
+import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
@@ -40,23 +40,23 @@ class ModifyModal extends React.Component {
     }
 
     componentDidMount() {
-        const { type } = this.props;
-        if (type) {
+        const { manufacturer } = this.props;
+        if (manufacturer) {
             const images = [];
-            if (type["ListImages"].length > 0) {
-                type["ListImages"].map((img, idx) => {
+            if (manufacturer["ListImages"].length > 0) {
+                manufacturer["ListImages"].map((img, idx) => {
                     images.push({
                         id: img["Id"],
                         url: img["ImageUrl"],
                     });
                 });
             }
-            const ImageId = type["ProductType"]["ImageId"]
-                ? type["ProductType"]["ImageId"].split(",").map((id) => parseInt(id))
+            const ImageId = manufacturer["Manufacturer"]["ImageId"]
+                ? manufacturer["Manufacturer"]["ImageId"].split(",").map((id) => parseInt(id))
                 : [];
 
             this.setState({
-                Name: type["ProductType"]["Name"],
+                Name: manufacturer["Manufacturer"]["Name"],
                 ImageId,
                 Images: images,
             });
@@ -123,11 +123,11 @@ class ModifyModal extends React.Component {
         const { Name, Images, imagesPreview } = this.state;
         return (
             <Modal isOpen={isOpen} toggle={onClose}>
-                <ModalHeader>Loại sản phẩm</ModalHeader>
+                <ModalHeader>Nhà sản xuất</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label>Loại sản phẩm</Label>
+                            <Label>Nhà sản xuất</Label>
                             <Input value={Name} onChange={this.handleChange("Name")} />
                         </FormGroup>
                         <FormGroup>
@@ -180,23 +180,23 @@ class ModifyModal extends React.Component {
     }
 }
 
-class ProductTypesList extends React.Component {
+class ManufacturersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productType: "",
+            manufacturer: "",
             modifyModal: false,
         };
     }
 
     componentDidMount() {
-        this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(ManufacturerActions.getAllManufacturer());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { isReload, isModified } = nextProps;
         if (isReload) {
-            this.props.dispatch(ProductTypeActions.getAllProductType());
+            this.props.dispatch(ManufacturerActions.getAllManufacturer());
         }
         if (isModified) {
             this.handleCloseModifyModal();
@@ -206,77 +206,77 @@ class ProductTypesList extends React.Component {
     handleCloseModifyModal = () => {
         this.setState({
             modifyModal: false,
-            productType: "",
+            manufacturer: "",
         });
     };
 
-    handleOpenModifyModal = (productType = "") => {
+    handleOpenModifyModal = (manufacturer = "") => {
         this.setState({
             modifyModal: true,
-            productType,
+            manufacturer,
         });
     };
 
-    handleSaveProductType = (data) => {
-        const { productType } = this.state;
-        if (productType) {
+    handleSaveManufacturer = (data) => {
+        const { manufacturer } = this.state;
+        if (manufacturer) {
             this.props.dispatch(
-                ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data)
+                ManufacturerActions.updateManufacturer(manufacturer["Manufacturer"]["Id"], data)
             );
         } else {
-            this.props.dispatch(ProductTypeActions.createProductType(data));
+            this.props.dispatch(ManufacturerActions.createManufacturer(data));
         }
     };
 
-    handleDeleteProductType = (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá loại sản phẩm này?")) {
-            this.props.dispatch(ProductTypeActions.deleteProductType(id));
+    handleDeleteManufacturer = (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá nhà sản xuất này?")) {
+            this.props.dispatch(ManufacturerActions.deleteManufacturer(id));
         }
     };
 
     render() {
-        const { productTypes } = this.props;
-        const { productType, modifyModal } = this.state;
+        const { manufacturers } = this.props;
+        const { manufacturer, modifyModal } = this.state;
         return (
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
-                        <HeaderMain title="Thể loại sản phẩm" className="mb-5 mt-4" />
+                        <HeaderMain title="Nhà sản xuất" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
                         <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo loại sản phẩm mới
+                            Tạo nhà sản xuất mới
                         </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={12}>
                         <Container fluid>
-                            {productTypes.length > 0 ? (
+                            {manufacturers.length > 0 ? (
                                 <Table hover striped>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên loại sản phẩm</th>
+                                            <th>Tên nhà sản xuất</th>
                                             <th>Ngày tạo</th>
                                             <th>Ngày chỉnh sửa cuối</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {productTypes.map((type, idx) => {
+                                        {manufacturers.map((type, idx) => {
                                             return (
-                                                <tr key={type["ProductType"]["Id"]}>
+                                                <tr key={type["Manufacturer"]["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{type["ProductType"]["Name"]}</td>
+                                                    <td>{type["Manufacturer"]["Name"]}</td>
                                                     <td>
                                                         {moment(
-                                                            type["ProductType"]["CreatedAt"]
+                                                            type["Manufacturer"]["CreatedAt"]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
                                                         {moment(
-                                                            type["ProductType"]["UpdatedAt"]
+                                                            type["Manufacturer"]["UpdatedAt"]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
@@ -293,8 +293,8 @@ class ProductTypesList extends React.Component {
                                                             size="sm"
                                                             color="danger"
                                                             onClick={() =>
-                                                                this.handleDeleteProductType(
-                                                                    type["ProductType"]["Id"]
+                                                                this.handleDeleteManufacturer(
+                                                                    type["Manufacturer"]["Id"]
                                                                 )
                                                             }
                                                         >
@@ -313,17 +313,17 @@ class ProductTypesList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={productType["Id"] || v1()}
-                    type={productType}
+                    key={manufacturer["Id"] || v1()}
+                    manufacturer={manufacturer}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
-                    onSave={this.handleSaveProductType}
+                    onSave={this.handleSaveManufacturer}
                 />
             </React.Fragment>
         );
     }
 }
 
-const mapStateToProps = ({ ProductTypesReducer }) => ProductTypesReducer;
+const mapStateToProps = ({ ManufacturersReducer }) => ManufacturersReducer;
 
-export default connect(mapStateToProps, null)(ProductTypesList);
+export default connect(mapStateToProps, null)(ManufacturersList);
