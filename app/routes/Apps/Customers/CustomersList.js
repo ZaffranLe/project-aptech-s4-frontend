@@ -56,14 +56,13 @@ class ModifyModal extends React.Component {
         });
     };
 
-
     handleSave = () => {
         const { Name, Address, Email, Phone } = this.state;
         const data = {
             Name,
             Address,
             Email,
-            Phone
+            Phone,
         };
         this.props.onSave(data);
     };
@@ -73,51 +72,26 @@ class ModifyModal extends React.Component {
         const { Name, Address, Phone, Email } = this.state;
         return (
             <Modal isOpen={isOpen} toggle={onClose}>
-                <ModalHeader>Nhà sản xuất</ModalHeader>
+                <ModalHeader>Khách hàng</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label>Nhà sản xuất</Label>
+                            <Label>Họ tên</Label>
                             <Input value={Name} onChange={this.handleChange("Name")} />
                         </FormGroup>
                         <FormGroup>
-                            <Label>Ảnh minh họa</Label>
-                            <Input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={this.handlePreviewImages}
-                            />
+                            <Label>Địa chỉ</Label>
+                            <Input value={Address} onChange={this.handleChange("Address")} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Email</Label>
+                            <Input value={Email} onChange={this.handleChange("Email")} />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Số điện thoại</Label>
+                            <Input value={Phone} onChange={this.handleChange("Phone")} />
                         </FormGroup>
                     </Form>
-                    <Container>
-                        <Row>
-                            {Images.length > 0 &&
-                                Images.map((img) => {
-                                    return (
-                                        <Col lg={3} key={img["id"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "current")}
-                                            />
-                                            <img src={img["url"]} height="100" width="100" />
-                                        </Col>
-                                    );
-                                })}
-                            {imagesPreview.length > 0 &&
-                                imagesPreview.map((img) => {
-                                    return (
-                                        <Col lg={3} key={img["name"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "preview")}
-                                            />
-                                            <img src={img["url"]} height="100" width="100" />
-                                        </Col>
-                                    );
-                                })}
-                        </Row>
-                    </Container>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSave}>
@@ -170,16 +144,14 @@ class CustomersList extends React.Component {
     handleSaveCustomer = (data) => {
         const { customer } = this.state;
         if (customer) {
-            this.props.dispatch(
-                CustomerActions.updateCustomer(customer["Customer"]["Id"], data)
-            );
+            this.props.dispatch(CustomerActions.updateCustomer(customer["Customer"]["Id"], data));
         } else {
             this.props.dispatch(CustomerActions.createCustomer(data));
         }
     };
 
     handleDeleteCustomer = (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá nhà sản xuất này?")) {
+        if (window.confirm("Bạn có chắc chắn muốn xoá khách hàng này?")) {
             this.props.dispatch(CustomerActions.deleteCustomer(id));
         }
     };
@@ -191,11 +163,11 @@ class CustomersList extends React.Component {
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
-                        <HeaderMain title="Nhà sản xuất" className="mb-5 mt-4" />
+                        <HeaderMain title="Khách hàng" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
                         <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo nhà sản xuất mới
+                            Tạo khách hàng mới
                         </Button>
                     </Col>
                 </Row>
@@ -207,26 +179,24 @@ class CustomersList extends React.Component {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên nhà sản xuất</th>
+                                            <th>Tên khách hàng</th>
+                                            <th>Email</th>
+                                            <th>SĐT</th>
                                             <th>Ngày tạo</th>
-                                            <th>Ngày chỉnh sửa cuối</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {customers.map((type, idx) => {
+                                        {customers.map((customer, idx) => {
                                             return (
-                                                <tr key={type["Customer"]["Id"]}>
+                                                <tr key={customer["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{type["Customer"]["Name"]}</td>
+                                                    <td>{customer["Name"]}</td>
+                                                    <td>{customer["Email"]}</td>
+                                                    <td>{customer["Phone"]}</td>
                                                     <td>
                                                         {moment(
-                                                            type["Customer"]["CreatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
-                                                    </td>
-                                                    <td>
-                                                        {moment(
-                                                            type["Customer"]["UpdatedAt"]
+                                                            customer["CreatedAt"]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
@@ -234,7 +204,7 @@ class CustomersList extends React.Component {
                                                             color="yellow"
                                                             size="sm"
                                                             onClick={() =>
-                                                                this.handleOpenModifyModal(type)
+                                                                this.handleOpenModifyModal(customer)
                                                             }
                                                         >
                                                             Chỉnh sửa
@@ -244,7 +214,7 @@ class CustomersList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteCustomer(
-                                                                    type["Customer"]["Id"]
+                                                                    customer["Customer"]["Id"]
                                                                 )
                                                             }
                                                         >
