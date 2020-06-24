@@ -12,8 +12,13 @@ export const ProductsReducer = (state = defaultState, action) => {
         case actionTypes.PRODUCT_GET_ALL_PRODUCT:
             return {
                 ...state,
-                isReload: true,
+                isReload: false,
             };
+        case actionTypes.PRODUCT_GET_ALL_PRODUCT_SUCCEED:
+            return {
+                ...state,
+                products: action.data,
+            }
         case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED:
             return {
                 ...state,
@@ -28,6 +33,7 @@ export const ProductsReducer = (state = defaultState, action) => {
         case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_FAILED:
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE:
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_FAILED:
+        case actionTypes.PRODUCT_GET_ALL_PRODUCT_FAILED:
         default:
             return state;
     }

@@ -29,7 +29,7 @@ function getAllProduct() {
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
                 toast.success(content("Lấy danh sách sản phẩm thành công"));
-                dispatch(_succeed());
+                dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
             }
@@ -46,9 +46,10 @@ function getAllProduct() {
         };
     }
 
-    function _succeed() {
+    function _succeed(data) {
         return {
             type: actionTypes.PRODUCT_GET_ALL_PRODUCT_SUCCEED,
+            data
         };
     }
 
@@ -92,6 +93,7 @@ function createProduct(data) {
                 createImgResp.data.ListDataResult.map((img) => {
                     productData["Product"]["ImageId"].push(img["Id"]);
                 });
+                productData["Product"]["ImageId"] = productData["Product"]["ImageId"].join(","); 
                 const resp = await _callApiCreateProduct(productData);
                 if (resp.data.IsSuccess) {
                     toast.success(content("Tạo sản phẩm mới thành công"));

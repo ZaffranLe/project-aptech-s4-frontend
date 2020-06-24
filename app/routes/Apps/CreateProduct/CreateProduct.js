@@ -106,11 +106,11 @@ class CreateProduct extends React.Component {
                 Name,
                 IdDisplay,
                 Description,
-                Quantity,
-                IdProductType,
-                UnitPrice,
-                IdManufacturer,
-                SupportDuration,
+                Quantity: parseInt(Quantity),
+                IdProductType: parseInt(IdProductType),
+                UnitPrice: parseFloat(UnitPrice),
+                IdManufacturer: parseInt(IdManufacturer),
+                SupportDuration: parseInt(SupportDuration),
                 ImageId: [],
             },
             Properties,
@@ -119,7 +119,6 @@ class CreateProduct extends React.Component {
             productData,
             imageData,
         };
-
         this.props.dispatch(ProductActions.createProduct(info));
     };
 
