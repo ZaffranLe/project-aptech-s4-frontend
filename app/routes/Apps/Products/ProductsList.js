@@ -1,18 +1,5 @@
 import React from "react";
-import {
-    Row,
-    Col,
-    CardColumns,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Input,
-    Form,
-    FormGroup,
-    Label,
-    Button,
-} from "./../../../components";
+import { Row, Col, CardColumns, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Form, FormGroup, Label, Button } from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { ProductsCardGrid } from "../../components/Products/ProductsCardGrid";
 import { ProductsLeftNav } from "../../components/Products/ProductsLeftNav";
@@ -48,30 +35,11 @@ class ProductsList extends React.Component {
                         <Col lg={9}>
                             {/* START Table */}
                             <Row>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
-                                <Col className="mt-3" lg={4}>
-                                    <ProductsCardGrid />
-                                </Col>
+                                {products.map((product) => (
+                                    <Col key={product["Product"]["Id"]} className="mt-3" lg={4}>
+                                        <ProductsCardGrid product={product} />
+                                    </Col>
+                                ))}
                             </Row>
                         </Col>
                         <Col lg={3}>

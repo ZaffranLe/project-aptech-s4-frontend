@@ -19,10 +19,8 @@ import {
     CardSubtitle,
 } from "./../../../components";
 
-import sampleImg from "./sample.jpg";
-
 const ProductsCardGrid = (props) => {
-    const isStockValid = true;
+    const { product } = props;
     return (
         <React.Fragment>
             {/* START Card */}
@@ -30,7 +28,7 @@ const ProductsCardGrid = (props) => {
                 <CardBody>
                     <Row>
                         <Col lg={6}>
-                            <CardTitle>{"#DisplayId"}</CardTitle>
+                            <CardTitle>{product["Product"]["IdDisplay"]}</CardTitle>
                         </Col>
                         <Col lg={6}>
                             <div className="d-flex">
@@ -42,12 +40,12 @@ const ProductsCardGrid = (props) => {
                                         <DropdownMenu right>
                                             <DropdownItem>
                                                 <i className="fa fa-fw fa-pencil mr-2"></i>
-                                                Edit
+                                                Sửa
                                             </DropdownItem>
                                             <DropdownItem divider />
                                             <DropdownItem>
                                                 <i className="fa fa-fw fa-trash mr-2"></i>
-                                                Delete
+                                                Xóa
                                             </DropdownItem>
                                         </DropdownMenu>
                                     </UncontrolledButtonDropdown>
@@ -56,11 +54,11 @@ const ProductsCardGrid = (props) => {
                         </Col>
                     </Row>
                 </CardBody>
-                <CardImg width="100%" src={sampleImg} alt="Sample img" />
+                {product["ListImages"].length > 0 && <CardImg width="100%" src={product["ListImages"][0]["ImageUrl"]} alt="Sample img" />}
                 <CardBody>
-                    <CardTitle>{"#Name"}</CardTitle>
+                    <CardTitle>{product["Product"]["Name"]}</CardTitle>
                     <CardSubtitle className="text-danger font-weight-bold" style={{ fontSize: 20 }}>
-                        {(5000000).toLocaleString("vi-VN", {
+                        {product["Product"]["UnitPrice"].toLocaleString("vi-VN", {
                             style: "currency",
                             currency: "VND",
                         })}
@@ -69,7 +67,7 @@ const ProductsCardGrid = (props) => {
                 <CardFooter className="bt-0 text-center">
                     <Row>
                         <Col lg={4}>
-                            {isStockValid ? (
+                            {product["Product"]["Quantity"] > 0 ? (
                                 <Button disabled color="link" className="text-success">
                                     <i className="fa fa-fw- fa-check"></i> Còn hàng
                                 </Button>
