@@ -6,12 +6,12 @@ export const SidebarMiddleNav = () => (
     <SidebarMenu>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-home"></i>} title="Tổng quan" to='/dashboards/projects' exact />
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-file-text-o"></i>} title="Đơn hàng">
-            <SidebarMenu.Item title="Yêu cầu đặt hàng" to="/import-orders/import-orders-list" exact />
-            <SidebarMenu.Item title="Danh sách đơn hàng" to='/order-receipt/order-list' exact />
+            <SidebarMenu.Item title="Danh sách đơn nhập hàng" to="/import-orders/import-orders-list" exact />
+            <SidebarMenu.Item title="Danh sách đơn bán hàng" to='/order-receipt/order-list' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-file-text-o"></i>} title="Nhà cung cấp" to='/apps/providers' exact />
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-clipboard"></i>} title="Bài viết">
-            <SidebarMenu.Item title="Đăng bài viết mới" />
+            <SidebarMenu.Item title="Đăng bài viết mới" to='/apps/posts/create' exact />
             <SidebarMenu.Item title="Danh sách các bài viết" to='/apps/posts' exact />
         </SidebarMenu.Item>
         <SidebarMenu.Item icon={<i className="fa fa-fw fa-users"></i>} title="Khách hàng" to='/apps/customers' exact />
@@ -25,7 +25,11 @@ export const SidebarMiddleNav = () => (
             <SidebarMenu.Item title="Báo cáo 1" />
             <SidebarMenu.Item title="Báo cáo 2" />
         </SidebarMenu.Item>
-        <SidebarMenu.Item icon={<i className="fa fa-fw fa-cog"></i>} title="Cấu hình"/>
+        <SidebarMenu.Item icon={<i className="fa fa-fw fa-cog"></i>} title="Cấu hình">
+            <SidebarMenu.Item title="Quyền hạn" to="/apps/permissions" />
+            <SidebarMenu.Item title="Chức vụ" to="/apps/roles" />
+            <SidebarMenu.Item title="Tài khoản thành viên" to="/apps/users" />
+        </SidebarMenu.Item>
         { /* -------- Pages ---------*/}
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-copy"></i>}

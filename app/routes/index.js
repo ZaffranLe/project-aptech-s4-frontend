@@ -113,8 +113,11 @@ import CreateProduct from "./Apps/CreateProduct";
 import ProductTypesList from "./Apps/ProductTypes";
 import ManufacturersList from "./Apps/Manufacturers";
 import CustomersList from "./Apps/Customers";
+import PermissionsList from "./Apps/Permissions";
+import RolesList from "./Apps/Roles";
 import ProvidersList from "./Apps/Providers";
 import PostsList from "./Apps/Posts";
+import CreatePost from "./Apps/CreatePost";
 
 // ----------- Layout Imports ---------------
 import { DefaultNavbar } from "./../layout/components/DefaultNavbar";
@@ -236,7 +239,10 @@ export const RoutedContent = () => {
             <Route component={ProductTypesList} path="/apps/product/types" />
             <Route component={ManufacturersList} path="/apps/manufacturers" />
             <Route component={CustomersList} path="/apps/customers" />
+            <Route component={PermissionsList} path="/apps/permissions" />
+            <Route component={RolesList} path="/apps/roles" />
             <Route component={ProvidersList} path="/apps/providers" />
+            <Route component={CreatePost} path="/apps/posts/create" />
             <Route component={PostsList} path="/apps/posts" />
 
             {/*    Pages Routes    */}

@@ -1,17 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-    Row,
-    Col,
-    Button,
-    Alert,
-    Table,
-    Container,
-} from "./../../../components";
+import { Row, Col, Button, Alert, Table, Container } from "./../../../components";
 import { PostActions } from "../../../redux/_actions/Posts/PostsA";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 class PostsList extends React.Component {
     constructor(props) {
@@ -37,7 +31,9 @@ class PostsList extends React.Component {
                         <HeaderMain title="Bài viết" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
-                        <Button color="primary">Tạo bài viết mới</Button>
+                        <Link to="/apps/posts/create">
+                            <Button color="primary">Tạo bài viết mới</Button>
+                        </Link>
                     </Col>
                 </Row>
                 <Row>
