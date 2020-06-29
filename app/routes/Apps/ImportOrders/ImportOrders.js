@@ -21,7 +21,7 @@ import {
     ModalBody,
     ModalFooter,
 } from "./../../../components";
-import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
+import { ImportReceiptActions } from "../../../redux/_actions/ImportReceipts/ImportReceiptsA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
@@ -32,53 +32,19 @@ class ModifyModal extends React.Component {
         super(props);
         this.state = {
             Name: "",
-            Images: [],
-            imageData: new FormData(),
-            imagesPreview: [],
-            ImageId: [],
+            Description: "",
         };
     }
 
     componentDidMount() {
-        const { type } = this.props;
-        if (type) {
-            const images = [];
-            if (type["ListImages"].length > 0) {
-                type["ListImages"].map((img, idx) => {
-                    images.push({
-                        id: img["Id"],
-                        url: img["ImageUrl"],
-                    });
-                });
-            }
-            const ImageId = type["ProductType"]["ImageId"]
-                ? type["ProductType"]["ImageId"].split(",").map((id) => parseInt(id))
-                : [];
-
+        const { importReceipt } = this.props;
+        if (importReceipt) {
             this.setState({
-                Name: type["ProductType"]["Name"],
-                ImageId,
-                Images: images,
+                Name: importReceipt["Name"],
+                Description: importReceipt["Description"],
             });
         }
     }
-
-    handlePreviewImages = (e) => {
-        const imagesPreview = [];
-        const imageData = new FormData();
-        for (let file of e.target.files) {
-            const name = v4();
-            imagesPreview.push({
-                url: URL.createObjectURL(file),
-                name,
-            });
-            imageData.append(name, file);
-        }
-        this.setState({
-            imagesPreview,
-            imageData,
-        });
-    };
 
     handleChange = (name) => (e) => {
         this.setState({
@@ -86,88 +52,32 @@ class ModifyModal extends React.Component {
         });
     };
 
-    handleRemoveImg = (img, mode) => {
-        if (mode == "preview") {
-            const imagesPreview = [...this.state.imagesPreview];
-            const imageData = _.clone(this.state.imageData);
-            imagesPreview.splice(imagesPreview.indexOf(img), 1);
-            imageData.delete(img["name"]);
-            this.setState({
-                imagesPreview,
-                imageData,
-            });
-        } else {
-            const Images = [...this.state.Images];
-            const ImageId = [...this.state.ImageId];
-            ImageId.splice(ImageId.indexOf(img["id"]), 1);
-            Images.splice(Images.indexOf(img), 1);
-            this.setState({
-                ImageId,
-                Images,
-            });
-        }
-    };
-
     handleSave = () => {
-        const { Name, imageData, ImageId } = this.state;
+        const { Name, Description } = this.state;
         const data = {
             Name,
-            ImageId,
-            imageData,
+            Description,
         };
         this.props.onSave(data);
     };
 
     render() {
         const { isOpen, onClose } = this.props;
-        const { Name, Images, imagesPreview } = this.state;
+        const { Name, Description } = this.state;
         return (
-            <Modal isOpen={isOpen} toggle={onClose}>
-                <ModalHeader>Loại sản phẩm</ModalHeader>
+            <Modal size="lg" isOpen={isOpen} toggle={onClose}>
+                <ModalHeader>Hóa đơn nhập hàng</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label>Loại sản phẩm</Label>
+                            <Label>Tên</Label>
                             <Input value={Name} onChange={this.handleChange("Name")} />
                         </FormGroup>
                         <FormGroup>
-                            <Label>Ảnh minh họa</Label>
-                            <Input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={this.handlePreviewImages}
-                            />
+                            <Label>Mô tả</Label>
+                            <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
                     </Form>
-                    <Container>
-                        <Row>
-                            {Images.length > 0 &&
-                                Images.map((img) => {
-                                    return (
-                                        <Col lg={3} key={img["id"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "current")}
-                                            />
-                                            <img src={img["url"]} height="100" width="100" />
-                                        </Col>
-                                    );
-                                })}
-                            {imagesPreview.length > 0 &&
-                                imagesPreview.map((img) => {
-                                    return (
-                                        <Col lg={3} key={img["name"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "preview")}
-                                            />
-                                            <img src={img["url"]} height="100" width="100" />
-                                        </Col>
-                                    );
-                                })}
-                        </Row>
-                    </Container>
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSave}>
@@ -180,23 +90,23 @@ class ModifyModal extends React.Component {
     }
 }
 
-class ProductTypesList extends React.Component {
+class ImportReceiptsList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            productType: "",
+            importReceipt: "",
             modifyModal: false,
         };
     }
 
     componentDidMount() {
-        this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(ImportReceiptActions.getAllImportReceipt());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { isReload, isModified } = nextProps;
         if (isReload) {
-            this.props.dispatch(ProductTypeActions.getAllProductType());
+            this.props.dispatch(ImportReceiptActions.getAllImportReceipt());
         }
         if (isModified) {
             this.handleCloseModifyModal();
@@ -206,100 +116,74 @@ class ProductTypesList extends React.Component {
     handleCloseModifyModal = () => {
         this.setState({
             modifyModal: false,
-            productType: "",
+            importReceipt: "",
         });
     };
 
-    handleOpenModifyModal = (productType = "") => {
+    handleOpenModifyModal = (importReceipt = "") => {
         this.setState({
             modifyModal: true,
-            productType,
+            importReceipt,
         });
     };
 
-    handleSaveProductType = (data) => {
-        const { productType } = this.state;
-        if (productType) {
-            this.props.dispatch(
-                ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data)
-            );
+    handleSaveImportReceipt = (data) => {
+        const { importReceipt } = this.state;
+        if (importReceipt) {
+            this.props.dispatch(ImportReceiptActions.updateImportReceipt(importReceipt["ImportReceipt"]["Id"], data));
         } else {
-            this.props.dispatch(ProductTypeActions.createProductType(data));
+            this.props.dispatch(ImportReceiptActions.createImportReceipt(data));
         }
     };
 
-    handleDeleteProductType = (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá loại sản phẩm này?")) {
-            this.props.dispatch(ProductTypeActions.deleteProductType(id));
+    handleDeleteImportReceipt = (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá hóa đơn nhập hàng này?")) {
+            this.props.dispatch(ImportReceiptActions.deleteImportReceipt(id));
         }
     };
 
     render() {
-        const { productTypes } = this.props;
-        const { productType, modifyModal } = this.state;
+        const { importReceipts } = this.props;
+        const { importReceipt, modifyModal } = this.state;
         return (
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
-                        <HeaderMain title="Thể loại sản phẩm" className="mb-5 mt-4" />
+                        <HeaderMain title="Hóa đơn nhập hàng" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
                         <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo loại sản phẩm mới
+                            Tạo hóa đơn nhập hàng mới
                         </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={12}>
                         <Container fluid>
-                            {productTypes.length > 0 ? (
+                            {importReceipts.length > 0 ? (
                                 <Table hover striped>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tên loại sản phẩm</th>
-                                            <th>Ngày tạo</th>
-                                            <th>Ngày chỉnh sửa cuối</th>
-                                            <th></th>
+                                            <th>Ngày nhập</th>
+                                            <th>Nhân viên</th>
+                                            <th>Nhà cung cấp</th>
+                                            <th>Tổng tiền</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {productTypes.map((type, idx) => {
+                                        {importReceipts.map((importReceipt, idx) => {
                                             return (
-                                                <tr key={type["ProductType"]["Id"]}>
+                                                <tr key={importReceipt["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{type["ProductType"]["Name"]}</td>
+                                                    <td>{moment(importReceipt["Date"]).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                                    <td>{importReceipt["IdEmployee"]}</td>
+                                                    <td>{importReceipt["IdProvider"]}</td>
                                                     <td>
-                                                        {moment(
-                                                            type["ProductType"]["CreatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
-                                                    </td>
-                                                    <td>
-                                                        {moment(
-                                                            type["ProductType"]["UpdatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
-                                                    </td>
-                                                    <td>
-                                                        <Button
-                                                            color="yellow"
-                                                            size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(type)
-                                                            }
-                                                        >
-                                                            Chỉnh sửa
-                                                        </Button>{" "}
-                                                        <Button
-                                                            size="sm"
-                                                            color="danger"
-                                                            onClick={() =>
-                                                                this.handleDeleteProductType(
-                                                                    type["ProductType"]["Id"]
-                                                                )
-                                                            }
-                                                        >
-                                                            Xoá
-                                                        </Button>
+                                                        {importReceipt["TotalPrice"].toLocaleString("vi-VN", {
+                                                            style: "currency",
+                                                            currency: "VND",
+                                                        })}
                                                     </td>
                                                 </tr>
                                             );
@@ -313,17 +197,17 @@ class ProductTypesList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={productType["Id"] || v1()}
-                    type={productType}
+                    key={importReceipt["Id"] || v1()}
+                    importReceipt={importReceipt}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
-                    onSave={this.handleSaveProductType}
+                    onSave={this.handleSaveImportReceipt}
                 />
             </React.Fragment>
         );
     }
 }
 
-const mapStateToProps = ({ ProductTypesReducer }) => ProductTypesReducer;
+const mapStateToProps = ({ ImportReceiptsReducer }) => ImportReceiptsReducer;
 
-export default connect(mapStateToProps, null)(ProductTypesList);
+export default connect(mapStateToProps, null)(ImportReceiptsList);

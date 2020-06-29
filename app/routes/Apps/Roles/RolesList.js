@@ -204,7 +204,7 @@ class RolesList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteRole(
-                                                                    role["Role"]["Id"]
+                                                                    role["Id"]
                                                                 )
                                                             }
                                                         >

@@ -97,7 +97,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "suneditor-react": "^2.12.1",
+    "suneditor-react": "^2.12.3",
     "text-mask-addons": "^3.8.0",
     "uuid": "^3.4.0",
     "webpack-cli": "^3.1.0",

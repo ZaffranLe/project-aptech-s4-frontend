@@ -1,39 +1,39 @@
 import actionTypes from "../../_constants/actionTypes";
 
 const defaultState = {
-    manufacturers: [],
+    importReceipts: [],
     isReload: false,
     isModified: false,
 };
 
-export const ManufacturersReducer = (state = defaultState, action) => {
+export const ImportReceiptsReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER:
-        case actionTypes.MANUFACTURER_CREATE_MANUFACTURER:
-        case actionTypes.MANUFACTURER_UPDATE_MANUFACTURER:
-        case actionTypes.MANUFACTURER_DELETE_MANUFACTURER:
+        case actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT:
+        case actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT:
+        case actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT:
+        case actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT:
             return {
                 ...state,
                 isModified: false,
             };
-        case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED:
+        case actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_SUCCEED:
             return {
                 ...state,
-                manufacturers: action.data,
+                importReceipts: action.data,
                 isReload: false,
             };
-        case actionTypes.MANUFACTURER_CREATE_MANUFACTURER_SUCCEED:
-        case actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_SUCCEED:
-        case actionTypes.MANUFACTURER_DELETE_MANUFACTURER_SUCCEED:
+        case actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT_SUCCEED:
+        case actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT_SUCCEED:
+        case actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT_SUCCEED:
             return {
                 ...state,
                 isReload: true,
                 isModified: true,
             };
-        case actionTypes.MANUFACTURER_CREATE_MANUFACTURER_FAILED:
-        case actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_FAILED:
-        case actionTypes.MANUFACTURER_DELETE_MANUFACTURER_FAILED:
-        case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_FAILED:
+        case actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT_FAILED:
+        case actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT_FAILED:
+        case actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT_FAILED:
+        case actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_FAILED:
             return {
                 ...state,
             };
