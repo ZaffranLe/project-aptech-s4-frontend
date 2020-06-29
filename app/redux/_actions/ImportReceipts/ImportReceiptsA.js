@@ -4,17 +4,17 @@ import axios from "axios";
 import utilConstants from "../../../utils/_constants";
 import { content } from "../../../components/ToastContainer/ToastContainer";
 
-export const ManufacturerActions = {
-    getAllManufacturer,
-    createManufacturer,
-    updateManufacturer,
-    deleteManufacturer,
+export const ImportReceiptActions = {
+    getAllImportReceipt,
+    createImportReceipt,
+    updateImportReceipt,
+    deleteImportReceipt,
 };
 
-function getAllManufacturer() {
+function getAllImportReceipt() {
     function _callApi() {
         return axios({
-            url: `${utilConstants.HOST}/api/manufacturer`,
+            url: `${utilConstants.HOST}/api/importreceipt`,
             method: "get",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -27,42 +27,42 @@ function getAllManufacturer() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy nhà sản xuất thành công"));
+                toast.success(content("Lấy hóa đơn nhập hàng thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Lấy nhà sản xuất thất bại!"));
+            toast.error(content("Lấy hóa đơn nhập hàng thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER,
+            type: actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT,
         };
     }
 
     function _succeed(data) {
         return {
-            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED,
+            type: actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_SUCCEED,
             data,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_FAILED,
+            type: actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_FAILED,
         };
     }
 }
 
-function createManufacturer(data) {
-    function _callApiCreateManufacturer(data) {
+function createImportReceipt(data) {
+    function _callApiCreateImportReceipt(data) {
         return axios({
-            url: `${utilConstants.HOST}/api/manufacturer`,
+            url: `${utilConstants.HOST}/api/importreceipt`,
             method: "post",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -96,9 +96,9 @@ function createManufacturer(data) {
                     Name,
                     ImageId: ImageId.join(","),
                 };
-                const resp = await _callApiCreateManufacturer(typeData);
+                const resp = await _callApiCreateImportReceipt(typeData);
                 if (resp.data.IsSuccess) {
-                    toast.success(content("Tạo nhà sản xuất mới thành công"));
+                    toast.success(content("Tạo hóa đơn nhập hàng mới thành công"));
                     dispatch(_succeed());
                 } else {
                     throw resp.data.ErrorMsg;
@@ -108,34 +108,34 @@ function createManufacturer(data) {
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Tạo nhà sản xuất mới thất bại!"));
+            toast.error(content("Tạo hóa đơn nhập hàng mới thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER,
+            type: actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER_SUCCEED,
+            type: actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.MANUFACTURER_CREATE_MANUFACTURER_FAILED,
+            type: actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT_FAILED,
         };
     }
 }
 
-function updateManufacturer(id, data) {
-    function _callApiModifyManufacturer(id, data) {
+function updateImportReceipt(id, data) {
+    function _callApiModifyImportReceipt(id, data) {
         return axios({
-            url: `${utilConstants.HOST}/api/manufacturer/${id}`,
+            url: `${utilConstants.HOST}/api/importreceipt/${id}`,
             method: "put",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -169,9 +169,9 @@ function updateManufacturer(id, data) {
                     Name,
                     ImageId: ImageId.join(","),
                 };
-                const resp = await _callApiModifyManufacturer(id, typeData);
+                const resp = await _callApiModifyImportReceipt(id, typeData);
                 if (resp.data.IsSuccess) {
-                    toast.success(content("Chỉnh sửa nhà sản xuất thành công"));
+                    toast.success(content("Chỉnh sửa hóa đơn nhập hàng thành công"));
                     dispatch(_succeed());
                 } else {
                     throw resp.data.ErrorMsg;
@@ -181,34 +181,34 @@ function updateManufacturer(id, data) {
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Chỉnh sửa nhà sản xuất thất bại!"));
+            toast.error(content("Chỉnh sửa hóa đơn nhập hàng thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER,
+            type: actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_SUCCEED,
+            type: actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.MANUFACTURER_UPDATE_MANUFACTURER_FAILED,
+            type: actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT_FAILED,
         };
     }
 }
 
-function deleteManufacturer(id) {
+function deleteImportReceipt(id) {
     function _callApi(id) {
         return axios({
-            url: `${utilConstants.HOST}/api/manufacturer/${id}`,
+            url: `${utilConstants.HOST}/api/importreceipt/${id}`,
             method: "delete",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -221,33 +221,33 @@ function deleteManufacturer(id) {
             dispatch(_beginAction());
             const resp = await _callApi(id);
             if (resp.data.IsSuccess) {
-                toast.success(content("Xoá nhà sản xuất thành công"));
+                toast.success(content("Xoá hóa đơn nhập hàng thành công"));
                 dispatch(_succeed());
             } else {
                 throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
-            toast.error(content("Xoá nhà sản xuất thất bại!"));
+            toast.error(content("Xoá hóa đơn nhập hàng thất bại!"));
             dispatch(_failed());
         }
     };
 
     function _beginAction() {
         return {
-            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER,
+            type: actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT,
         };
     }
 
     function _succeed() {
         return {
-            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER_SUCCEED,
+            type: actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT_SUCCEED,
         };
     }
 
     function _failed() {
         return {
-            type: actionTypes.MANUFACTURER_DELETE_MANUFACTURER_FAILED,
+            type: actionTypes.RECEIPT_DELETE_IMPORT_RECEIPT_FAILED,
         };
     }
 }

@@ -203,7 +203,7 @@ class PermissionsList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeletePermission(
-                                                                    permission["Permission"]["Id"]
+                                                                    permission["Id"]
                                                                 )
                                                             }
                                                         >

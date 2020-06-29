@@ -45,6 +45,13 @@ class CreateProduct extends React.Component {
         this.props.dispatch(ProductTypeActions.getAllProductType());
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        const { isCreatedSucceed } = nextProps;
+        if (isCreatedSucceed) {
+            this.props.history.push("/apps/products");
+        }
+    }
+
     handleChange = (name) => (e) => {
         this.setState({
             [name]: e.target.value,

@@ -214,7 +214,7 @@ class CustomersList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteCustomer(
-                                                                    customer["Customer"]["Id"]
+                                                                    customer["Id"]
                                                                 )
                                                             }
                                                         >

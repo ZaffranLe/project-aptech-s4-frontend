@@ -8,6 +8,8 @@ import { RolesReducer } from "../_reducers/Roles/RolesR";
 import { ProvidersReducer } from "../_reducers/Providers/ProvidersR";
 import { PostsReducer } from "../_reducers/Posts/PostsR";
 import { RegisterReducer } from "../_reducers/Register/RegisterR";
+import { NavbarReducer } from "../_reducers/Navbar/NavbarR";
+import { ImportReceiptsReducer } from "../_reducers/ImportReceipts/ImportReceiptsR";
 
 const appReducers = combineReducers({
     ProductsReducer,
@@ -19,6 +21,8 @@ const appReducers = combineReducers({
     ProvidersReducer,
     PostsReducer,
     RegisterReducer,
+    NavbarReducer,
+    ImportReceiptsReducer,
 });
 
 export default appReducers;
