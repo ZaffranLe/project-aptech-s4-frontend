@@ -39,6 +39,7 @@ import UncontrolledModal from './UncontrolledModal';
 import UncontrolledPopover from './UncontrolledPopover';
 import UncontrolledTabs from './UncontrolledTabs';
 import Wizard from './Wizard';
+import Loading from "./Loading";
 // Export non overriden Reactstrap components
 export {
     Alert,
@@ -153,5 +154,6 @@ export {
     UncontrolledPopover,
     UncontrolledTabs,
     UncontrolledModal,
-    Wizard
+    Wizard,
+    Loading,
 };

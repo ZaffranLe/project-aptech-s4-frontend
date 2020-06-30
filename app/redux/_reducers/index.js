@@ -10,6 +10,7 @@ import { PostsReducer } from "../_reducers/Posts/PostsR";
 import { RegisterReducer } from "../_reducers/Register/RegisterR";
 import { NavbarReducer } from "../_reducers/Navbar/NavbarR";
 import { ImportReceiptsReducer } from "../_reducers/ImportReceipts/ImportReceiptsR";
+import { LoginReducer } from "../_reducers/Login/LoginR";
 
 const appReducers = combineReducers({
     ProductsReducer,
@@ -23,6 +24,7 @@ const appReducers = combineReducers({
     RegisterReducer,
     NavbarReducer,
     ImportReceiptsReducer,
+    LoginReducer,
 });
 
 export default appReducers;
