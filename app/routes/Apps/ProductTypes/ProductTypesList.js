@@ -313,7 +313,7 @@ class ProductTypesList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={productType["Id"] || v1()}
+                    key={productType ? productType["ProductType"]["Id"] : v1()}
                     type={productType}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
