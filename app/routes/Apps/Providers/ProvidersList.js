@@ -125,8 +125,8 @@ class ModifyModal extends React.Component {
         };
         const data = {
             providerData,
-            imageData
-        }
+            imageData,
+        };
         this.props.onSave(data);
     };
 
@@ -339,7 +339,7 @@ class ProvidersList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={provider["Id"] || v1()}
+                    key={provider ? provider["Provider"]["Id"] : v1()}
                     provider={provider}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}

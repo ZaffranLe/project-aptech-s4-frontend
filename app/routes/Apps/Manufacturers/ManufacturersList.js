@@ -264,19 +264,23 @@ class ManufacturersList extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {manufacturers.map((type, idx) => {
+                                        {manufacturers.map((manufacturer, idx) => {
                                             return (
-                                                <tr key={type["Manufacturer"]["Id"]}>
+                                                <tr key={manufacturer["Manufacturer"]["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{type["Manufacturer"]["Name"]}</td>
+                                                    <td>{manufacturer["Manufacturer"]["Name"]}</td>
                                                     <td>
                                                         {moment(
-                                                            type["Manufacturer"]["CreatedAt"]
+                                                            manufacturer["Manufacturer"][
+                                                                "CreatedAt"
+                                                            ]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
                                                         {moment(
-                                                            type["Manufacturer"]["UpdatedAt"]
+                                                            manufacturer["Manufacturer"][
+                                                                "UpdatedAt"
+                                                            ]
                                                         ).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
@@ -284,7 +288,9 @@ class ManufacturersList extends React.Component {
                                                             color="yellow"
                                                             size="sm"
                                                             onClick={() =>
-                                                                this.handleOpenModifyModal(type)
+                                                                this.handleOpenModifyModal(
+                                                                    manufacturer
+                                                                )
                                                             }
                                                         >
                                                             Chỉnh sửa
@@ -294,7 +300,9 @@ class ManufacturersList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteManufacturer(
-                                                                    type["Manufacturer"]["Id"]
+                                                                    manufacturer["Manufacturer"][
+                                                                        "Id"
+                                                                    ]
                                                                 )
                                                             }
                                                         >
@@ -313,7 +321,7 @@ class ManufacturersList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={manufacturer["Id"] || v1()}
+                    key={manufacturer ? manufacturer["Manufacturer"]["Id"] : v1()}
                     manufacturer={manufacturer}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}

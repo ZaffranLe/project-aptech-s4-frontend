@@ -140,6 +140,14 @@ const actionTypes = {
 
     // NAVBAR
     NAVBAR_SWITCH_PAGE: "NAVBAR_SWITCH_PAGE",
+
+    // LOGIN
+    LOGIN: "LOGIN",
+    LOGIN_SUCCEED: "LOGIN_SUCCEED",
+    LOGIN_FAILED: "LOGIN_FAILED",
+    LOGOUT: "LOGOUT",
+    LOGOUT_SUCCEED: "LOGOUT_SUCCEED",
+    LOGOUT_FAILED: "LOGOUT_FAILED",
 };
 
 export default actionTypes;

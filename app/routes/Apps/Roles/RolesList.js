@@ -20,8 +20,10 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Loading
 } from "./../../../components";
 import { RoleActions } from "../../../redux/_actions/Roles/RolesA";
+import { PermissionActions } from "../../../redux/_actions/Permissions/PermissionsA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
@@ -40,8 +42,8 @@ class ModifyModal extends React.Component {
         const { role } = this.props;
         if (role) {
             this.setState({
-                Name: role["Name"],
-                Description: role["Description"],
+                Name: role["Role"]["Name"],
+                Description: role["Role"]["Description"],
             });
         }
     }
@@ -105,6 +107,7 @@ class RolesList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(RoleActions.getAllRole());
+        this.props.dispatch(PermissionActions.getAllPermission());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -147,7 +150,7 @@ class RolesList extends React.Component {
     };
 
     render() {
-        const { roles } = this.props;
+        const { roles, permissions, isLoading } = this.props;
         const { role, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -178,12 +181,12 @@ class RolesList extends React.Component {
                                     <tbody>
                                         {roles.map((role, idx) => {
                                             return (
-                                                <tr key={role["Id"]}>
+                                                <tr key={role["Role"]["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{role["Name"]}</td>
-                                                    <td>{role["Description"]}</td>
+                                                    <td>{role["Role"]["Name"]}</td>
+                                                    <td>{role["Role"]["Description"]}</td>
                                                     <td>
-                                                        {moment(role["CreatedAt"]).format(
+                                                        {moment(role["Role"]["CreatedAt"]).format(
                                                             "YYYY-MM-DD HH:mm:ss"
                                                         )}
                                                     </td>
@@ -204,7 +207,7 @@ class RolesList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteRole(
-                                                                    role["Id"]
+                                                                    role["Role"]["Id"]
                                                                 )
                                                             }
                                                         >
@@ -223,12 +226,14 @@ class RolesList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={role["Id"] || v1()}
+                    key={role ? role["Role"]["Id"] : v1()}
                     role={role}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveRole}
+                    permissions={permissions}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }
