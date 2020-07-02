@@ -20,7 +20,11 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    Loading
+    Loading,
+    Pagination,
+    PaginationItem,
+    PaginationLink,
+    CustomInput,
 } from "./../../../components";
 import { RoleActions } from "../../../redux/_actions/Roles/RolesA";
 import { PermissionActions } from "../../../redux/_actions/Permissions/PermissionsA";
@@ -35,6 +39,8 @@ class ModifyModal extends React.Component {
         this.state = {
             Name: "",
             Description: "",
+            search: "",
+            RolePermissions: [],
         };
     }
 
@@ -44,6 +50,7 @@ class ModifyModal extends React.Component {
             this.setState({
                 Name: role["Role"]["Name"],
                 Description: role["Role"]["Description"],
+                RolePermissions: role["ListPermission"]
             });
         }
     }
@@ -64,8 +71,8 @@ class ModifyModal extends React.Component {
     };
 
     render() {
-        const { isOpen, onClose } = this.props;
-        const { Name, Description } = this.state;
+        const { isOpen, onClose, permissions } = this.props;
+        const { Name, Description, search, RolePermissions } = this.state;
         return (
             <Modal isOpen={isOpen} toggle={onClose}>
                 <ModalHeader>Chức vụ</ModalHeader>
@@ -77,12 +84,57 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Mô tả</Label>
-                            <Input
-                                value={Description}
-                                onChange={this.handleChange("Description")}
-                            />
+                            <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
-                        
+                        <Container className="table-bordered">
+                            <Input
+                                value={search}
+                                onChange={this.handleChange("search")}
+                                placeholder="Tìm kiếm..."
+                                className="mt-4 mb-2"
+                            />
+                            {permissions.length > 0 && (
+                                <>
+                                    <Table hover>
+                                        <thead>
+                                            <tr>
+                                                <th>Quyền hạn</th>
+                                                <th>Mô tả</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {permissions.map((permission, idx) => {
+                                                const hasPermission = RolePermissions.find(data => data["Id"] == permission["Id"])
+                                                return (
+                                                    <tr key={idx}>
+                                                        <td>{permission["Name"]}</td>
+                                                        <td>{permission["Description"]}</td>
+                                                        <td>
+                                                            <CustomInput type="checkbox" checked={hasPermission} />
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                    <Pagination>
+                                        <PaginationItem>
+                                            <PaginationLink first />
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink previous />
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink next />
+                                        </PaginationItem>
+                                        <PaginationItem>
+                                            <PaginationLink last />
+                                        </PaginationItem>
+                                    </Pagination>
+                                </>
+                            )}
+                        </Container>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
@@ -194,22 +246,14 @@ class RolesList extends React.Component {
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(
-                                                                    role
-                                                                )
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(role)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
                                                         <Button
                                                             size="sm"
                                                             color="danger"
-                                                            onClick={() =>
-                                                                this.handleDeleteRole(
-                                                                    role["Role"]["Id"]
-                                                                )
-                                                            }
+                                                            onClick={() => this.handleDeleteRole(role["Role"]["Id"])}
                                                         >
                                                             Xoá
                                                         </Button>
