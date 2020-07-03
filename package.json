@@ -9,7 +9,9 @@
     "build:dev": "node ./build/cli-tools.js --clear dist --create dist && webpack --config ./build/webpack.config.client.dev.js",
     "build:prod": "node ./build/cli-tools.js --clear dist --create dist && webpack --config ./build/webpack.config.client.prod.js",
     "start:dev": "node ./build/cli-tools.js --clear dist --create dist && webpack-dev-server --config ./build/webpack.config.client.dev.js",
-    "start:prod": "node ./build/cli-tools.js --clear dist --create dist && webpack-dev-server --config ./build/webpack.config.client.prod.js"
+    "start:prod": "node ./build/cli-tools.js --clear dist --create dist && webpack-dev-server --config ./build/webpack.config.client.prod.js",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build:prod"
   },
   "author": "Webkom",
   "license": "ISC",
@@ -58,6 +60,7 @@
     "bootstrap": "^4.3.1",
     "faker": "^4.1.0",
     "font-awesome": "^4.7.0",
+    "gh-pages": "^3.1.0",
     "history": "^4.10.1",
     "holderjs": "^2.9.6",
     "jsonwebtoken": "^8.5.1",
