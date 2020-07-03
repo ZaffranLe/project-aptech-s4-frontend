@@ -21,10 +21,10 @@ import {
     ModalBody,
     ModalFooter,
     Loading,
+    CustomInput,
     Pagination,
     PaginationItem,
     PaginationLink,
-    CustomInput,
 } from "./../../../components";
 import { RoleActions } from "../../../redux/_actions/Roles/RolesA";
 import { PermissionActions } from "../../../redux/_actions/Permissions/PermissionsA";
@@ -32,6 +32,7 @@ import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import ReactPaginate from "react-paginate";
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -41,6 +42,8 @@ class ModifyModal extends React.Component {
             Description: "",
             search: "",
             RolePermissions: [],
+            currentPage: 0,
+            itemsPerPage: 10,
         };
     }
 
@@ -50,7 +53,8 @@ class ModifyModal extends React.Component {
             this.setState({
                 Name: role["Role"]["Name"],
                 Description: role["Role"]["Description"],
-                RolePermissions: role["ListPermission"]
+                RolePermissions: role["ListPermission"],
+                currentPage: 0,
             });
         }
     }
@@ -70,11 +74,17 @@ class ModifyModal extends React.Component {
         this.props.onSave(data);
     };
 
+    handlePageClick = (data) => {
+        this.setState({
+            currentPage: data.selected,
+        });
+    };
+
     render() {
         const { isOpen, onClose, permissions } = this.props;
-        const { Name, Description, search, RolePermissions } = this.state;
+        const { Name, Description, search, RolePermissions, currentPage, itemsPerPage } = this.state;
         return (
-            <Modal isOpen={isOpen} toggle={onClose}>
+            <Modal isOpen={isOpen} toggle={onClose} size="lg">
                 <ModalHeader>Chức vụ</ModalHeader>
                 <ModalBody>
                     <Form>
@@ -87,51 +97,59 @@ class ModifyModal extends React.Component {
                             <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
                         <Container className="table-bordered">
-                            <Input
-                                value={search}
-                                onChange={this.handleChange("search")}
-                                placeholder="Tìm kiếm..."
-                                className="mt-4 mb-2"
-                            />
+                            <Input value={search} onChange={this.handleChange("search")} placeholder="Tìm kiếm..." className="mt-4 mb-2" />
                             {permissions.length > 0 && (
                                 <>
                                     <Table hover>
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Quyền hạn</th>
                                                 <th>Mô tả</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {permissions.map((permission, idx) => {
-                                                const hasPermission = RolePermissions.find(data => data["Id"] == permission["Id"])
-                                                return (
-                                                    <tr key={idx}>
-                                                        <td>{permission["Name"]}</td>
-                                                        <td>{permission["Description"]}</td>
-                                                        <td>
-                                                            <CustomInput type="checkbox" checked={hasPermission} />
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
+                                            {permissions
+                                                .filter(
+                                                    (permission) =>
+                                                        permission["Name"].includes(search.trim()) || permission["Description"].includes(search.trim())
+                                                )
+                                                .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
+                                                .map((permission, idx) => {
+                                                    const hasPermission = RolePermissions.find((data) => data["Id"] == permission["Id"]);
+                                                    return (
+                                                        <tr key={idx}>
+                                                            <td>{itemsPerPage * currentPage + idx + 1}</td>
+                                                            <td>{permission["Name"]}</td>
+                                                            <td>{permission["Description"]}</td>
+                                                            <td>
+                                                                <CustomInput type="checkbox" id={idx} checked={hasPermission} />
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
                                         </tbody>
                                     </Table>
-                                    <Pagination>
-                                        <PaginationItem>
-                                            <PaginationLink first />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink previous />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink next />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink last />
-                                        </PaginationItem>
-                                    </Pagination>
+                                    <ReactPaginate
+                                        previousLabel={"<<"}
+                                        nextLabel={">>"}
+                                        breakLabel={"..."}
+                                        breakClassName={"break-me"}
+                                        pageCount={Math.ceil(permissions.length / itemsPerPage)}
+                                        marginPagesDisplayed={2}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={this.handlePageClick}
+                                        containerClassName={"pagination"}
+                                        subContainerClassName={"pages pagination"}
+                                        activeClassName={"active"}
+                                        previousClassName={"page-item"}
+                                        previousLinkClassName={"page-link"}
+                                        nextClassName={"page-item"}
+                                        nextLinkClassName={"page-link"}
+                                        pageClassName={"page-item"}
+                                        pageLinkClassName={"page-link"}
+                                    />
                                 </>
                             )}
                         </Container>
@@ -237,24 +255,12 @@ class RolesList extends React.Component {
                                                     <td>{idx + 1}</td>
                                                     <td>{role["Role"]["Name"]}</td>
                                                     <td>{role["Role"]["Description"]}</td>
+                                                    <td>{moment(role["Role"]["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
                                                     <td>
-                                                        {moment(role["Role"]["CreatedAt"]).format(
-                                                            "YYYY-MM-DD HH:mm:ss"
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        <Button
-                                                            color="yellow"
-                                                            size="sm"
-                                                            onClick={() => this.handleOpenModifyModal(role)}
-                                                        >
+                                                        <Button color="yellow" size="sm" onClick={() => this.handleOpenModifyModal(role)}>
                                                             Chỉnh sửa
                                                         </Button>{" "}
-                                                        <Button
-                                                            size="sm"
-                                                            color="danger"
-                                                            onClick={() => this.handleDeleteRole(role["Role"]["Id"])}
-                                                        >
+                                                        <Button size="sm" color="danger" onClick={() => this.handleDeleteRole(role["Role"]["Id"])}>
                                                             Xoá
                                                         </Button>
                                                     </td>
