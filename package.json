@@ -104,5 +104,6 @@
     "uuid": "^3.4.0",
     "webpack-cli": "^3.1.0",
     "webpack-flush-chunks": "^2.0.3"
-  }
+  },
+  "homepage": "https://zaffranle.github.io/electric-shop"
 }
