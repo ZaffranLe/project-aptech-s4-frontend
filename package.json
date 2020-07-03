@@ -11,7 +11,8 @@
     "start:dev": "node ./build/cli-tools.js --clear dist --create dist && webpack-dev-server --config ./build/webpack.config.client.dev.js",
     "start:prod": "node ./build/cli-tools.js --clear dist --create dist && webpack-dev-server --config ./build/webpack.config.client.prod.js",
     "deploy": "gh-pages -d build",
-    "predeploy": "npm run build:prod"
+    "predeploy": "npm run build",
+    "build": "react-scripts build"
   },
   "author": "Webkom",
   "license": "ISC",
@@ -93,6 +94,7 @@
     "react-responsive": "^7.0.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-scripts": "^3.4.1",
     "react-text-mask": "^5.4.3",
     "react-toastify": "^5.2.1",
     "react-toggle": "^4.0.2",
