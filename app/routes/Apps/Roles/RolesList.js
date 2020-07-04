@@ -33,7 +33,8 @@ import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
 import ReactPaginate from "react-paginate";
-
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions";
 class ModifyModal extends React.Component {
     constructor(props) {
         super(props);
@@ -83,7 +84,9 @@ class ModifyModal extends React.Component {
 
     handleCheckPermission = (permissionId) => (e) => {
         const PermissionsToChange = [...this.state.PermissionsToChange];
-        const isExistPermission = PermissionsToChange.findIndex((data) => data["IdPermission"] == permissionId);
+        const isExistPermission = PermissionsToChange.findIndex(
+            (data) => data["IdPermission"] == permissionId
+        );
         if (isExistPermission == -1) {
             PermissionsToChange.push({
                 IdRole: this.props.role["Role"]["Id"],
@@ -105,7 +108,14 @@ class ModifyModal extends React.Component {
 
     render() {
         const { isOpen, onClose, permissions } = this.props;
-        const { Name, Description, search, RolePermissions, currentPage, itemsPerPage } = this.state;
+        const {
+            Name,
+            Description,
+            search,
+            RolePermissions,
+            currentPage,
+            itemsPerPage,
+        } = this.state;
         return (
             <Modal isOpen={isOpen} toggle={onClose} size="lg">
                 <ModalHeader>Chức vụ</ModalHeader>
@@ -117,7 +127,10 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Mô tả</Label>
-                            <Input value={Description} onChange={this.handleChange("Description")} />
+                            <Input
+                                value={Description}
+                                onChange={this.handleChange("Description")}
+                            />
                         </FormGroup>
                         <Container className="table-bordered">
                             <Input
@@ -141,17 +154,28 @@ class ModifyModal extends React.Component {
                                             {permissions
                                                 .filter(
                                                     (permission) =>
-                                                        permission["Name"].includes(search.trim()) ||
-                                                        permission["Description"].includes(search.trim())
+                                                        permission["Name"].includes(
+                                                            search.trim()
+                                                        ) ||
+                                                        permission["Description"].includes(
+                                                            search.trim()
+                                                        )
                                                 )
-                                                .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
+                                                .slice(
+                                                    itemsPerPage * currentPage,
+                                                    itemsPerPage * (currentPage + 1)
+                                                )
                                                 .map((permission, idx) => {
                                                     const hasPermission = RolePermissions.find(
                                                         (data) => data["Id"] == permission["Id"]
                                                     );
                                                     return (
                                                         <tr key={idx}>
-                                                            <td>{itemsPerPage * currentPage + idx + 1}</td>
+                                                            <td>
+                                                                {itemsPerPage * currentPage +
+                                                                    idx +
+                                                                    1}
+                                                            </td>
                                                             <td>{permission["Name"]}</td>
                                                             <td>{permission["Description"]}</td>
                                                             <td>
@@ -261,6 +285,7 @@ class RolesList extends React.Component {
         const { roles, permissions, isLoading } = this.props;
         const { role, modifyModal } = this.state;
         return (
+            // <Private PERMISSION={PERMISSIONS.VIEW_ORDER_MENU}>
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
@@ -302,14 +327,20 @@ class RolesList extends React.Component {
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() => this.handleOpenModifyModal(role)}
+                                                            onClick={() =>
+                                                                this.handleOpenModifyModal(role)
+                                                            }
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
                                                         <Button
                                                             size="sm"
                                                             color="danger"
-                                                            onClick={() => this.handleDeleteRole(role["Role"]["Id"])}
+                                                            onClick={() =>
+                                                                this.handleDeleteRole(
+                                                                    role["Role"]["Id"]
+                                                                )
+                                                            }
                                                         >
                                                             Xoá
                                                         </Button>
@@ -335,6 +366,7 @@ class RolesList extends React.Component {
                 />
                 <Loading isLoading={isLoading} />
             </React.Fragment>
+            // </Private>
         );
     }
 }
