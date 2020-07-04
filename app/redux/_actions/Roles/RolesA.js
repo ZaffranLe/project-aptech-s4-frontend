@@ -71,6 +71,17 @@ function createRole(data) {
         });
     }
 
+    function _callApiCreateRolePermissions(data) {
+        return axios({
+            url: `${utilConstants.HOST}/api/placeholder`,
+            method: "post",
+            headers: {
+                Authorization: `${utilConstants.TOKEN}`,
+            },
+            data,
+        });
+    }
+
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
