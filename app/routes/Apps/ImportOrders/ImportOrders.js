@@ -3,11 +3,6 @@ import { connect } from "react-redux";
 import {
     Row,
     Col,
-    CardColumns,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     Input,
     Form,
     FormGroup,
@@ -20,19 +15,22 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Loading,
 } from "./../../../components";
 import { ImportReceiptActions } from "../../../redux/_actions/ImportReceipts/ImportReceiptsA";
-import { v1, v4 } from "uuid";
+import { ProviderActions } from "../../../redux/_actions/Providers/ProvidersA";
+import { v1 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import DatePicker from "react-datepicker";
+import { AddonInput } from "../../Forms/DatePicker/components";
 
 class ModifyModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            Name: "",
-            Description: "",
+            date: new Date(),
         };
     }
 
@@ -40,8 +38,7 @@ class ModifyModal extends React.Component {
         const { importReceipt } = this.props;
         if (importReceipt) {
             this.setState({
-                Name: importReceipt["Name"],
-                Description: importReceipt["Description"],
+                date: new Date(importReceipt["Date"]),
             });
         }
     }
@@ -52,31 +49,53 @@ class ModifyModal extends React.Component {
         });
     };
 
+    handleChangeDate = (name) => (date) => {
+        this.setState({
+            [name]: date,
+        });
+    };
+
     handleSave = () => {
-        const { Name, Description } = this.state;
+        const { date } = this.state;
         const data = {
-            Name,
-            Description,
+            Date: date,
         };
         this.props.onSave(data);
     };
 
     render() {
         const { isOpen, onClose } = this.props;
-        const { Name, Description } = this.state;
+        const { date } = this.state;
         return (
             <Modal size="lg" isOpen={isOpen} toggle={onClose}>
                 <ModalHeader>Hóa đơn nhập hàng</ModalHeader>
                 <ModalBody>
                     <Form>
-                        <FormGroup>
-                            <Label>Tên</Label>
-                            <Input value={Name} onChange={this.handleChange("Name")} />
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Mô tả</Label>
-                            <Input value={Description} onChange={this.handleChange("Description")} />
-                        </FormGroup>
+                        <Row form>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>Nhân viên</Label>
+                                    <Input />
+                                </FormGroup>
+                            </Col>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>Nhà cung cấp</Label>
+                                    <Input />
+                                </FormGroup>
+                            </Col>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>Ngày nhập hàng</Label>
+                                    <br />
+                                    <DatePicker
+                                        customInput={<AddonInput />}
+                                        selected={date}
+                                        onChange={this.handleChangeDate("date")}
+                                    />
+                                </FormGroup>
+                            </Col>
+                        </Row>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
@@ -101,6 +120,7 @@ class ImportReceiptsList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(ImportReceiptActions.getAllImportReceipt());
+        this.props.dispatch(ProviderActions.getAllProvider());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -143,7 +163,7 @@ class ImportReceiptsList extends React.Component {
     };
 
     render() {
-        const { importReceipts } = this.props;
+        const { importReceipts, isLoading } = this.props;
         const { importReceipt, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -176,7 +196,9 @@ class ImportReceiptsList extends React.Component {
                                             return (
                                                 <tr key={importReceipt["Id"]}>
                                                     <td>{idx + 1}</td>
-                                                    <td>{moment(importReceipt["Date"]).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                                    <td>
+                                                        {moment(importReceipt["Date"]).format("YYYY-MM-DD HH:mm:ss")}
+                                                    </td>
                                                     <td>{importReceipt["IdEmployee"]}</td>
                                                     <td>{importReceipt["IdProvider"]}</td>
                                                     <td>
@@ -203,6 +225,7 @@ class ImportReceiptsList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveImportReceipt}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

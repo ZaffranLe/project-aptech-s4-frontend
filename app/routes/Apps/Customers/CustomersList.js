@@ -20,6 +20,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Loading,
 } from "./../../../components";
 import { CustomerActions } from "../../../redux/_actions/Customers/CustomersA";
 import { v1, v4 } from "uuid";
@@ -157,7 +158,7 @@ class CustomersList extends React.Component {
     };
 
     render() {
-        const { customers } = this.props;
+        const { customers, isLoading } = this.props;
         const { customer, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -195,28 +196,20 @@ class CustomersList extends React.Component {
                                                     <td>{customer["Email"]}</td>
                                                     <td>{customer["Phone"]}</td>
                                                     <td>
-                                                        {moment(
-                                                            customer["CreatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(customer["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(customer)
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(customer)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
                                                         <Button
                                                             size="sm"
                                                             color="danger"
-                                                            onClick={() =>
-                                                                this.handleDeleteCustomer(
-                                                                    customer["Id"]
-                                                                )
-                                                            }
+                                                            onClick={() => this.handleDeleteCustomer(customer["Id"])}
                                                         >
                                                             Xoá
                                                         </Button>
@@ -239,6 +232,7 @@ class CustomersList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveCustomer}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

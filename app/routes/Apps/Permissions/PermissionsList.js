@@ -20,6 +20,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Loading,
 } from "./../../../components";
 import { PermissionActions } from "../../../redux/_actions/Permissions/PermissionsA";
 import { v1, v4 } from "uuid";
@@ -75,10 +76,7 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Mô tả</Label>
-                            <Input
-                                value={Description}
-                                onChange={this.handleChange("Description")}
-                            />
+                            <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
                     </Form>
                 </ModalBody>
@@ -146,7 +144,7 @@ class PermissionsList extends React.Component {
     };
 
     render() {
-        const { permissions } = this.props;
+        const { permissions, isLoading } = this.props;
         const { permission, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -182,19 +180,13 @@ class PermissionsList extends React.Component {
                                                     <td>{permission["Name"]}</td>
                                                     <td>{permission["Description"]}</td>
                                                     <td>
-                                                        {moment(permission["CreatedAt"]).format(
-                                                            "YYYY-MM-DD HH:mm:ss"
-                                                        )}
+                                                        {moment(permission["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
                                                     <td>
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(
-                                                                    permission
-                                                                )
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(permission)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
@@ -202,9 +194,7 @@ class PermissionsList extends React.Component {
                                                             size="sm"
                                                             color="danger"
                                                             onClick={() =>
-                                                                this.handleDeletePermission(
-                                                                    permission["Id"]
-                                                                )
+                                                                this.handleDeletePermission(permission["Id"])
                                                             }
                                                         >
                                                             Xoá
@@ -228,6 +218,7 @@ class PermissionsList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSavePermission}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

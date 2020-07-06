@@ -20,6 +20,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
+    Loading,
 } from "./../../../components";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
 import { v1, v4 } from "uuid";
@@ -235,7 +236,7 @@ class ProductTypesList extends React.Component {
     };
 
     render() {
-        const { productTypes } = this.props;
+        const { productTypes, isLoading } = this.props;
         const { productType, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -319,6 +320,7 @@ class ProductTypesList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveProductType}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

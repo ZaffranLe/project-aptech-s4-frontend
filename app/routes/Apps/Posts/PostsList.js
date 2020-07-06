@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Row, Col, Button, Alert, Table, Container } from "./../../../components";
+import { Row, Col, Button, Alert, Table, Container, Loading } from "./../../../components";
 import { PostActions } from "../../../redux/_actions/Posts/PostsA";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
@@ -23,7 +23,7 @@ class PostsList extends React.Component {
     };
 
     render() {
-        const { posts } = this.props;
+        const { posts, isLoading } = this.props;
         return (
             <React.Fragment>
                 <Row>
@@ -56,16 +56,8 @@ class PostsList extends React.Component {
                                                 <tr key={post["Id"]}>
                                                     <td>{idx + 1}</td>
                                                     <td>{post["Title"]}</td>
-                                                    <td>
-                                                        {moment(post["CreatedAt"]).format(
-                                                            "YYYY-MM-DD HH:mm:ss"
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        {moment(post["UpdatedAt"]).format(
-                                                            "YYYY-MM-DD HH:mm:ss"
-                                                        )}
-                                                    </td>
+                                                    <td>{moment(post["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                                    <td>{moment(post["UpdatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
                                                     <td>
                                                         <Button color="yellow" size="sm">
                                                             Chỉnh sửa
@@ -73,9 +65,7 @@ class PostsList extends React.Component {
                                                         <Button
                                                             size="sm"
                                                             color="danger"
-                                                            onClick={() =>
-                                                                this.handleDeletePost(post["Id"])
-                                                            }
+                                                            onClick={() => this.handleDeletePost(post["Id"])}
                                                         >
                                                             Xoá
                                                         </Button>
@@ -91,6 +81,7 @@ class PostsList extends React.Component {
                         </Container>
                     </Col>
                 </Row>
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

@@ -18,6 +18,7 @@ import {
     Container,
     Modal,
     ModalHeader,
+    Loading,
     ModalBody,
     ModalFooter,
 } from "./../../../components";
@@ -156,12 +157,7 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Ảnh minh họa</Label>
-                            <Input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={this.handlePreviewImages}
-                            />
+                            <Input type="file" multiple accept="image/*" onChange={this.handlePreviewImages} />
                         </FormGroup>
                     </Form>
                     <Container>
@@ -170,10 +166,7 @@ class ModifyModal extends React.Component {
                                 Images.map((img) => {
                                     return (
                                         <Col lg={3} key={img["id"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "current")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "current")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -182,10 +175,7 @@ class ModifyModal extends React.Component {
                                 imagesPreview.map((img) => {
                                     return (
                                         <Col lg={3} key={img["name"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "preview")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "preview")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -257,7 +247,7 @@ class ProvidersList extends React.Component {
     };
 
     render() {
-        const { providers } = this.props;
+        const { providers, isLoading } = this.props;
         const { provider, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -296,22 +286,20 @@ class ProvidersList extends React.Component {
                                                     <td>{provider["Provider"]["Email"]}</td>
                                                     <td>{provider["Provider"]["Phone"]}</td>
                                                     <td>
-                                                        {moment(
-                                                            provider["Provider"]["CreatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(provider["Provider"]["CreatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
-                                                        {moment(
-                                                            provider["Provider"]["UpdatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(provider["Provider"]["UpdatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(provider)
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(provider)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
@@ -319,9 +307,7 @@ class ProvidersList extends React.Component {
                                                             size="sm"
                                                             color="danger"
                                                             onClick={() =>
-                                                                this.handleDeleteProvider(
-                                                                    provider["Provider"]["Id"]
-                                                                )
+                                                                this.handleDeleteProvider(provider["Provider"]["Id"])
                                                             }
                                                         >
                                                             Xoá
@@ -345,6 +331,7 @@ class ProvidersList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveProvider}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

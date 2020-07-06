@@ -4,6 +4,7 @@ const defaultState = {
     importReceipts: [],
     isReload: false,
     isModified: false,
+    isLoading: false,
 };
 
 export const ImportReceiptsReducer = (state = defaultState, action) => {
@@ -15,6 +16,7 @@ export const ImportReceiptsReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isModified: false,
+                isLoading: true,
             };
         case actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_SUCCEED:
             return {
@@ -29,6 +31,7 @@ export const ImportReceiptsReducer = (state = defaultState, action) => {
                 ...state,
                 isReload: true,
                 isModified: true,
+                isLoading: false,
             };
         case actionTypes.RECEIPT_CREATE_IMPORT_RECEIPT_FAILED:
         case actionTypes.RECEIPT_UPDATE_IMPORT_RECEIPT_FAILED:
@@ -36,6 +39,7 @@ export const ImportReceiptsReducer = (state = defaultState, action) => {
         case actionTypes.RECEIPT_GET_ALL_IMPORT_RECEIPT_FAILED:
             return {
                 ...state,
+                isLoading: false,
             };
         default:
             return state;

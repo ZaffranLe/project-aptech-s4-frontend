@@ -19,6 +19,7 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
+    Loading,
     ModalFooter,
 } from "./../../../components";
 import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
@@ -132,12 +133,7 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Ảnh minh họa</Label>
-                            <Input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={this.handlePreviewImages}
-                            />
+                            <Input type="file" multiple accept="image/*" onChange={this.handlePreviewImages} />
                         </FormGroup>
                     </Form>
                     <Container>
@@ -146,10 +142,7 @@ class ModifyModal extends React.Component {
                                 Images.map((img) => {
                                     return (
                                         <Col lg={3} key={img["id"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "current")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "current")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -158,10 +151,7 @@ class ModifyModal extends React.Component {
                                 imagesPreview.map((img) => {
                                     return (
                                         <Col lg={3} key={img["name"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "preview")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "preview")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -220,9 +210,7 @@ class ManufacturersList extends React.Component {
     handleSaveManufacturer = (data) => {
         const { manufacturer } = this.state;
         if (manufacturer) {
-            this.props.dispatch(
-                ManufacturerActions.updateManufacturer(manufacturer["Manufacturer"]["Id"], data)
-            );
+            this.props.dispatch(ManufacturerActions.updateManufacturer(manufacturer["Manufacturer"]["Id"], data));
         } else {
             this.props.dispatch(ManufacturerActions.createManufacturer(data));
         }
@@ -235,7 +223,7 @@ class ManufacturersList extends React.Component {
     };
 
     render() {
-        const { manufacturers } = this.props;
+        const { manufacturers, isLoading } = this.props;
         const { manufacturer, modifyModal } = this.state;
         return (
             <React.Fragment>
@@ -270,28 +258,20 @@ class ManufacturersList extends React.Component {
                                                     <td>{idx + 1}</td>
                                                     <td>{manufacturer["Manufacturer"]["Name"]}</td>
                                                     <td>
-                                                        {moment(
-                                                            manufacturer["Manufacturer"][
-                                                                "CreatedAt"
-                                                            ]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(manufacturer["Manufacturer"]["CreatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
-                                                        {moment(
-                                                            manufacturer["Manufacturer"][
-                                                                "UpdatedAt"
-                                                            ]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(manufacturer["Manufacturer"]["UpdatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(
-                                                                    manufacturer
-                                                                )
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(manufacturer)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
@@ -300,9 +280,7 @@ class ManufacturersList extends React.Component {
                                                             color="danger"
                                                             onClick={() =>
                                                                 this.handleDeleteManufacturer(
-                                                                    manufacturer["Manufacturer"][
-                                                                        "Id"
-                                                                    ]
+                                                                    manufacturer["Manufacturer"]["Id"]
                                                                 )
                                                             }
                                                         >
@@ -327,6 +305,7 @@ class ManufacturersList extends React.Component {
                     onClose={this.handleCloseModifyModal}
                     onSave={this.handleSaveManufacturer}
                 />
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

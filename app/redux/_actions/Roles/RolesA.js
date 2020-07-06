@@ -71,9 +71,9 @@ function createRole(data) {
         });
     }
 
-    function _callApiCreateRolePermissions(data) {
+    function _callApiModifyRolePermissions(data) {
         return axios({
-            url: `${utilConstants.HOST}/api/placeholder`,
+            url: `${utilConstants.HOST}/api/rolepermission`,
             method: "post",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -88,6 +88,7 @@ function createRole(data) {
             const resp = await _callApiCreateRole(data);
             if (resp.data.IsSuccess) {
                 toast.success(content("Tạo chức vụ mới thành công!"));
+                const role = resp.data.ListDataResult[0];
                 dispatch(_succeed());
             } else {
                 throw resp.data.ErrorMsg;
@@ -130,16 +131,33 @@ function updateRole(id, data) {
         });
     }
 
+    function _callApiModifyRolePermissions(data) {
+        return axios({
+            url: `${utilConstants.HOST}/api/rolepermission`,
+            method: "post",
+            headers: {
+                Authorization: `${utilConstants.TOKEN}`,
+            },
+            data,
+        });
+    }
+
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const resp = await _callApiModifyRole(id, data);
-            if (resp.data.IsSuccess) {
-                toast.success("Chỉnh sửa chức vụ thành công!");
-                dispatch(_succeed());
+            const changeRoleResp = await _callApiModifyRole(id, data);
+            if (changeRoleResp.data.IsSuccess) {
+                toast.success(content("Chỉnh sửa chức vụ thành công!"));
             } else {
-                throw resp.data.ErrorMsg;
+                throw changeRoleResp.data.ErrorMsg;
             }
+            const changeRolePermissionResp = await _callApiModifyRolePermissions(data["PermissionsToChange"]);
+            if (changeRolePermissionResp.data.IsSuccess) {
+                toast.success(content("Chỉnh sửa quyền hạn chức vụ thành công!"));
+            } else {
+                throw changeRolePermissionResp.data.ErrorMsg;
+            }
+            dispatch(_succeed());
         } catch (e) {
             console.error(e);
             toast.error(content("Chỉnh sửa chức vụ thất bại!"));

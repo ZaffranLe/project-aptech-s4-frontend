@@ -4,6 +4,7 @@ const defaultState = {
     posts: [],
     isReload: false,
     isModified: false,
+    isLoading: false,
 };
 
 export const PostsReducer = (state = defaultState, action) => {
@@ -15,12 +16,14 @@ export const PostsReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isModified: false,
+                isLoading: true,
             };
         case actionTypes.POST_GET_ALL_POST_SUCCEED:
             return {
                 ...state,
                 posts: action.data,
                 isReload: false,
+                isLoading: false,
             };
         case actionTypes.POST_CREATE_POST_SUCCEED:
         case actionTypes.POST_UPDATE_POST_SUCCEED:
@@ -29,6 +32,7 @@ export const PostsReducer = (state = defaultState, action) => {
                 ...state,
                 isReload: true,
                 isModified: true,
+                isLoading: false,
             };
         case actionTypes.POST_CREATE_POST_FAILED:
         case actionTypes.POST_UPDATE_POST_FAILED:
@@ -36,6 +40,7 @@ export const PostsReducer = (state = defaultState, action) => {
         case actionTypes.POST_GET_ALL_POST_FAILED:
             return {
                 ...state,
+                isLoading: false,
             };
         default:
             return state;

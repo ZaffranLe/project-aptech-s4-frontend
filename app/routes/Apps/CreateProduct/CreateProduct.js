@@ -13,6 +13,7 @@ import {
     Label,
     Button,
     Container,
+    Loading,
 } from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { connect } from "react-redux";
@@ -20,7 +21,6 @@ import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
 import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
 import { v4 } from "uuid";
-import { debounce } from "lodash";
 
 class CreateProduct extends React.Component {
     constructor(props) {
@@ -142,7 +142,7 @@ class CreateProduct extends React.Component {
             SupportDuration,
             Properties,
         } = this.state;
-        const { manufacturers, productTypes } = this.props;
+        const { manufacturers, productTypes, isLoading } = this.props;
         return (
             <React.Fragment>
                 <HeaderMain title="Tạo sản phẩm mới" className="mb-5 mt-4" />
@@ -323,6 +323,7 @@ class CreateProduct extends React.Component {
                         </Form>
                     </Col>
                 </Row>
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

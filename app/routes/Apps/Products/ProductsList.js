@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button, Alert, Container, Table } from "./../../../components";
+import { Row, Col, Button, Alert, Container, Table, Loading } from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { Paginations } from "../../components/Paginations";
 import { connect } from "react-redux";
@@ -28,10 +28,10 @@ class ProductsList extends React.Component {
         if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
             this.props.dispatch(ProductActions.deleteProduct(id));
         }
-    }
+    };
 
     render() {
-        const { products } = this.props;
+        const { products, isLoading } = this.props;
         return (
             <React.Fragment>
                 <>
@@ -71,7 +71,8 @@ class ProductsList extends React.Component {
                                                         <td>{idx + 1}</td>
                                                         <td>
                                                             <img
-                                                                width="75" height="75"
+                                                                width="75"
+                                                                height="75"
                                                                 src={
                                                                     product["ListImages"].length > 0
                                                                         ? product["ListImages"][0]["ImageUrl"]
@@ -83,12 +84,22 @@ class ProductsList extends React.Component {
                                                         <td>{product["Product"]["Name"]}</td>
                                                         <td>{product["Product"]["Quantity"]}</td>
                                                         <td>{product["Product"]["UnitPrice"]}</td>
-                                                        <td>{moment(product["Product"]["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                                        <td>
+                                                            {moment(product["Product"]["CreatedAt"]).format(
+                                                                "YYYY-MM-DD HH:mm:ss"
+                                                            )}
+                                                        </td>
                                                         <td>
                                                             <Button color="yellow" size="sm">
                                                                 Chỉnh sửa
                                                             </Button>{" "}
-                                                            <Button size="sm" color="danger" onClick={() => this.handleDeleteProduct(product["Product"]["Id"])}>
+                                                            <Button
+                                                                size="sm"
+                                                                color="danger"
+                                                                onClick={() =>
+                                                                    this.handleDeleteProduct(product["Product"]["Id"])
+                                                                }
+                                                            >
                                                                 Xoá
                                                             </Button>
                                                         </td>
@@ -104,6 +115,7 @@ class ProductsList extends React.Component {
                         </Col>
                     </Row>
                 </>
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

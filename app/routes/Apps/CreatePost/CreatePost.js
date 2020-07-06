@@ -2,7 +2,7 @@ import React from "react";
 import SunEditor from "suneditor-react";
 // import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import { connect } from "react-redux";
-import { Row, Col, Button, Input, Form, Label, FormGroup, Container } from "./../../../components";
+import { Row, Col, Button, Input, Form, Label, FormGroup, Container, Loading } from "./../../../components";
 
 class CreatePost extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class CreatePost extends React.Component {
     }
 
     render() {
+        const { isLoading } = this.props;
         return (
             <React.Fragment>
                 <Row>
@@ -30,10 +31,11 @@ class CreatePost extends React.Component {
                 <Row>
                     <Col lg={12}>
                     <Container className="table-bordered">
-                        {/* <SunEditor /> */}
+                        <SunEditor />
                     </Container>
                     </Col>
                 </Row>
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }
