@@ -86,11 +86,12 @@ class ModifyModal extends React.Component {
     };
 
     handleCheckPermission = (permissionId) => (e) => {
+        const { role } = this.props;
         const PermissionsToChange = [...this.state.PermissionsToChange];
         const isExistPermission = PermissionsToChange.findIndex((data) => data["IdPermission"] == permissionId);
         if (isExistPermission == -1) {
             PermissionsToChange.push({
-                IdRole: this.props.role["Role"]["Id"],
+                IdRole: role ? role["Role"]["Id"] : 0,
                 IdPermission: permissionId,
                 Action: e.target.checked ? 1 : 0,
             });
@@ -118,80 +119,78 @@ class ModifyModal extends React.Component {
                             <Label>Mô tả</Label>
                             <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
-                        {!isCreating && (
-                            <Container className="table-bordered">
-                                <Input
-                                    value={search}
-                                    onChange={this.handleChange("search")}
-                                    placeholder="Tìm kiếm..."
-                                    className="mt-4 mb-2"
-                                />
-                                {permissions.length > 0 && (
-                                    <>
-                                        <Table hover>
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Quyền hạn</th>
-                                                    <th>Mô tả</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {permissions
-                                                    .filter(
-                                                        (permission) =>
-                                                            permission["Name"].includes(search.trim()) ||
-                                                            permission["Description"].includes(search.trim())
-                                                    )
-                                                    .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
-                                                    .map((permission, idx) => {
-                                                        const hasPermission = RolePermissions.find(
-                                                            (data) => data["Id"] == permission["Id"]
-                                                        );
-                                                        return (
-                                                            <tr key={idx}>
-                                                                <td>{itemsPerPage * currentPage + idx + 1}</td>
-                                                                <td>{permission["Name"]}</td>
-                                                                <td>{permission["Description"]}</td>
-                                                                <td>
-                                                                    <CustomInput
-                                                                        type="checkbox"
-                                                                        id={idx}
-                                                                        defaultChecked={hasPermission}
-                                                                        onChange={this.handleCheckPermission(
-                                                                            permission["Id"]
-                                                                        )}
-                                                                    />
-                                                                </td>
-                                                            </tr>
-                                                        );
-                                                    })}
-                                            </tbody>
-                                        </Table>
-                                        <ReactPaginate
-                                            previousLabel={"<<"}
-                                            nextLabel={">>"}
-                                            breakLabel={"..."}
-                                            breakClassName={"break-me"}
-                                            pageCount={Math.ceil(permissions.length / itemsPerPage)}
-                                            marginPagesDisplayed={2}
-                                            pageRangeDisplayed={5}
-                                            onPageChange={this.handlePageClick}
-                                            containerClassName={"pagination"}
-                                            subContainerClassName={"pages pagination"}
-                                            activeClassName={"active"}
-                                            previousClassName={"page-item"}
-                                            previousLinkClassName={"page-link"}
-                                            nextClassName={"page-item"}
-                                            nextLinkClassName={"page-link"}
-                                            pageClassName={"page-item"}
-                                            pageLinkClassName={"page-link"}
-                                        />
-                                    </>
-                                )}
-                            </Container>
-                        )}
+                        <Container className="table-bordered">
+                            <Input
+                                value={search}
+                                onChange={this.handleChange("search")}
+                                placeholder="Tìm kiếm..."
+                                className="mt-4 mb-2"
+                            />
+                            {permissions.length > 0 && (
+                                <>
+                                    <Table hover>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Quyền hạn</th>
+                                                <th>Mô tả</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {permissions
+                                                .filter(
+                                                    (permission) =>
+                                                        permission["Name"].includes(search.trim()) ||
+                                                        permission["Description"].includes(search.trim())
+                                                )
+                                                .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
+                                                .map((permission, idx) => {
+                                                    const hasPermission = RolePermissions.find(
+                                                        (data) => data["Id"] == permission["Id"]
+                                                    );
+                                                    return (
+                                                        <tr key={idx}>
+                                                            <td>{itemsPerPage * currentPage + idx + 1}</td>
+                                                            <td>{permission["Name"]}</td>
+                                                            <td>{permission["Description"]}</td>
+                                                            <td>
+                                                                <CustomInput
+                                                                    type="checkbox"
+                                                                    id={idx}
+                                                                    defaultChecked={hasPermission}
+                                                                    onChange={this.handleCheckPermission(
+                                                                        permission["Id"]
+                                                                    )}
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                        </tbody>
+                                    </Table>
+                                    <ReactPaginate
+                                        previousLabel={"<<"}
+                                        nextLabel={">>"}
+                                        breakLabel={"..."}
+                                        breakClassName={"break-me"}
+                                        pageCount={Math.ceil(permissions.length / itemsPerPage)}
+                                        marginPagesDisplayed={2}
+                                        pageRangeDisplayed={5}
+                                        onPageChange={this.handlePageClick}
+                                        containerClassName={"pagination"}
+                                        subContainerClassName={"pages pagination"}
+                                        activeClassName={"active"}
+                                        previousClassName={"page-item"}
+                                        previousLinkClassName={"page-link"}
+                                        nextClassName={"page-item"}
+                                        nextLinkClassName={"page-link"}
+                                        pageClassName={"page-item"}
+                                        pageLinkClassName={"page-link"}
+                                    />
+                                </>
+                            )}
+                        </Container>
                     </Form>
                 </ModalBody>
                 <ModalFooter>

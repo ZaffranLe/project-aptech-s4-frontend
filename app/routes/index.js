@@ -228,7 +228,7 @@ export const RoutedContent = () => {
             <Route component={Tasks} path="/apps/tasks/:type" />
             <Route component={TasksDetails} path="/apps/task-details" />
             <Route component={TasksKanban} path="/apps/tasks-kanban" />
-            <Route component={Users} path="/apps/users/:type" />
+            <Route component={Users} path="/apps/users" />
             <Route component={UsersResults} path="/apps/users-results" />
             <Route component={VideosResults} path="/apps/videos-results" />
 

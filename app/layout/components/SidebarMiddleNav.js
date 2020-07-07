@@ -28,7 +28,7 @@ export const SidebarMiddleNav = () => {
             <SidebarMenu.Item icon={<i className="fa fa-fw fa-cog"></i>} title="Cấu hình">
                 <SidebarMenu.Item title="Quyền hạn" to="/apps/permissions" />
                 <SidebarMenu.Item title="Chức vụ" to="/apps/roles" />
-                <SidebarMenu.Item title="Tài khoản thành viên" to="/apps/users/grid" />
+                <SidebarMenu.Item title="Nhân viên" to="/apps/users/grid" />
             </SidebarMenu.Item>
             {/* -------- Pages ---------*/}
             <SidebarMenu.Item icon={<i className="fa fa-fw fa-copy"></i>} title="Pages">

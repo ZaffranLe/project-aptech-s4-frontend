@@ -87,9 +87,19 @@ function createRole(data) {
             dispatch(_beginAction());
             const resp = await _callApiCreateRole(data);
             if (resp.data.IsSuccess) {
-                toast.success(content("Tạo chức vụ mới thành công!"));
-                const role = resp.data.ListDataResult[0];
-                dispatch(_succeed());
+                const IdRole = resp.data.ListDataResult[0]["Id"];
+                let PermissionsToChange = [...data["PermissionsToChange"]];
+                PermissionsToChange = PermissionsToChange.map((item) => {
+                    return {
+                        ...item,
+                        IdRole,
+                    };
+                });
+                const addPermissionResp = await _callApiModifyRolePermissions(PermissionsToChange);
+                if (addPermissionResp.data.IsSuccess) {
+                    toast.success(content("Tạo chức vụ mới thành công!"));
+                    dispatch(_succeed());
+                }
             } else {
                 throw resp.data.ErrorMsg;
             }

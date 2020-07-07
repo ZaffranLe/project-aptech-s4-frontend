@@ -1,5 +1,18 @@
 import React from "react";
-import { Row, Col, CardColumns, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Input, Form, FormGroup, Label, Button } from "./../../../components";
+import {
+    Row,
+    Col,
+    CardColumns,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+    Input,
+    Form,
+    FormGroup,
+    Label,
+    Button,
+} from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { ProductsCardGrid } from "../../components/Products/ProductsCardGrid";
 import { ProductsLeftNav } from "../../components/Products/ProductsLeftNav";
@@ -34,6 +47,9 @@ class ProductsListForCustomer extends React.Component {
                         <Paginations />
                     </div>
                     <Row>
+                        <Col lg={3}>
+                            <ProductsLeftNav />
+                        </Col>
                         <Col lg={9}>
                             {/* START Table */}
                             <Row>
@@ -43,9 +59,6 @@ class ProductsListForCustomer extends React.Component {
                                     </Col>
                                 ))}
                             </Row>
-                        </Col>
-                        <Col lg={3}>
-                            <ProductsLeftNav />
                         </Col>
                     </Row>
                 </>
