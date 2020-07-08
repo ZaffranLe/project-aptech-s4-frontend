@@ -153,7 +153,7 @@ export const RoutedContent = () => {
             <Route path="/order-receipt/order-detail" exact component={OrderDetailReceipt} />
 
             {/*   Import Orders Routes     */}
-            <Route path="/import-orders/import-orders-list" exact component={ImportOrders} />
+            <Route path="/apps/import-orders" exact component={ImportOrders} />
 
             {/*    Layouts     */}
             <Route path="/layouts/navbar" component={NavbarOnly} />
@@ -267,9 +267,9 @@ export const RoutedContent = () => {
 export const RoutedNavbars = () => (
     <Switch>
         {/* Other Navbars: */}
-        <Route component={SidebarANavbar} path="/layouts/sidebar-a" />
+        {/* <Route component={SidebarANavbar} path="/layouts/sidebar-a" />
         <Route component={NavbarOnly.Navbar} path="/layouts/navbar" />
-        <Route component={SidebarWithNavbar.Navbar} path="/layouts/sidebar-with-navbar" />
+        <Route component={SidebarWithNavbar.Navbar} path="/layouts/sidebar-with-navbar" /> */}
         {/* Default Navbar: */}
         <Route component={DefaultNavbar} />
     </Switch>

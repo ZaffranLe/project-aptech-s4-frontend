@@ -133,7 +133,7 @@ function createProduct(data) {
 function updateProduct(id, data) {
     function _callApiModifyType(id, data) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype/${id}`,
+            url: `${utilConstants.HOST}/api/product/${id}`,
             method: "put",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,
@@ -206,7 +206,7 @@ function updateProduct(id, data) {
 function deleteProduct(id) {
     function _callApi(id) {
         return axios({
-            url: `${utilConstants.HOST}/api/producttype/${id}`,
+            url: `${utilConstants.HOST}/api/product/${id}`,
             method: "delete",
             headers: {
                 Authorization: `${utilConstants.TOKEN}`,

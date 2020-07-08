@@ -4,6 +4,7 @@ const defaultState = {
     customers: [],
     isReload: false,
     isModified: false,
+    isLoading: false,
 };
 
 export const CustomersReducer = (state = defaultState, action) => {
@@ -15,12 +16,14 @@ export const CustomersReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isModified: false,
+                isLoading: true,
             };
         case actionTypes.CUSTOMER_GET_ALL_CUSTOMER_SUCCEED:
             return {
                 ...state,
                 customers: action.data,
                 isReload: false,
+                isLoading: false,
             };
         case actionTypes.CUSTOMER_CREATE_CUSTOMER_SUCCEED:
         case actionTypes.CUSTOMER_UPDATE_CUSTOMER_SUCCEED:
@@ -29,6 +32,7 @@ export const CustomersReducer = (state = defaultState, action) => {
                 ...state,
                 isReload: true,
                 isModified: true,
+                isLoading: false,
             };
         case actionTypes.CUSTOMER_CREATE_CUSTOMER_FAILED:
         case actionTypes.CUSTOMER_UPDATE_CUSTOMER_FAILED:
@@ -36,6 +40,7 @@ export const CustomersReducer = (state = defaultState, action) => {
         case actionTypes.CUSTOMER_GET_ALL_CUSTOMER_FAILED:
             return {
                 ...state,
+                isLoading: false,
             };
         default:
             return state;

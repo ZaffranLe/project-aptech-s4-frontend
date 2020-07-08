@@ -71,40 +71,15 @@ function createImportReceipt(data) {
         });
     }
 
-    function _callApiCreateImage(imageData) {
-        return axios({
-            url: `${utilConstants.HOST}/api/image`,
-            method: "post",
-            headers: {
-                Authorization: `${utilConstants.TOKEN}`,
-                "Content-Type": "multipart/form-data",
-            },
-            data: imageData,
-        });
-    }
-
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const { Name, ImageId, imageData } = data;
-            const createImgResp = await _callApiCreateImage(imageData);
-            if (createImgResp.data.IsSuccess) {
-                createImgResp.data.ListDataResult.map((img) => {
-                    ImageId.push(img["Id"]);
-                });
-                const typeData = {
-                    Name,
-                    ImageId: ImageId.join(","),
-                };
-                const resp = await _callApiCreateImportReceipt(typeData);
-                if (resp.data.IsSuccess) {
-                    toast.success(content("Tạo hóa đơn nhập hàng mới thành công"));
-                    dispatch(_succeed());
-                } else {
-                    throw resp.data.ErrorMsg;
-                }
+            const resp = await _callApiCreateImportReceipt(data);
+            if (resp.data.IsSuccess) {
+                toast.success(content("Tạo hóa đơn nhập hàng mới thành công"));
+                dispatch(_succeed());
             } else {
-                throw createImgResp.data.ErrorMsg;
+                throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);
@@ -144,40 +119,15 @@ function updateImportReceipt(id, data) {
         });
     }
 
-    function _callApiCreateImage(imageData) {
-        return axios({
-            url: `${utilConstants.HOST}/api/image`,
-            method: "post",
-            headers: {
-                Authorization: `${utilConstants.TOKEN}`,
-                "Content-Type": "multipart/form-data",
-            },
-            data: imageData,
-        });
-    }
-
     return async (dispatch) => {
         try {
             dispatch(_beginAction());
-            const { Name, ImageId, imageData } = data;
-            const createImgResp = await _callApiCreateImage(imageData);
-            if (createImgResp.data.IsSuccess) {
-                createImgResp.data.ListDataResult.map((img) => {
-                    ImageId.push(img["Id"]);
-                });
-                const typeData = {
-                    Name,
-                    ImageId: ImageId.join(","),
-                };
-                const resp = await _callApiModifyImportReceipt(id, typeData);
-                if (resp.data.IsSuccess) {
-                    toast.success(content("Chỉnh sửa hóa đơn nhập hàng thành công"));
-                    dispatch(_succeed());
-                } else {
-                    throw resp.data.ErrorMsg;
-                }
+            const resp = await _callApiModifyImportReceipt(id, data);
+            if (resp.data.IsSuccess) {
+                toast.success(content("Chỉnh sửa hóa đơn nhập hàng thành công"));
+                dispatch(_succeed());
             } else {
-                throw createImgResp.data.ErrorMsg;
+                throw resp.data.ErrorMsg;
             }
         } catch (e) {
             console.error(e);

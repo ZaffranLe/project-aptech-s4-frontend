@@ -26,23 +26,27 @@ export const DefaultNavbar = () => {
                             <i className="fa fa-home"></i>
                         </Link>
                     </span>
-                    {breadcrumbs.map((item) => (
-                        <>
+                    {breadcrumbs.map((item, idx) => (
+                        <React.Fragment key={idx}>
                             <span className="navbar-text px-2">
                                 <i className="fa fa-angle-right"></i>
                             </span>
                             <span className="navbar-text">
-                                {item["hasLink"] ? <Link to={item["link"]}>{item["title"]}</Link> : <span className="navbar-text">{item["title"]}</span>}
+                                {item["hasLink"] ? (
+                                    <Link to={item["link"]}>{item["title"]}</Link>
+                                ) : (
+                                    <span>{item["title"]}</span>
+                                )}
                             </span>
-                        </>
+                        </React.Fragment>
                     ))}
                 </NavItem>
             </Nav>
-            <Nav navbar className="ml-auto">
+            {/* <Nav navbar className="ml-auto">
                 <NavbarActivityFeed />
                 <NavbarMessages className="ml-2" />
                 <NavbarUser className="ml-2" />
-            </Nav>
+            </Nav> */}
         </Navbar>
     );
 };

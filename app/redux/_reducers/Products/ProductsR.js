@@ -59,16 +59,19 @@ export const ProductsReducer = (state = defaultState, action) => {
                 ...state,
                 products: action.data,
                 isReload: false,
+                isLoading: false,
             };
         case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED:
             return {
                 ...state,
                 manufacturers: action.data,
+                isLoading: false,
             };
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_SUCCEED:
             return {
                 ...state,
                 productTypes: action.data,
+                isLoading: false,
             };
         case actionTypes.PRODUCT_CREATE_PRODUCT:
             return {

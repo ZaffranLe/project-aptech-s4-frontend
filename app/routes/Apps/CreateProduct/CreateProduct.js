@@ -95,6 +95,14 @@ class CreateProduct extends React.Component {
         });
     };
 
+    handleDeleteProperty = (property) => {
+        const Properties = [...this.state.Properties];
+        Properties.splice(Properties.indexOf(property), 1);
+        this.setState({
+            Properties,
+        });
+    };
+
     handleCreateProduct = () => {
         const {
             imageData,
@@ -144,7 +152,7 @@ class CreateProduct extends React.Component {
         } = this.state;
         const { manufacturers, productTypes, isLoading } = this.props;
         return (
-            <React.Fragment>
+            <>
                 <HeaderMain title="Tạo sản phẩm mới" className="mb-5 mt-4" />
                 <Row>
                     <Col lg={{ size: 10, offset: 1 }}>
@@ -242,7 +250,11 @@ class CreateProduct extends React.Component {
                                                             </Col>
                                                             <Col lg={2}>
                                                                 <br />
-                                                                <Button color="danger" className="mt-2">
+                                                                <Button
+                                                                    color="danger"
+                                                                    className="mt-2"
+                                                                    onClick={() => this.handleDeleteProperty(property)}
+                                                                >
                                                                     <i className="fa fa-fw fa-trash"></i>
                                                                 </Button>
                                                             </Col>
@@ -324,7 +336,7 @@ class CreateProduct extends React.Component {
                     </Col>
                 </Row>
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </>
         );
     }
 }
