@@ -105,6 +105,7 @@ import Timeline from "./Pages/Timeline";
 import Icons from "./Icons";
 
 import ProductsList from "./Apps/Products";
+import ProductsForCustomer from "./Apps/Products/ProductsListForCustomer";
 import CreateProduct from "./Apps/CreateProduct";
 import ProductTypesList from "./Apps/ProductTypes";
 import ManufacturersList from "./Apps/Manufacturers";
@@ -228,6 +229,7 @@ export const RoutedContent = () => {
 
             <Route component={CreateProduct} path="/apps/products/create" />
             <Route component={ProductsList} path="/apps/products" />
+            <Route component={ProductsForCustomer} path="/products" />
             <Route component={ProductTypesList} path="/apps/product/types" />
             <Route component={ManufacturersList} path="/apps/manufacturers" />
             <Route component={CustomersList} path="/apps/customers" />

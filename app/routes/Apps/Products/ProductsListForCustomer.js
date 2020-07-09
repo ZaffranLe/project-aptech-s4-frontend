@@ -1,24 +1,12 @@
 import React from "react";
-import {
-    Row,
-    Col,
-    CardColumns,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Input,
-    Form,
-    FormGroup,
-    Label,
-    Button,
-} from "./../../../components";
+import { Row, Col, Loading } from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { ProductsCardGrid } from "../../components/Products/ProductsCardGrid";
 import { ProductsLeftNav } from "../../components/Products/ProductsLeftNav";
 import { Paginations } from "../../components/Paginations";
 import { connect } from "react-redux";
 import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
+import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
 import { Link } from "react-router-dom";
 
 class ProductsListForCustomer extends React.Component {
@@ -28,6 +16,7 @@ class ProductsListForCustomer extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(ProductActions.getAllProduct());
+        this.props.dispatch(ProductTypeActions.getAllProductType());
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -38,7 +27,7 @@ class ProductsListForCustomer extends React.Component {
     }
 
     render() {
-        const { products } = this.props;
+        const { products, isLoading } = this.props;
         return (
             <React.Fragment>
                 <>
@@ -62,6 +51,7 @@ class ProductsListForCustomer extends React.Component {
                         </Col>
                     </Row>
                 </>
+                <Loading isLoading={isLoading} />
             </React.Fragment>
         );
     }

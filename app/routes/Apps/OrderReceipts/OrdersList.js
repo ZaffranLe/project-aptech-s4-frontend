@@ -40,7 +40,7 @@ class ModifyModal extends React.Component {
             Phone: "",
             Name: "",
             Address: "",
-            selectingProductId: ""
+            // selectingProductId: ""
         };
     }
 
@@ -209,7 +209,8 @@ class ModifyModal extends React.Component {
                 <ModalHeader>Danh sách sản phẩm</ModalHeader>
                 <ModalBody>
                     {ChosenProducts.length < products.length && (
-                        <Row>
+                        <>
+                            {/* <Row>
                             <Col lg={8}>
                                 <Select
                                     options={products
@@ -231,12 +232,13 @@ class ModifyModal extends React.Component {
                                     onChange={this.handleChangeProduct}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <Button color="info" onClick={this.handleAddProduct}>
-                                    <i className="fa fa-fw fa-plus"></i> Thêm sản phẩm
-                                </Button>
-                            </Col>
-                        </Row>
+                            <Col lg={4}> */}
+                            <Button color="info" onClick={this.handleAddProduct}>
+                                <i className="fa fa-fw fa-plus"></i> Thêm sản phẩm
+                            </Button>
+                            {/* </Col>
+                        </Row> */}
+                        </>
                     )}
                     <Table bordered hover striped className="mt-2">
                         <thead>
