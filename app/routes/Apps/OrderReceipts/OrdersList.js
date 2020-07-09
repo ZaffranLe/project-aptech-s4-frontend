@@ -17,8 +17,7 @@ import {
     ModalFooter,
     Loading,
 } from "./../../../components";
-import { ImportReceiptActions } from "../../../redux/_actions/ImportReceipts/ImportReceiptsA";
-import { ProviderActions } from "../../../redux/_actions/Providers/ProvidersA";
+import { OrderReceiptActions } from "../../../redux/_actions/OrderReceipts/OrderReceiptsA";
 import { UserActions } from "../../../redux/_actions/Users/UsersA";
 import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
 import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
@@ -28,6 +27,7 @@ import moment from "moment";
 import _ from "lodash";
 import DatePicker from "react-datepicker";
 import { AddonInput } from "../../Forms/DatePicker/components";
+import Select from "react-select";
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -35,16 +35,19 @@ class ModifyModal extends React.Component {
         this.state = {
             date: new Date(),
             IdEmployee: "",
-            IdProvider: "",
             TotalPrice: 0,
             ChosenProducts: [],
+            Phone: "",
+            Name: "",
+            Address: "",
+            selectingProductId: ""
         };
     }
 
     componentDidMount() {
-        const { importReceipt, products } = this.props;
-        if (importReceipt) {
-            const { IdEmployee, IdProvider, TotalPrice, ListProductId } = importReceipt;
+        const { orderReceipt, products } = this.props;
+        if (orderReceipt) {
+            const { IdEmployee, TotalPrice, ListProductId, Phone, Name, Address } = orderReceipt;
             const ChosenProducts = ListProductId.split(",").map((data) => {
                 const productData = data.split("-");
                 const product = products.find((item) => item["Product"]["Id"] == productData[0]);
@@ -57,11 +60,13 @@ class ModifyModal extends React.Component {
                 };
             });
             this.setState({
-                date: new Date(importReceipt["Date"]),
+                date: new Date(orderReceipt["Date"]),
                 IdEmployee,
-                IdProvider,
                 TotalPrice,
                 ChosenProducts,
+                Phone,
+                Name,
+                Address,
             });
         }
     }
@@ -79,12 +84,14 @@ class ModifyModal extends React.Component {
     };
 
     handleSave = () => {
-        const { date, IdEmployee, IdProvider, TotalPrice, ChosenProducts } = this.state;
+        const { date, IdEmployee, Phone, Name, Address, TotalPrice, ChosenProducts } = this.state;
         const data = {
             Date: date,
             IdEmployee,
-            IdProvider,
             TotalPrice,
+            Phone,
+            Name,
+            Address,
             ListProductId: ChosenProducts.map((data) => `${data["productId"]}-${data["quantity"]}`).join(","),
         };
         this.props.onSave(data);
@@ -134,16 +141,22 @@ class ModifyModal extends React.Component {
         });
     };
 
+    handleChangeProduct = (data) => {
+        this.setState({
+            selectingProductId: data.value,
+        })
+    }
+
     render() {
-        const { isOpen, onClose, products, employees, providers } = this.props;
-        const { date, IdEmployee, IdProvider, TotalPrice, ChosenProducts } = this.state;
+        const { isOpen, onClose, products, employees } = this.props;
+        const { date, IdEmployee, Phone, Name, Address, TotalPrice, ChosenProducts } = this.state;
         return (
             <Modal size="lg" isOpen={isOpen}>
-                <ModalHeader>Hóa đơn nhập hàng</ModalHeader>
+                <ModalHeader>Hóa đơn bán hàng</ModalHeader>
                 <ModalBody>
                     <Form>
                         <Row form>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <FormGroup>
                                     <Label>Nhân viên</Label>
                                     <Input type="select" onChange={this.handleChange("IdEmployee")} value={IdEmployee}>
@@ -159,22 +172,9 @@ class ModifyModal extends React.Component {
                                     </Input>
                                 </FormGroup>
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <FormGroup>
-                                    <Label>Nhà cung cấp</Label>
-                                    <Input type="select" onChange={this.handleChange("IdProvider")} value={IdProvider}>
-                                        <option value={null}>--Chọn nhà cung cấp--</option>
-                                        {providers.map((provider) => (
-                                            <option key={provider["Provider"]["Id"]} value={provider["Provider"]["Id"]}>
-                                                {provider["Provider"]["Name"]}
-                                            </option>
-                                        ))}
-                                    </Input>
-                                </FormGroup>
-                            </Col>
-                            <Col lg={4}>
-                                <FormGroup>
-                                    <Label>Ngày nhập hàng</Label>
+                                    <Label>Ngày bán hàng</Label>
                                     <br />
                                     <DatePicker
                                         customInput={<AddonInput />}
@@ -184,14 +184,59 @@ class ModifyModal extends React.Component {
                                 </FormGroup>
                             </Col>
                         </Row>
+                        <Row form>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>SĐT</Label>
+                                    <Input value={Phone} onChange={this.handleChange("Phone")} />
+                                </FormGroup>
+                            </Col>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>Tên</Label>
+                                    <Input value={Name} onChange={this.handleChange("Name")} />
+                                </FormGroup>
+                            </Col>
+                            <Col lg={4}>
+                                <FormGroup>
+                                    <Label>Địa chỉ giao hàng</Label>
+                                    <Input value={Address} onChange={this.handleChange("Address")} />
+                                </FormGroup>
+                            </Col>
+                        </Row>
                     </Form>
                 </ModalBody>
                 <ModalHeader>Danh sách sản phẩm</ModalHeader>
                 <ModalBody>
                     {ChosenProducts.length < products.length && (
-                        <Button color="info" onClick={this.handleAddProduct}>
-                            <i className="fa fa-fw fa-plus"></i> Thêm sản phẩm
-                        </Button>
+                        <Row>
+                            <Col lg={8}>
+                                <Select
+                                    options={products
+                                        .filter(
+                                            (product) =>
+                                                !ChosenProducts.find(
+                                                    (data) =>
+                                                        data["productId"] == product["Product"]["Id"] &&
+                                                        data["productId"] != item["productId"]
+                                                )
+                                        )
+                                        .map((product) => {
+                                            return {
+                                                value: product["Product"]["Id"],
+                                                label: `${product["Product"]["IdDisplay"]} - ${product["Product"]["Name"]}
+                                                        - SL tồn: ${product["Product"]["Quantity"]}`,
+                                            };
+                                        })}
+                                    onChange={this.handleChangeProduct}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <Button color="info" onClick={this.handleAddProduct}>
+                                    <i className="fa fa-fw fa-plus"></i> Thêm sản phẩm
+                                </Button>
+                            </Col>
+                        </Row>
                     )}
                     <Table bordered hover striped className="mt-2">
                         <thead>
@@ -199,7 +244,7 @@ class ModifyModal extends React.Component {
                                 <th>Sản phẩm</th>
                                 <th>Số lượng</th>
                                 <th>Thành tiền</th>
-                                <th></th>
+                                <th style={{ width: 1 }}></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -226,7 +271,8 @@ class ModifyModal extends React.Component {
                                                         key={product["Product"]["Id"]}
                                                         value={product["Product"]["Id"]}
                                                     >
-                                                        {product["Product"]["IdDisplay"]} - {product["Product"]["Name"]}
+                                                        {product["Product"]["IdDisplay"]} - {product["Product"]["Name"]}{" "}
+                                                        - SL tồn: {product["Product"]["Quantity"]}
                                                     </option>
                                                 ))}
                                         </Input>
@@ -279,19 +325,18 @@ class ModifyModal extends React.Component {
     }
 }
 
-class ImportReceiptsList extends React.Component {
+class OrdersList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            importReceipt: "",
+            orderReceipt: "",
             modifyModal: false,
             randomKey: v1(),
         };
     }
 
     componentDidMount() {
-        this.props.dispatch(ImportReceiptActions.getAllImportReceipt());
-        this.props.dispatch(ProviderActions.getAllProvider());
+        this.props.dispatch(OrderReceiptActions.getAllOrderReceipt());
         this.props.dispatch(UserActions.getAllUser());
         this.props.dispatch(ProductActions.getAllProduct());
         this.props.dispatch(
@@ -304,7 +349,7 @@ class ImportReceiptsList extends React.Component {
                 {
                     link: "",
                     hasLink: false,
-                    title: "Đơn nhập hàng",
+                    title: "Đơn bán hàng",
                 },
             ])
         );
@@ -313,7 +358,7 @@ class ImportReceiptsList extends React.Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { isReload, isModified } = nextProps;
         if (isReload) {
-            this.props.dispatch(ImportReceiptActions.getAllImportReceipt());
+            this.props.dispatch(OrderReceiptActions.getAllOrderReceipt());
         }
         if (isModified) {
             this.handleCloseModifyModal();
@@ -323,79 +368,79 @@ class ImportReceiptsList extends React.Component {
     handleCloseModifyModal = () => {
         this.setState({
             modifyModal: false,
-            importReceipt: "",
+            orderReceipt: "",
         });
     };
 
-    handleOpenModifyModal = (importReceipt = "") => {
+    handleOpenModifyModal = (orderReceipt = "") => {
         let randomKey = "";
-        if (!importReceipt) {
+        if (!orderReceipt) {
             randomKey = v1();
         }
         this.setState({
             modifyModal: true,
-            importReceipt,
+            orderReceipt,
             randomKey,
         });
     };
 
-    handleSaveImportReceipt = (data) => {
-        const { importReceipt } = this.state;
-        if (importReceipt) {
-            this.props.dispatch(ImportReceiptActions.updateImportReceipt(importReceipt["Id"], data));
+    handleSaveOrderReceipt = (data) => {
+        const { orderReceipt } = this.state;
+        if (orderReceipt) {
+            this.props.dispatch(OrderReceiptActions.updateOrderReceipt(orderReceipt["Id"], data));
         } else {
-            this.props.dispatch(ImportReceiptActions.createImportReceipt(data));
+            this.props.dispatch(OrderReceiptActions.createOrderReceipt(data));
         }
     };
 
-    handleDeleteImportReceipt = (id) => {
-        if (window.confirm("Bạn có chắc chắn muốn xoá hóa đơn nhập hàng này?")) {
-            this.props.dispatch(ImportReceiptActions.deleteImportReceipt(id));
+    handleDeleteOrderReceipt = (id) => {
+        if (window.confirm("Bạn có chắc chắn muốn xoá hóa đơn bán hàng này?")) {
+            this.props.dispatch(OrderReceiptActions.deleteOrderReceipt(id));
         }
     };
 
     render() {
-        const { importReceipts, isLoading, products, employees, providers } = this.props;
-        const { importReceipt, modifyModal, randomKey } = this.state;
+        const { orderReceipts, isLoading, products, employees } = this.props;
+        const { orderReceipt, modifyModal, randomKey } = this.state;
         return (
             <React.Fragment>
                 <Row>
                     <Col lg={9}>
-                        <HeaderMain title="Hóa đơn nhập hàng" className="mb-5 mt-4" />
+                        <HeaderMain title="Hóa đơn bán hàng" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
                         <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo hóa đơn nhập hàng mới
+                            Tạo hóa đơn bán hàng mới
                         </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={12}>
                         <Container fluid>
-                            {importReceipts.length > 0 ? (
+                            {orderReceipts.length > 0 ? (
                                 <Table hover striped>
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Ngày nhập</th>
+                                            <th>Ngày bán</th>
                                             <th>Nhân viên</th>
-                                            <th>Nhà cung cấp</th>
+                                            <th>Khách hàng</th>
                                             <th>Tổng tiền</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {importReceipts.map((importReceipt, idx) => {
+                                        {orderReceipts.map((orderReceipt, idx) => {
                                             return (
-                                                <tr key={importReceipt["Id"]}>
+                                                <tr key={orderReceipt["Id"]}>
                                                     <td>{idx + 1}</td>
                                                     <td>
-                                                        {moment(importReceipt["Date"]).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(orderReceipt["Date"]).format("YYYY-MM-DD HH:mm:ss")}
                                                     </td>
-                                                    <td>{importReceipt["IdEmployee"]}</td>
-                                                    <td>{importReceipt["IdProvider"]}</td>
+                                                    <td>{orderReceipt["IdEmployee"]}</td>
+                                                    <td>{orderReceipt["Name"]}</td>
                                                     <td>
-                                                        {importReceipt["TotalPrice"].toLocaleString("vi-VN", {
+                                                        {orderReceipt["TotalPrice"].toLocaleString("vi-VN", {
                                                             style: "currency",
                                                             currency: "VND",
                                                         })}
@@ -404,7 +449,7 @@ class ImportReceiptsList extends React.Component {
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() => this.handleOpenModifyModal(importReceipt)}
+                                                            onClick={() => this.handleOpenModifyModal(orderReceipt)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>
@@ -421,14 +466,13 @@ class ImportReceiptsList extends React.Component {
                     </Col>
                 </Row>
                 <ModifyModal
-                    key={importReceipt ? importReceipt["Id"] : randomKey}
-                    importReceipt={importReceipt}
+                    key={orderReceipt ? orderReceipt["Id"] : randomKey}
+                    orderReceipt={orderReceipt}
                     products={products}
                     employees={employees}
-                    providers={providers}
                     isOpen={modifyModal}
                     onClose={this.handleCloseModifyModal}
-                    onSave={this.handleSaveImportReceipt}
+                    onSave={this.handleSaveOrderReceipt}
                 />
                 <Loading isLoading={isLoading} />
             </React.Fragment>
@@ -436,6 +480,6 @@ class ImportReceiptsList extends React.Component {
     }
 }
 
-const mapStateToProps = ({ ImportReceiptsReducer }) => ImportReceiptsReducer;
+const mapStateToProps = ({ OrderReceiptsReducer }) => OrderReceiptsReducer;
 
-export default connect(mapStateToProps, null)(ImportReceiptsList);
+export default connect(mapStateToProps, null)(OrdersList);

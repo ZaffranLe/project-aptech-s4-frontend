@@ -62,10 +62,7 @@ import AgGrid from "./Tables/AgGrid";
 
 // import for new side
 
-import OrderLists from "./Apps/OrderReceipts/OrderLists";
-import CreateOrderReceipt from "./Apps/OrderReceipts/CreateOrderReceipt/CreateOrderReceipt";
-import EditOrderReceipt from "./Apps/OrderReceipts/EditOrderReceipt/EditOrderReceipt";
-import OrderDetailReceipt from "./Apps/OrderReceipts/OrderDetailReceipt/OrderDetailReceipt";
+import OrdersList from "./Apps/OrderReceipts/OrdersList";
 import ImportOrders from "./Apps/ImportOrders/ImportOrders";
 
 // import for new side
@@ -147,10 +144,7 @@ export const RoutedContent = () => {
             <Route path="/cards/cardsheaders" exact component={CardsHeaders} />
 
             {/*    Order Receipt Routes     */}
-            <Route path="/order-receipt/order-list" exact component={OrderLists} />
-            <Route path="/order-receipt/create-order" exact component={CreateOrderReceipt} />
-            <Route path="/order-receipt/edit-order" exact component={EditOrderReceipt} />
-            <Route path="/order-receipt/order-detail" exact component={OrderDetailReceipt} />
+            <Route path="/apps/orders" exact component={OrdersList} />
 
             {/*   Import Orders Routes     */}
             <Route path="/apps/import-orders" exact component={ImportOrders} />
