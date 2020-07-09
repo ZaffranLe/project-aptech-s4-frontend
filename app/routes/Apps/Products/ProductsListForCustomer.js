@@ -98,7 +98,7 @@ class ProductsListForCustomer extends React.Component {
 
     render() {
         const { products, isLoading } = this.props;
-        const { currentPage, itemsPerPage, search } = this.state;
+        const { currentPage, itemsPerPage, search, sortType } = this.state;
         const filteredProducts = products.filter(
             (product) =>
                 product["Product"]["Name"].toLowerCase().includes(search.trim().toLowerCase()) ||
@@ -110,7 +110,7 @@ class ProductsListForCustomer extends React.Component {
                     <HeaderMain title="Danh sách sản phẩm" className="mb-5 mt-4" />
                     <Row>
                         <Col lg={3}>
-                            <ProductsLeftNav handleChangeSearch={this.handleChangeSearch} />
+                            <ProductsLeftNav handleChange={this.handleChange} />
                         </Col>
                         <Col lg={9}>
                             {/* START Table */}

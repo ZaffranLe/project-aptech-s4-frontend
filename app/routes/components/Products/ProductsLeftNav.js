@@ -6,7 +6,7 @@ import utilConstants from "../../../utils/_constants";
 const ProductsLeftNav = (props) => {
     const productTypes = useSelector((state) => state.ProductsReducer.productTypes);
     const products = useSelector((state) => state.ProductsReducer.products);
-    const { handleChangeSearch } = props;
+    const { handleChange } = props;
     return (
         <React.Fragment>
             {/* START Left Nav  */}
@@ -14,10 +14,10 @@ const ProductsLeftNav = (props) => {
                 <div className="big mb-3">Lọc sản phẩm</div>
                 <Nav vertical>
                     <NavItem className="mt-2">
-                        <Input name="name" placeholder="Tìm kiếm..." onChange={handleChangeSearch} />
+                        <Input name="name" placeholder="Tìm kiếm..." onChange={handleChange("search")} />
                     </NavItem>
                     <NavItem className="mt-2">
-                        <Input type="select" name="sortProduct">
+                        <Input type="select" name="sortProduct" onChange={handleChange("sortType")}>
                             <option value={null}>Sắp xếp sản phẩm</option>
                             <option value={utilConstants.SORT_TYPES.NEWEST}>Mới nhất</option>
                             <option value={utilConstants.SORT_TYPES.PRICE_ASC}>Giá tăng dần</option>
