@@ -31,19 +31,6 @@ export const SidebarMiddleNav = () => {
                 <SidebarMenu.Item title="Chức vụ" to="/apps/roles" />
                 <SidebarMenu.Item title="Nhân viên" to="/apps/users/grid" />
             </SidebarMenu.Item>
-            {/* -------- Pages ---------*/}
-            <SidebarMenu.Item icon={<i className="fa fa-fw fa-copy"></i>} title="Pages">
-                <SidebarMenu.Item title="Register" to="/pages/register" />
-                <SidebarMenu.Item title="Login" to="/pages/login" />
-                <SidebarMenu.Item title="Forgot Password" to="/pages/forgot-password" />
-                <SidebarMenu.Item title="Lock Screen" to="/pages/lock-screen" />
-                <SidebarMenu.Item title="Error 404" to="/pages/error-404" />
-                <SidebarMenu.Item title="Confirmation" to="/pages/confirmation" />
-                <SidebarMenu.Item title="Success" to="/pages/success" />
-                <SidebarMenu.Item title="Danger" to="/pages/danger" />
-                <SidebarMenu.Item title="Coming Soon" to="/pages/coming-soon" />
-                <SidebarMenu.Item title="Timeline" to="/pages/timeline" />
-            </SidebarMenu.Item>
         </SidebarMenu>
     );
 };

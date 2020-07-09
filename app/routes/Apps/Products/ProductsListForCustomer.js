@@ -7,6 +7,8 @@ import { Paginations } from "../../components/Paginations";
 import { connect } from "react-redux";
 import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
+import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import _ from "lodash";
@@ -17,15 +19,27 @@ class ProductsListForCustomer extends React.Component {
         super(props);
         this.state = {
             currentPage: 0,
-            itemsPerPage: 10,
+            itemsPerPage: 9,
             search: "",
             sortType: 0,
+            idProductType: "",
+            idManufacturer: "",
         };
     }
 
     componentDidMount() {
         this.props.dispatch(ProductActions.getAllProduct());
         this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(ManufacturerActions.getAllManufacturer());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Sản phẩm",
+                },
+            ])
+        );
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -41,21 +55,31 @@ class ProductsListForCustomer extends React.Component {
         });
     };
 
-    handleChange = (name) => (e) => {
-        this.setState({
-            [name]: e.target.value,
-        });
+    handleChange = (name, value) => {
+        if (name == "idProductType" || name == "idManufacturer") {
+            if (value == this.state[name]) {
+                this.setState({
+                    [name]: "",
+                });
+            }
+        } else {
+            this.setState({
+                [name]: value,
+            });
+        }
     };
 
     handleSort = (sortType, products) => {
         let sortedProducts = [];
-        switch (sortType) {
+        switch (parseInt(sortType)) {
             case utilConstants.SORT_TYPES.NEWEST:
-                sortedProducts = _.sortBy(products, [
-                    function (product) {
-                        return new Date(product["Product"]["CreatedAt"]);
-                    },
-                ]);
+                sortedProducts = _.reverse(
+                    _.sortBy(products, [
+                        function (product) {
+                            return new Date(product["Product"]["CreatedAt"]);
+                        },
+                    ])
+                );
                 break;
             case utilConstants.SORT_TYPES.PRICE_ASC:
                 sortedProducts = _.sortBy(products, [
@@ -74,13 +98,6 @@ class ProductsListForCustomer extends React.Component {
                 );
                 break;
             case utilConstants.SORT_TYPES.NAME_ASC:
-                sortedProducts = _.sortBy(products, [
-                    function (product) {
-                        return product["Product"]["Name"];
-                    },
-                ]);
-                break;
-            case utilConstants.SORT_TYPES.NAME_DESC:
                 sortedProducts = _.reverse(
                     _.sortBy(products, [
                         function (product) {
@@ -88,6 +105,13 @@ class ProductsListForCustomer extends React.Component {
                         },
                     ])
                 );
+                break;
+            case utilConstants.SORT_TYPES.NAME_DESC:
+                sortedProducts = _.sortBy(products, [
+                    function (product) {
+                        return product["Product"]["Name"];
+                    },
+                ]);
                 break;
             default:
                 sortedProducts = _.cloneDeep(products);
@@ -98,11 +122,13 @@ class ProductsListForCustomer extends React.Component {
 
     render() {
         const { products, isLoading } = this.props;
-        const { currentPage, itemsPerPage, search, sortType } = this.state;
-        const filteredProducts = products.filter(
+        const { currentPage, itemsPerPage, search, sortType, idProductType, idManufacturer } = this.state;
+        const filteredProducts = this.handleSort(sortType, products).filter(
             (product) =>
-                product["Product"]["Name"].toLowerCase().includes(search.trim().toLowerCase()) ||
-                product["Product"]["IdDisplay"].toLowerCase().includes(search.trim().toLowerCase())
+                (product["Product"]["Name"].toLowerCase().includes(search.trim().toLowerCase()) ||
+                    product["Product"]["IdDisplay"].toLowerCase().includes(search.trim().toLowerCase())) &&
+                (idProductType ? product["Product"]["IdProductType"] == idProductType : true) &&
+                (idManufacturer ? product["Product"]["IdManufacturer"] == idManufacturer : true)
         );
         return (
             <React.Fragment>
@@ -110,7 +136,11 @@ class ProductsListForCustomer extends React.Component {
                     <HeaderMain title="Danh sách sản phẩm" className="mb-5 mt-4" />
                     <Row>
                         <Col lg={3}>
-                            <ProductsLeftNav handleChange={this.handleChange} />
+                            <ProductsLeftNav
+                                handleChange={this.handleChange}
+                                idManufacturer={idManufacturer}
+                                idProductType={idProductType}
+                            />
                         </Col>
                         <Col lg={9}>
                             {/* START Table */}
