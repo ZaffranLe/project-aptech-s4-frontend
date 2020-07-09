@@ -1,10 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Nav, NavItem, NavLink, Badge, Input } from "./../../../components";
+import utilConstants from "../../../utils/_constants";
 
 const ProductsLeftNav = (props) => {
     const productTypes = useSelector((state) => state.ProductsReducer.productTypes);
     const products = useSelector((state) => state.ProductsReducer.products);
+    const { handleChangeSearch } = props;
     return (
         <React.Fragment>
             {/* START Left Nav  */}
@@ -12,17 +14,16 @@ const ProductsLeftNav = (props) => {
                 <div className="big mb-3">Lọc sản phẩm</div>
                 <Nav vertical>
                     <NavItem className="mt-2">
-                        <Input name="name" placeholder="Tìm kiếm..." />
+                        <Input name="name" placeholder="Tìm kiếm..." onChange={handleChangeSearch} />
                     </NavItem>
                     <NavItem className="mt-2">
                         <Input type="select" name="sortProduct">
-                            <option value={1}>Sắp xếp sản phẩm</option>
-                            <option value={1}>Mới nhất</option>
-                            <option value={1}>Giá tăng dần</option>
-                            <option value={1}>Giá giảm dần</option>
-                            <option value={1}>Tên A-Z</option>
-                            <option value={1}>Tên Z-A</option>
-                            <option value={1}>Còn hàng</option>
+                            <option value={null}>Sắp xếp sản phẩm</option>
+                            <option value={utilConstants.SORT_TYPES.NEWEST}>Mới nhất</option>
+                            <option value={utilConstants.SORT_TYPES.PRICE_ASC}>Giá tăng dần</option>
+                            <option value={utilConstants.SORT_TYPES.PRICE_DESC}>Giá giảm dần</option>
+                            <option value={utilConstants.SORT_TYPES.NAME_ASC}>Tên A-Z</option>
+                            <option value={utilConstants.SORT_TYPES.NAME_DESC}>Tên Z-A</option>
                         </Input>
                     </NavItem>
                 </Nav>

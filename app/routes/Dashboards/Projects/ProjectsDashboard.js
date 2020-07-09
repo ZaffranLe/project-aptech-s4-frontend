@@ -35,7 +35,7 @@ const ProjectsDashboard = () => {
     const dailyOrders = orderReceipts
         .filter((receipt) => new Date(receipt["Date"]).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0))
         .map((receipt) => receipt["TotalPrice"]);
-    const dailyProfit = dailyOrders.reduce((sum, price) => sum + price);
+    const dailyProfit = dailyOrders.length > 0 ? dailyOrders.reduce((sum, price) => sum + price) : 0;
     const monthlyOrders = orderReceipts
         .filter((receipt) => {
             const date = new Date(receipt["Date"]);
@@ -43,7 +43,7 @@ const ProjectsDashboard = () => {
             return date.getFullYear() == currentDate.getFullYear() && date.getMonth() == currentDate.getMonth();
         })
         .map((receipt) => receipt["TotalPrice"]);
-    const monthlyProfit = monthlyOrders.reduce((sum, price) => sum + price);
+    const monthlyProfit = monthlyOrders.length > 0 ? monthlyOrders.reduce((sum, price) => sum + price) : 0;
 
     return (
         <>
