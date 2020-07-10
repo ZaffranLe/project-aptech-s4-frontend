@@ -15,7 +15,7 @@ const Login = (props) => {
 
     React.useEffect(() => {
         if (isLoggedIn) {
-            props.history.push("/dashboards/projects");
+            props.history.push("/admin");
         }
     }, [isLoggedIn]);
 

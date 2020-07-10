@@ -22,6 +22,7 @@ import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { CartActions } from "../../../redux/_actions/Cart/CartA";
 import moment from "moment";
 import { ProductsCardGrid } from "../../components/Products/ProductsCardGrid";
+import { setupPage } from "./../../../components/Layout/setupPage";
 
 const ProductDetail = (props) => {
     const dispatch = useDispatch();
@@ -29,9 +30,19 @@ const ProductDetail = (props) => {
     const products = useSelector((state) => state.ProductsReducer.products);
     const isLoading = useSelector((state) => state.ProductsReducer.isLoading);
     const id = props.match.params.id;
+    const pageConfig = props.pageConfig;
 
     React.useEffect(() => {
         dispatch(ProductActions.getAllProduct());
+        pageConfig.setElementsVisibility({
+            sidebarHidden: true,
+        });
+
+        return () => {
+            pageConfig.setElementsVisibility({
+                sidebarHidden: false,
+            });
+        };
     }, []);
 
     React.useEffect(() => {
@@ -63,7 +74,8 @@ const ProductDetail = (props) => {
     const next = () => {
         if (animating) return;
         if (product) {
-            const nextIndex = activeIndex === product["ListImages"].length - 1 ? 0 : activeIndex + 1;
+            const nextIndex =
+                activeIndex === product["ListImages"].length - 1 ? 0 : activeIndex + 1;
             setActiveIndex(nextIndex);
         } else return;
     };
@@ -71,7 +83,8 @@ const ProductDetail = (props) => {
     const previous = () => {
         if (animating) return;
         if (product) {
-            const nextIndex = activeIndex === 0 ? product["ListImages"].length - 1 : activeIndex - 1;
+            const nextIndex =
+                activeIndex === 0 ? product["ListImages"].length - 1 : activeIndex - 1;
             setActiveIndex(nextIndex);
         } else return;
     };
@@ -84,8 +97,12 @@ const ProductDetail = (props) => {
     const slides = product
         ? product["ListImages"].map((img) => {
               return (
-                  <CarouselItem onExiting={() => setAnimating(true)} onExited={() => setAnimating(false)} key={img.Id}>
-                      <img src={img.ImageUrl} alt={"ProductImg"} width="100%" />
+                  <CarouselItem
+                      onExiting={() => setAnimating(true)}
+                      onExited={() => setAnimating(false)}
+                      key={img.Id}
+                  >
+                      <img src={img.ImageUrl} alt={"ProductImg"} width="100%" height="600" />
                   </CarouselItem>
               );
           })
@@ -117,7 +134,11 @@ const ProductDetail = (props) => {
                         <Col lg={9}>
                             <Row>
                                 <Col lg={5}>
-                                    <Carousel activeIndex={activeIndex} next={next} previous={previous}>
+                                    <Carousel
+                                        activeIndex={activeIndex}
+                                        next={next}
+                                        previous={previous}
+                                    >
                                         <CarouselIndicators
                                             items={product ? product["ListImages"] : []}
                                             activeIndex={activeIndex}
@@ -129,26 +150,38 @@ const ProductDetail = (props) => {
                                             directionText="Previous"
                                             onClickHandler={previous}
                                         />
-                                        <CarouselControl direction="next" directionText="Next" onClickHandler={next} />
+                                        <CarouselControl
+                                            direction="next"
+                                            directionText="Next"
+                                            onClickHandler={next}
+                                        />
                                     </Carousel>
                                 </Col>
                                 <Col lg={7} className="p-2 table-bordered">
                                     <Table hover striped borderless>
                                         <tbody>
                                             <tr>
-                                                <td colSpan={2}>Mã SP: {product["Product"]["IdDisplay"]}</td>
+                                                <td colSpan={2}>
+                                                    Mã SP: {product["Product"]["IdDisplay"]}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td colSpan={2}>
                                                     <b>Thông số sản phẩm</b>
                                                 </td>
                                             </tr>
-                                            {/* #Properties map */}
+                                            {product["ListProperties"].map((property) => (
+                                                <tr key={property["Id"]}>
+                                                    <td>{property["Name"]}</td>
+                                                    <td>{property["Data"]}</td>
+                                                </tr>
+                                            ))}
                                             <tr>
                                                 <td colSpan={2}>
                                                     Bảo hành:{" "}
                                                     <span className="text-danger">
-                                                        {product["Product"]["SupportDuration"]} tháng
+                                                        {product["Product"]["SupportDuration"]}{" "}
+                                                        tháng
                                                     </span>
                                                 </td>
                                             </tr>
@@ -158,15 +191,23 @@ const ProductDetail = (props) => {
                                         <h3>
                                             Giá:{" "}
                                             <span className="text-danger">
-                                                {product["Product"]["UnitPrice"].toLocaleString("vi-VN", {
-                                                    style: "currency",
-                                                    currency: "VND",
-                                                })}
+                                                {product["Product"]["UnitPrice"].toLocaleString(
+                                                    "vi-VN",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    }
+                                                )}
                                             </span>{" "}
                                             [Đã có VAT]
                                         </h3>
-                                        <Button size="lg" color="danger" onClick={() => handleAddProductToCart(product)}>
-                                            <i className="fa fa-fw fa-shopping-cart"></i> Cho vào giỏ hàng
+                                        <Button
+                                            size="lg"
+                                            color="danger"
+                                            onClick={() => handleAddProductToCart(product)}
+                                        >
+                                            <i className="fa fa-fw fa-shopping-cart"></i> Cho vào
+                                            giỏ hàng
                                         </Button>
                                     </Container>
                                 </Col>
@@ -179,7 +220,8 @@ const ProductDetail = (props) => {
                                     .filter(
                                         (item) =>
                                             item["Product"]["Id"] != product["Product"]["Id"] &&
-                                            item["Product"]["IdProductType"] == product["Product"]["IdProductType"]
+                                            item["Product"]["IdProductType"] ==
+                                                product["Product"]["IdProductType"]
                                     )
                                     .sort(() => 0.5 - Math.random())
                                     .slice(0, 4)
@@ -194,8 +236,11 @@ const ProductDetail = (props) => {
                             <Row>
                                 <Col lg={12}>
                                     <Card>
-                                        <CardHeader style={{ backgroundColor: "teal", color: "white" }}>
-                                            <i className="fa fa-fw fa-money"></i> Chính sách bán hàng
+                                        <CardHeader
+                                            style={{ backgroundColor: "teal", color: "white" }}
+                                        >
+                                            <i className="fa fa-fw fa-money"></i> Chính sách bán
+                                            hàng
                                         </CardHeader>
                                         <CardBody>
                                             <ul>
@@ -212,16 +257,22 @@ const ProductDetail = (props) => {
                             <Row className="mt-2">
                                 <Col lg={12}>
                                     <Card>
-                                        <CardHeader style={{ backgroundColor: "teal", color: "white" }}>
-                                            <i className="fa fa-fw fa-truck"></i> Chính sách giao hàng
+                                        <CardHeader
+                                            style={{ backgroundColor: "teal", color: "white" }}
+                                        >
+                                            <i className="fa fa-fw fa-truck"></i> Chính sách giao
+                                            hàng
                                         </CardHeader>
                                         <CardBody>
                                             <ul>
                                                 <li>Trả tiền khi nhận hàng COD</li>
-                                                <li>Miễn phí giao hàng bán kính 5km với đơn hàng trên 500.000đ</li>
                                                 <li>
-                                                    Miễn phí giao hàng 300km với khách hàng doanh nghiệp, dự án, game
-                                                    net
+                                                    Miễn phí giao hàng bán kính 5km với đơn hàng
+                                                    trên 500.000đ
+                                                </li>
+                                                <li>
+                                                    Miễn phí giao hàng 300km với khách hàng doanh
+                                                    nghiệp, dự án, game net
                                                 </li>
                                             </ul>
                                         </CardBody>
@@ -237,4 +288,6 @@ const ProductDetail = (props) => {
     );
 };
 
-export default ProductDetail;
+export default setupPage({
+    pageTitle: "Sản phẩm",
+})(ProductDetail);

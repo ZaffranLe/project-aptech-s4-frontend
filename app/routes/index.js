@@ -115,6 +115,7 @@ import RolesList from "./Apps/Roles";
 import ProvidersList from "./Apps/Providers";
 import PostsList from "./Apps/Posts";
 import CreatePost from "./Apps/CreatePost";
+import Home from "./Apps/Home";
 import Cart from "./Apps/Cart";
 
 // ----------- Layout Imports ---------------
@@ -130,10 +131,9 @@ import ProductDetail from "./Apps/Products/ProductDetail";
 export const RoutedContent = () => {
     return (
         <Switch>
-            <Redirect from="/" to="/dashboards/projects" exact />
-
+            <Redirect from="/" to="/index" exact />
             <Route path="/dashboards/analytics" exact component={Analytics} />
-            <Route path="/dashboards/projects" exact component={ProjectsDashboard} />
+            <Route path="/admin" exact component={ProjectsDashboard} />
             <Route path="/dashboards/system" exact component={System} />
             <Route path="/dashboards/monitor" exact component={Monitor} />
             <Route path="/dashboards/financial" exact component={Financial} />
@@ -256,7 +256,7 @@ export const RoutedContent = () => {
             <Route component={Timeline} path="/pages/timeline" />
 
             <Route path="/icons" exact component={Icons} />
-
+            <Route path="/index" exact component={Home} />
             {/*    404    */}
             <Redirect to="/pages/error-404" />
         </Switch>
@@ -267,9 +267,12 @@ export const RoutedContent = () => {
 export const RoutedNavbars = () => (
     <Switch>
         {/* Other Navbars: */}
-        {/* <Route component={SidebarANavbar} path="/layouts/sidebar-a" />
+        <Route component={SidebarANavbar} path="/layouts/sidebar-a" />
         <Route component={NavbarOnly.Navbar} path="/layouts/navbar" />
-        <Route component={SidebarWithNavbar.Navbar} path="/layouts/sidebar-with-navbar" /> */}
+        <Route component={SidebarWithNavbar.Navbar} path="/layouts/sidebar-with-navbar" />
+        <Route component={NavbarOnly.Navbar} path="/index" />
+        <Route component={NavbarOnly.Navbar} path="/cart" />
+        <Route component={NavbarOnly.Navbar} path="/products" />
         {/* Default Navbar: */}
         <Route component={DefaultNavbar} />
     </Switch>

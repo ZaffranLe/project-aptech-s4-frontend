@@ -12,7 +12,7 @@ function ProductsLeftNav(props) {
         <React.Fragment>
             {/* START Left Nav  */}
             <div className="mb-4">
-                <div className="big mb-3">Lọc sản phẩm</div>
+                <h3 className="mb-3">Lọc sản phẩm</h3>
                 <Nav vertical>
                     <NavItem className="mt-2">
                         <Input

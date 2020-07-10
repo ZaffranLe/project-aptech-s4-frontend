@@ -10,7 +10,7 @@ export const SidebarMiddleNav = () => {
                 <SidebarMenu.Item
                     icon={<i className="fa fa-fw fa-home"></i>}
                     title="Tổng quan"
-                    to="/dashboards/projects"
+                    to="/admin"
                     exact
                 />
             </PrivateMenu>
@@ -74,8 +74,6 @@ export const SidebarMiddleNav = () => {
                     </PrivateMenu>
                 </SidebarMenu.Item>
             </PrivateMenu>
-            <SidebarMenu.Item icon={<i className="fa fa-fw fa-archive"></i>} title="Sản phẩm" to="/products" exact />
-            <SidebarMenu.Item icon={<i className="fa fa-fw fa-shopping-cart"></i>} title="Giỏ hàng" to="/cart" exact />
         </SidebarMenu>
     );
 };

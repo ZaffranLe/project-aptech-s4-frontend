@@ -1,9 +1,21 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Row, Col, Container, Form, FormGroup, Label, Input, Loading, Table, Button } from "./../../../components";
+import {
+    Row,
+    Col,
+    Container,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+    Loading,
+    Table,
+    Button,
+} from "./../../../components";
 import { HeaderMain } from "../../components/HeaderMain";
 import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { CartActions } from "../../../redux/_actions/Cart/CartA";
+import { setupPage } from "./../../../components/Layout/setupPage";
 
 const Cart = (props) => {
     const dispatch = useDispatch();
@@ -15,16 +27,18 @@ const Cart = (props) => {
     const [email, setEmail] = React.useState("");
     const [address, setAddress] = React.useState("");
 
+    const pageConfig = props.pageConfig;
+
     React.useEffect(() => {
-        dispatch(
-            NavbarActions.switchPage([
-                {
-                    hasLink: false,
-                    link: "",
-                    title: "Giỏ hàng",
-                },
-            ])
-        );
+        pageConfig.setElementsVisibility({
+            sidebarHidden: true,
+        });
+
+        return () => {
+            pageConfig.setElementsVisibility({
+                sidebarHidden: false,
+            });
+        };
     }, []);
 
     const handleChangeQuantity = (id) => (e) => {
@@ -49,8 +63,9 @@ const Cart = (props) => {
             Email: email,
             Phone: phone,
             Address: address,
-            ListProduct: products
-                .map((product) => `${product["Product"]["Id"]}-${product["buyingQuantity"]}`)
+            ListProduct: products.map(
+                (product) => `${product["Product"]["Id"]}-${product["buyingQuantity"]}`
+            ),
         };
         dispatch(CartActions.order(data));
     };
@@ -68,13 +83,19 @@ const Cart = (props) => {
                                 <Col lg={6}>
                                     <FormGroup>
                                         <Label>Tên khách hàng</Label>
-                                        <Input value={name} onChange={(e) => setName(e.target.value)} />
+                                        <Input
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                        />
                                     </FormGroup>
                                 </Col>
                                 <Col lg={6}>
                                     <FormGroup>
                                         <Label>Email</Label>
-                                        <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <Input
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -82,13 +103,19 @@ const Cart = (props) => {
                                 <Col lg={6}>
                                     <FormGroup>
                                         <Label>Số điện thoại</Label>
-                                        <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                        <Input
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                        />
                                     </FormGroup>
                                 </Col>
                                 <Col lg={6}>
                                     <FormGroup>
                                         <Label>Địa chỉ giao hàng</Label>
-                                        <Input value={address} onChange={(e) => setAddress(e.target.value)} />
+                                        <Input
+                                            value={address}
+                                            onChange={(e) => setAddress(e.target.value)}
+                                        />
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -112,7 +139,11 @@ const Cart = (props) => {
                                                         {product["ListImages"].length > 0 && (
                                                             <Col lg={4}>
                                                                 <img
-                                                                    src={product["ListImages"][0]["ImageUrl"]}
+                                                                    src={
+                                                                        product["ListImages"][0][
+                                                                            "ImageUrl"
+                                                                        ]
+                                                                    }
                                                                     width="100"
                                                                     height="100"
                                                                 />
@@ -126,13 +157,12 @@ const Cart = (props) => {
                                                             Đơn giá:{" "}
                                                             <span className="text-danger">
                                                                 <b>
-                                                                    {product["Product"]["UnitPrice"].toLocaleString(
-                                                                        "vi-VN",
-                                                                        {
-                                                                            style: "currency",
-                                                                            currency: "VND",
-                                                                        }
-                                                                    )}
+                                                                    {product["Product"][
+                                                                        "UnitPrice"
+                                                                    ].toLocaleString("vi-VN", {
+                                                                        style: "currency",
+                                                                        currency: "VND",
+                                                                    })}
                                                                 </b>
                                                             </span>
                                                         </Col>
@@ -143,7 +173,9 @@ const Cart = (props) => {
                                                         defaultValue={product["buyingQuantity"]}
                                                         type="number"
                                                         min={1}
-                                                        onChange={handleChangeQuantity(product["Product"]["Id"])}
+                                                        onChange={handleChangeQuantity(
+                                                            product["Product"]["Id"]
+                                                        )}
                                                     />
                                                 </td>
                                                 <td>
@@ -155,7 +187,11 @@ const Cart = (props) => {
                                                 <td>
                                                     <Button
                                                         color="danger"
-                                                        onClick={() => handleRemoveProduct(product["Product"]["Id"])}
+                                                        onClick={() =>
+                                                            handleRemoveProduct(
+                                                                product["Product"]["Id"]
+                                                            )
+                                                        }
                                                     >
                                                         <i className="fa fa-fw fa-trash"></i>
                                                     </Button>
@@ -195,4 +231,6 @@ const Cart = (props) => {
     );
 };
 
-export default Cart;
+export default setupPage({
+    pageTitle: "Giỏ hàng",
+})(Cart);

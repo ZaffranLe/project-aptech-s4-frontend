@@ -23,33 +23,42 @@ import { TasksMedia } from "../../components/ProjectsDashboards/TasksMedia";
 import EventsCarousel from "./EventsCarousel";
 import { OrderReceiptActions } from "../../../redux/_actions/OrderReceipts/OrderReceiptsA";
 import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
+import { Private } from "../../../components/Private";
 
-const ProjectsDashboard = () => {
+const ProjectsDashboard = (props) => {
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(OrderReceiptActions.getAllOrderReceipt());
         dispatch(NavbarActions.switchPage([]));
+
     }, []);
 
     const isLoading = useSelector((state) => state.OrderReceiptsReducer.isLoading);
     const orderReceipts = useSelector((state) => state.OrderReceiptsReducer.orderReceipts);
 
     const dailyOrders = orderReceipts
-        .filter((receipt) => new Date(receipt["Date"]).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0))
+        .filter(
+            (receipt) =>
+                new Date(receipt["Date"]).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0)
+        )
         .map((receipt) => receipt["TotalPrice"]);
-    const dailyProfit = dailyOrders.length > 0 ? dailyOrders.reduce((sum, price) => sum + price) : 0;
+    const dailyProfit =
+        dailyOrders.length > 0 ? dailyOrders.reduce((sum, price) => sum + price) : 0;
     const monthlyOrders = orderReceipts
         .filter((receipt) => {
             const date = new Date(receipt["Date"]);
             const currentDate = new Date();
-            return date.getFullYear() == currentDate.getFullYear() && date.getMonth() == currentDate.getMonth();
+            return (
+                date.getFullYear() == currentDate.getFullYear() &&
+                date.getMonth() == currentDate.getMonth()
+            );
         })
         .map((receipt) => receipt["TotalPrice"]);
-    const monthlyProfit = monthlyOrders.length > 0 ? monthlyOrders.reduce((sum, price) => sum + price) : 0;
-    
+    const monthlyProfit =
+        monthlyOrders.length > 0 ? monthlyOrders.reduce((sum, price) => sum + price) : 0;
 
     return (
-        <>
+        <Private>
             <Row className="mb-5">
                 <Col lg={12}>
                     <HeaderMain title="Tổng quan" className="mb-4 mb-lg-5" />
@@ -198,7 +207,12 @@ const ProjectsDashboard = () => {
                             <InputGroup>
                                 <Input placeholder="Tìm kiếm bài viết..." />
                                 <InputGroupAddon addonType="append">
-                                    <Button color="secondary" outline tag={Link} to="/apps/tasks/list">
+                                    <Button
+                                        color="secondary"
+                                        outline
+                                        tag={Link}
+                                        to="/apps/tasks/list"
+                                    >
                                         <i className="fa fa-search"></i>
                                     </Button>
                                 </InputGroupAddon>
@@ -217,7 +231,12 @@ const ProjectsDashboard = () => {
                             <ListGroupItem action>
                                 <TasksMedia id="4" />
                             </ListGroupItem>
-                            <ListGroupItem action tag={Link} to="/apps/tasks/list" className="text-center">
+                            <ListGroupItem
+                                action
+                                tag={Link}
+                                to="/apps/tasks/list"
+                                className="text-center"
+                            >
                                 Xem tất cả bài viết
                                 <i className="fa fa-angle-right ml-2"></i>
                             </ListGroupItem>
@@ -236,7 +255,7 @@ const ProjectsDashboard = () => {
                 </Col>
             </Row>
             <Loading isLoading={isLoading} />
-        </>
+        </Private>
     );
 };
 

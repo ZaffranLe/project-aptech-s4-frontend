@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import _ from "lodash";
 import utilConstants from "../../../utils/_constants";
+import { setupPage } from "./../../../components/Layout/setupPage";
+import EventsCarousel from "../../Dashboards/Projects/EventsCarousel";
 
 class ProductsListForCustomer extends React.Component {
     constructor(props) {
@@ -28,6 +30,7 @@ class ProductsListForCustomer extends React.Component {
     }
 
     componentDidMount() {
+        const pageConfig = this.props.pageConfig;
         this.props.dispatch(ProductActions.getAllProduct());
         this.props.dispatch(ProductTypeActions.getAllProductType());
         this.props.dispatch(ManufacturerActions.getAllManufacturer());
@@ -40,6 +43,16 @@ class ProductsListForCustomer extends React.Component {
                 },
             ])
         );
+        pageConfig.setElementsVisibility({
+            sidebarHidden: true,
+        });
+    }
+
+    componentWillUnmount() {
+        const pageConfig = this.props.pageConfig;
+        pageConfig.setElementsVisibility({
+            sidebarHidden: false,
+        });
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -61,12 +74,12 @@ class ProductsListForCustomer extends React.Component {
                 this.setState({
                     [name]: "",
                 });
+                return;
             }
-        } else {
-            this.setState({
-                [name]: value,
-            });
         }
+        this.setState({
+            [name]: value,
+        });
     };
 
     handleSort = (sortType, products) => {
@@ -122,17 +135,31 @@ class ProductsListForCustomer extends React.Component {
 
     render() {
         const { products, isLoading } = this.props;
-        const { currentPage, itemsPerPage, search, sortType, idProductType, idManufacturer } = this.state;
+        const {
+            currentPage,
+            itemsPerPage,
+            search,
+            sortType,
+            idProductType,
+            idManufacturer,
+        } = this.state;
         const filteredProducts = this.handleSort(sortType, products).filter(
             (product) =>
                 (product["Product"]["Name"].toLowerCase().includes(search.trim().toLowerCase()) ||
-                    product["Product"]["IdDisplay"].toLowerCase().includes(search.trim().toLowerCase())) &&
+                    product["Product"]["IdDisplay"]
+                        .toLowerCase()
+                        .includes(search.trim().toLowerCase())) &&
                 (idProductType ? product["Product"]["IdProductType"] == idProductType : true) &&
                 (idManufacturer ? product["Product"]["IdManufacturer"] == idManufacturer : true)
         );
         return (
             <React.Fragment>
                 <>
+                    <Row>
+                        <Col lg={12}>
+                            <EventsCarousel height="600" />
+                        </Col>
+                    </Row>
                     <HeaderMain title="Danh sách sản phẩm" className="mb-5 mt-4" />
                     <Row>
                         <Col lg={3}>
@@ -146,7 +173,10 @@ class ProductsListForCustomer extends React.Component {
                             {/* START Table */}
                             <Row>
                                 {filteredProducts
-                                    .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
+                                    .slice(
+                                        itemsPerPage * currentPage,
+                                        itemsPerPage * (currentPage + 1)
+                                    )
                                     .map((product) => (
                                         <Col key={product["Product"]["Id"]} className="mt-3" lg={4}>
                                             <ProductsCardGrid product={product} />
@@ -182,4 +212,6 @@ class ProductsListForCustomer extends React.Component {
 }
 
 const mapStateToProps = ({ ProductsReducer }) => ProductsReducer;
-export default connect(mapStateToProps, null)(ProductsListForCustomer);
+export default setupPage({
+    pageTitle: "Sản phẩm",
+})(connect(mapStateToProps, null)(ProductsListForCustomer));
