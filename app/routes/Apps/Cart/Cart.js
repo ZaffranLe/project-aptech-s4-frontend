@@ -51,9 +51,7 @@ const Cart = (props) => {
             Address: address,
             ListProduct: products
                 .map((product) => `${product["Product"]["Id"]}-${product["buyingQuantity"]}`)
-                .join(","),
         };
-        console.log(data);
         dispatch(CartActions.order(data));
     };
 
