@@ -17,7 +17,7 @@ function getAllCustomer() {
             url: `${utilConstants.HOST}/api/customer`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -27,7 +27,6 @@ function getAllCustomer() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy khách hàng thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -65,7 +64,7 @@ function createCustomer(data) {
             url: `${utilConstants.HOST}/api/customer`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -113,7 +112,7 @@ function updateCustomer(id, data) {
             url: `${utilConstants.HOST}/api/customer/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -161,7 +160,7 @@ function deleteCustomer(id) {
             url: `${utilConstants.HOST}/api/customer/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

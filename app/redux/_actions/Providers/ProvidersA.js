@@ -17,7 +17,7 @@ function getAllProvider() {
             url: `${utilConstants.HOST}/api/provider`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -27,7 +27,6 @@ function getAllProvider() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy nhà cung cấp thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -65,7 +64,7 @@ function createProvider(data) {
             url: `${utilConstants.HOST}/api/provider`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -76,7 +75,7 @@ function createProvider(data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -135,7 +134,7 @@ function updateProvider(id, data) {
             url: `${utilConstants.HOST}/api/provider/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -146,7 +145,7 @@ function updateProvider(id, data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -205,7 +204,7 @@ function deleteProvider(id) {
             url: `${utilConstants.HOST}/api/provider/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

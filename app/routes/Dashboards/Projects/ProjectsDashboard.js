@@ -46,6 +46,7 @@ const ProjectsDashboard = () => {
         })
         .map((receipt) => receipt["TotalPrice"]);
     const monthlyProfit = monthlyOrders.length > 0 ? monthlyOrders.reduce((sum, price) => sum + price) : 0;
+    
 
     return (
         <>

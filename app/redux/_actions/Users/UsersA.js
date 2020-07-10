@@ -17,7 +17,7 @@ function getAllUser() {
             url: `${utilConstants.HOST}/api/userinfo`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -27,7 +27,6 @@ function getAllUser() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy danh sách nhân viên thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -65,7 +64,7 @@ function createUser(data) {
             url: `${utilConstants.HOST}/api/registry`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -76,7 +75,7 @@ function createUser(data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -88,7 +87,7 @@ function createUser(data) {
             url: `${utilConstants.HOST}/api/userrole`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data,
@@ -157,7 +156,7 @@ function updateUser(id, data) {
             url: `${utilConstants.HOST}/api/userinfo/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -168,7 +167,7 @@ function updateUser(id, data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -227,7 +226,7 @@ function deleteUser(id) {
             url: `${utilConstants.HOST}/api/usertype/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

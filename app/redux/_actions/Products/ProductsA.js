@@ -29,7 +29,6 @@ function getAllProduct() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy danh sách sản phẩm thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -77,7 +76,6 @@ function getProduct(id) {
             dispatch(_beginAction());
             const resp = await _callApi(id);
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy sản phẩm thành công"));
                 dispatch(_succeed(resp.data.ListDataResult[0]));
             } else {
                 throw resp.data.ErrorMsg;
@@ -115,7 +113,7 @@ function createProduct(data) {
             url: `${utilConstants.HOST}/api/product`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -126,7 +124,7 @@ function createProduct(data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -185,7 +183,7 @@ function updateProduct(id, data) {
             url: `${utilConstants.HOST}/api/product/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -196,7 +194,7 @@ function updateProduct(id, data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -258,7 +256,7 @@ function deleteProduct(id) {
             url: `${utilConstants.HOST}/api/product/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

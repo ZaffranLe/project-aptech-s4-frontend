@@ -1,3 +1,3 @@
-import Private from "./Private";
+import { Private, PrivateMenu } from "./Private";
 
-export default Private;
+export { Private, PrivateMenu };

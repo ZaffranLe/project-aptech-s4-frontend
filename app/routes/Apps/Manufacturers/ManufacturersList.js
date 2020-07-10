@@ -27,7 +27,7 @@ import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
-import Private from "../../../components/Private";
+import { Private } from "../../../components/Private";
 import { PERMISSIONS } from "../../../utils/_permissions";
 
 class ModifyModal extends React.Component {

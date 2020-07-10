@@ -18,7 +18,7 @@ function getAllPost() {
             url: `${utilConstants.HOST}/api/post`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -28,7 +28,6 @@ function getAllPost() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy bài viết thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -66,7 +65,7 @@ function getPostById(id) {
             url: `${utilConstants.HOST}/api/post/${id}`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -76,7 +75,6 @@ function getPostById(id) {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy bài viết thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -114,7 +112,7 @@ function createPost(data) {
             url: `${utilConstants.HOST}/api/post`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -162,7 +160,7 @@ function updatePost(id, data) {
             url: `${utilConstants.HOST}/api/post/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -210,7 +208,7 @@ function deletePost(id) {
             url: `${utilConstants.HOST}/api/post/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

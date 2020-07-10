@@ -33,7 +33,7 @@ import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
 import ReactPaginate from "react-paginate";
-import Private from "../../../components/Private";
+import { Private } from "../../../components/Private";
 import { PERMISSIONS } from "../../../utils/_permissions";
 class ModifyModal extends React.Component {
     constructor(props) {

@@ -17,7 +17,7 @@ function getAllOrderReceipt() {
             url: `${utilConstants.HOST}/api/orderdetail`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -27,7 +27,6 @@ function getAllOrderReceipt() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy hóa đơn bán hàng thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -65,7 +64,7 @@ function createOrderReceipt(data) {
             url: `${utilConstants.HOST}/api/orderdetail`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -113,7 +112,7 @@ function updateOrderReceipt(id, data) {
             url: `${utilConstants.HOST}/api/orderdetail/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -161,7 +160,7 @@ function deleteOrderReceipt(id) {
             url: `${utilConstants.HOST}/api/orderdetail/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }

@@ -3,7 +3,7 @@ import SunEditor from "suneditor-react";
 import { connect } from "react-redux";
 import { Row, Col, Button, Input, Form, Label, FormGroup, Container, Loading } from "./../../../components";
 import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
-import Private from "../../../components/Private";
+import { Private } from "../../../components/Private";
 import { PERMISSIONS } from "../../../utils/_permissions"
 
 class CreatePost extends React.Component {

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Error404 from "../../routes/Pages/Error404";
 import { PERMISSIONS } from "../../utils/_permissions";
 
-const Private = (props) => {
+const PrivateMenu = (props) => {
     const { PERMISSION = null, pageWrapper = true } = props;
     const isLoggedIn = useSelector((state) => state.LoginReducer.isLoggedIn);
     const User = useSelector((state) => state.LoginReducer.User);
@@ -16,4 +16,17 @@ const Private = (props) => {
     );
 };
 
-export default Private;
+const Private = (props) => {
+    const { PERMISSION = null, pageWrapper = true } = props;
+    const isLoggedIn = useSelector((state) => state.LoginReducer.isLoggedIn);
+    const User = useSelector((state) => state.LoginReducer.User);
+    return isLoggedIn && (User["ListPermission"].includes(PERMISSION) || PERMISSION == null) ? (
+        <>{props.children}</>
+    ) : pageWrapper ? (
+        <Error404 />
+    ) : (
+        <></>
+    );
+};
+
+export { Private, PrivateMenu };

@@ -8,7 +8,7 @@ import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import updateImg from "./update.png";
-import Private from "../../../components/Private";
+import { Private } from "../../../components/Private";
 import { PERMISSIONS } from "../../../utils/_permissions";
 
 class ProductsList extends React.Component {

@@ -17,7 +17,7 @@ function getAllManufacturer() {
             url: `${utilConstants.HOST}/api/manufacturer`,
             method: "get",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
@@ -27,7 +27,6 @@ function getAllManufacturer() {
             dispatch(_beginAction());
             const resp = await _callApi();
             if (resp.data.IsSuccess) {
-                toast.success(content("Lấy nhà sản xuất thành công"));
                 dispatch(_succeed(resp.data.ListDataResult));
             } else {
                 throw resp.data.ErrorMsg;
@@ -65,7 +64,7 @@ function createManufacturer(data) {
             url: `${utilConstants.HOST}/api/manufacturer`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -76,7 +75,7 @@ function createManufacturer(data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -138,7 +137,7 @@ function updateManufacturer(id, data) {
             url: `${utilConstants.HOST}/api/manufacturer/${id}`,
             method: "put",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             data,
         });
@@ -149,7 +148,7 @@ function updateManufacturer(id, data) {
             url: `${utilConstants.HOST}/api/image`,
             method: "post",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
             data: imageData,
@@ -211,7 +210,7 @@ function deleteManufacturer(id) {
             url: `${utilConstants.HOST}/api/manufacturer/${id}`,
             method: "delete",
             headers: {
-                Authorization: `${utilConstants.TOKEN}`,
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
         });
     }
