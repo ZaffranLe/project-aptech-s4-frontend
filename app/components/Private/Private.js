@@ -8,11 +8,11 @@ class Private extends React.Component {
     }
 
     render() {
-        const { isLoggedIn, User, PERMISSION } = this.props;
+        const { isLoggedIn, User, PERMISSION, pageWrapper = true } = this.props;
         if (isLoggedIn && User["ListPermission"].includes(PERMISSION)) {
             return <>{this.props.children}</>;
         } else {
-            return <Error404 />;
+            return pageWrapper ? <Error404 /> : <></>;
         }
     }
 }

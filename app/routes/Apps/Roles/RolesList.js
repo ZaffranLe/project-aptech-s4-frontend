@@ -120,12 +120,7 @@ class ModifyModal extends React.Component {
                             <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
                         <Container className="table-bordered">
-                            <Input
-                                value={search}
-                                onChange={this.handleChange("search")}
-                                placeholder="Tìm kiếm..."
-                                className="mt-4 mb-2"
-                            />
+                            <Input value={search} onChange={this.handleChange("search")} placeholder="Tìm kiếm..." className="mt-4 mb-2" />
                             {permissions.length > 0 && (
                                 <>
                                     <Table hover>
@@ -141,14 +136,11 @@ class ModifyModal extends React.Component {
                                             {permissions
                                                 .filter(
                                                     (permission) =>
-                                                        permission["Name"].includes(search.trim()) ||
-                                                        permission["Description"].includes(search.trim())
+                                                        permission["Name"].includes(search.trim()) || permission["Description"].includes(search.trim())
                                                 )
                                                 .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
                                                 .map((permission, idx) => {
-                                                    const hasPermission = RolePermissions.find(
-                                                        (data) => data["Id"] == permission["Id"]
-                                                    );
+                                                    const hasPermission = RolePermissions.find((data) => data["Id"] == permission["Id"]);
                                                     return (
                                                         <tr key={idx}>
                                                             <td>{itemsPerPage * currentPage + idx + 1}</td>
@@ -159,9 +151,7 @@ class ModifyModal extends React.Component {
                                                                     type="checkbox"
                                                                     id={idx}
                                                                     defaultChecked={hasPermission}
-                                                                    onChange={this.handleCheckPermission(
-                                                                        permission["Id"]
-                                                                    )}
+                                                                    onChange={this.handleCheckPermission(permission["Id"])}
                                                                 />
                                                             </td>
                                                         </tr>
@@ -262,80 +252,68 @@ class RolesList extends React.Component {
         const { role, modifyModal } = this.state;
         return (
             // <Private PERMISSION={PERMISSIONS.VIEW_ORDER_MENU}>
-            <React.Fragment>
-                <Row>
-                    <Col lg={9}>
-                        <HeaderMain title="Chức vụ" className="mb-5 mt-4" />
-                    </Col>
-                    <Col lg={3} className="text-right mt-4">
-                        <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo chức vụ mới
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={12}>
-                        <Container fluid>
-                            {roles.length > 0 ? (
-                                <Table hover striped>
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Tên chức vụ</th>
-                                            <th>Mô tả</th>
-                                            <th>Ngày tạo</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {roles.map((role, idx) => {
-                                            return (
-                                                <tr key={role["Role"]["Id"]}>
-                                                    <td>{idx + 1}</td>
-                                                    <td>{role["Role"]["Name"]}</td>
-                                                    <td>{role["Role"]["Description"]}</td>
-                                                    <td>
-                                                        {moment(role["Role"]["CreatedAt"]).format(
-                                                            "YYYY-MM-DD HH:mm:ss"
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        <Button
-                                                            color="yellow"
-                                                            size="sm"
-                                                            onClick={() => this.handleOpenModifyModal(role)}
-                                                        >
-                                                            Chỉnh sửa
-                                                        </Button>{" "}
-                                                        <Button
-                                                            size="sm"
-                                                            color="danger"
-                                                            onClick={() => this.handleDeleteRole(role["Role"]["Id"])}
-                                                        >
-                                                            Xoá
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </Table>
-                            ) : (
-                                <Alert color="warning">Chưa có dữ liệu để hiển thị</Alert>
-                            )}
-                        </Container>
-                    </Col>
-                </Row>
-                <ModifyModal
-                    key={role ? role["Role"]["Id"] : v1()}
-                    role={role}
-                    isOpen={modifyModal}
-                    onClose={this.handleCloseModifyModal}
-                    onSave={this.handleSaveRole}
-                    permissions={permissions}
-                />
-                <Loading isLoading={isLoading} />
-            </React.Fragment>
+                <React.Fragment>
+                    <Row>
+                        <Col lg={9}>
+                            <HeaderMain title="Chức vụ" className="mb-5 mt-4" />
+                        </Col>
+                        <Col lg={3} className="text-right mt-4">
+                            <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
+                                Tạo chức vụ mới
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={12}>
+                            <Container fluid>
+                                {roles.length > 0 ? (
+                                    <Table hover striped>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Tên chức vụ</th>
+                                                <th>Mô tả</th>
+                                                <th>Ngày tạo</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {roles.map((role, idx) => {
+                                                return (
+                                                    <tr key={role["Role"]["Id"]}>
+                                                        <td>{idx + 1}</td>
+                                                        <td>{role["Role"]["Name"]}</td>
+                                                        <td>{role["Role"]["Description"]}</td>
+                                                        <td>{moment(role["Role"]["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
+                                                        <td>
+                                                            <Button color="yellow" size="sm" onClick={() => this.handleOpenModifyModal(role)}>
+                                                                Chỉnh sửa
+                                                            </Button>{" "}
+                                                            <Button size="sm" color="danger" onClick={() => this.handleDeleteRole(role["Role"]["Id"])}>
+                                                                Xoá
+                                                            </Button>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </Table>
+                                ) : (
+                                    <Alert color="warning">Chưa có dữ liệu để hiển thị</Alert>
+                                )}
+                            </Container>
+                        </Col>
+                    </Row>
+                    <ModifyModal
+                        key={role ? role["Role"]["Id"] : v1()}
+                        role={role}
+                        isOpen={modifyModal}
+                        onClose={this.handleCloseModifyModal}
+                        onSave={this.handleSaveRole}
+                        permissions={permissions}
+                    />
+                    <Loading isLoading={isLoading} />
+                </React.Fragment>
             // </Private>
         );
     }
