@@ -27,6 +27,8 @@ import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions"
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -147,15 +149,10 @@ class PermissionsList extends React.Component {
         const { permissions, isLoading } = this.props;
         const { permission, modifyModal } = this.state;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_PERMISSION}>
                 <Row>
-                    <Col lg={9}>
+                    <Col lg={12}>
                         <HeaderMain title="Quyền hạn" className="mb-5 mt-4" />
-                    </Col>
-                    <Col lg={3} className="text-right mt-4">
-                        <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo quyền hạn mới
-                        </Button>
                     </Col>
                 </Row>
                 <Row>
@@ -219,7 +216,7 @@ class PermissionsList extends React.Component {
                     onSave={this.handleSavePermission}
                 />
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

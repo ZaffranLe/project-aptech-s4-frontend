@@ -2,10 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { Row, Col, Button, Alert, Table, Container, Loading } from "./../../../components";
 import { PostActions } from "../../../redux/_actions/Posts/PostsA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions"
 
 class PostsList extends React.Component {
     constructor(props) {
@@ -14,6 +17,20 @@ class PostsList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(PostActions.getAllPost());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Bài viết",
+                },
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Đăng bài viết mới",
+                },
+            ])
+        );
     }
 
     handleDeletePost = (id) => {
@@ -25,7 +42,7 @@ class PostsList extends React.Component {
     render() {
         const { posts, isLoading } = this.props;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_POST}>
                 <Row>
                     <Col lg={9}>
                         <HeaderMain title="Bài viết" className="mb-5 mt-4" />
@@ -82,7 +99,7 @@ class PostsList extends React.Component {
                     </Col>
                 </Row>
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import SunEditor from "suneditor-react";
-// import "suneditor/dist/css/suneditor.min.css"; // Import Sun Editor's CSS File
 import { connect } from "react-redux";
 import { Row, Col, Button, Input, Form, Label, FormGroup, Container, Loading } from "./../../../components";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions"
 
 class CreatePost extends React.Component {
     constructor(props) {
@@ -12,10 +14,27 @@ class CreatePost extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Bài viết",
+                },
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Đăng bài viết mới",
+                },
+            ])
+        );
+    }
+
     render() {
         const { isLoading } = this.props;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.CREATE_POST}>
                 <Row>
                     <Col lg={12}>
                         <Container className="table-bordered">
@@ -36,7 +55,7 @@ class CreatePost extends React.Component {
                     </Col>
                 </Row>
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

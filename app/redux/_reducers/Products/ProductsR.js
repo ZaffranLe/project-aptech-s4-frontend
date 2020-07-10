@@ -8,6 +8,7 @@ const defaultState = {
     isCreatedSucceed: false,
     isLoading: false,
     isUpdatedSucceed: false,
+    product: "",
 };
 
 export const ProductsReducer = (state = defaultState, action) => {
@@ -20,6 +21,7 @@ export const ProductsReducer = (state = defaultState, action) => {
                 isLoading: true,
             };
         case actionTypes.PRODUCT_DELETE_PRODUCT:
+        case actionTypes.PRODUCT_GET_PRODUCT:
             return {
                 ...state,
                 isLoading: true,
@@ -50,6 +52,7 @@ export const ProductsReducer = (state = defaultState, action) => {
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE:
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_TYPE_FAILED:
         case actionTypes.PRODUCT_GET_ALL_PRODUCT_FAILED:
+        case actionTypes.PRODUCT_GET_PRODUCT_FAILED:
             return {
                 ...state,
                 isLoading: false,
@@ -59,6 +62,12 @@ export const ProductsReducer = (state = defaultState, action) => {
                 ...state,
                 products: action.data,
                 isReload: false,
+                isLoading: false,
+            };
+        case actionTypes.PRODUCT_GET_PRODUCT_SUCCEED:
+            return {
+                ...state,
+                product: action.data,
                 isLoading: false,
             };
         case actionTypes.MANUFACTURER_GET_ALL_MANUFACTURER_SUCCEED:

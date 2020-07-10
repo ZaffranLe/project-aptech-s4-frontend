@@ -13,6 +13,7 @@ import { ImportReceiptsReducer } from "../_reducers/ImportReceipts/ImportReceipt
 import { OrderReceiptsReducer } from "../_reducers/OrderReceipts/OrderReceiptsR";
 import { LoginReducer } from "../_reducers/Login/LoginR";
 import { UsersReducer } from "../_reducers/Users/UsersR";
+import { CartReducer } from "../_reducers/Cart/CartR";
 
 const appReducers = combineReducers({
     ProductsReducer,
@@ -29,6 +30,7 @@ const appReducers = combineReducers({
     OrderReceiptsReducer,
     LoginReducer,
     UsersReducer,
+    CartReducer,
 });
 
 export default appReducers;

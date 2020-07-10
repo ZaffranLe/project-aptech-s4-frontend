@@ -42,4 +42,8 @@ export const PERMISSIONS = {
     ASSIGN_ROLE_FOR_USER: "AssignRoleForUser",
     DELETE_USER: "DeleteUser",
     VIEW_LIST_PERMISSION: "ViewListPermission",
+    VIEW_MENU_CONFIG: "ViewMenuConfig",
+    VIEW_LIST_MANUFACTURER: "ViewListManufacturer",
+    VIEW_MENU_ORDER: "ViewMenuOrder",
+    CREATE_MANUFACTURER: "CreateManufacturer",
 };

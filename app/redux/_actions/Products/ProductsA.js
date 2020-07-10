@@ -6,6 +6,7 @@ import { content } from "../../../components/ToastContainer/ToastContainer";
 
 export const ProductActions = {
     getAllProduct,
+    getProduct,
     createProduct,
     updateProduct,
     deleteProduct,
@@ -56,6 +57,54 @@ function getAllProduct() {
     function _failed() {
         return {
             type: actionTypes.PRODUCT_GET_ALL_PRODUCT_FAILED,
+        };
+    }
+}
+
+function getProduct(id) {
+    function _callApi(id) {
+        return axios({
+            url: `${utilConstants.HOST}/api/product/${id}`,
+            method: "get",
+            headers: {
+                "Authorization": `${utilConstants.TOKEN}`
+            }
+        });
+    }
+
+    return async (dispatch) => {
+        try {
+            dispatch(_beginAction());
+            const resp = await _callApi(id);
+            if (resp.data.IsSuccess) {
+                toast.success(content("Lấy sản phẩm thành công"));
+                dispatch(_succeed(resp.data.ListDataResult[0]));
+            } else {
+                throw resp.data.ErrorMsg;
+            }
+        } catch (e) {
+            console.error(e);
+            toast.error(content("Lấy sản phẩm thất bại!"));
+            dispatch(_failed());
+        }
+    };
+
+    function _beginAction() {
+        return {
+            type: actionTypes.PRODUCT_GET_PRODUCT,
+        };
+    }
+
+    function _succeed(data) {
+        return {
+            type: actionTypes.PRODUCT_GET_PRODUCT_SUCCEED,
+            data
+        };
+    }
+
+    function _failed() {
+        return {
+            type: actionTypes.PRODUCT_GET_PRODUCT_FAILED,
         };
     }
 }

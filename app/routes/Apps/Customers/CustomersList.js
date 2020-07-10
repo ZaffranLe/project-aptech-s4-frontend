@@ -23,10 +23,13 @@ import {
     Loading,
 } from "./../../../components";
 import { CustomerActions } from "../../../redux/_actions/Customers/CustomersA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions"
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -116,6 +119,15 @@ class CustomersList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(CustomerActions.getAllCustomer());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Khách hàng",
+                },
+            ])
+        );
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -161,7 +173,7 @@ class CustomersList extends React.Component {
         const { customers, isLoading } = this.props;
         const { customer, modifyModal } = this.state;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_CUSTOMER}>
                 <Row>
                     <Col lg={9}>
                         <HeaderMain title="Khách hàng" className="mb-5 mt-4" />
@@ -233,7 +245,7 @@ class CustomersList extends React.Component {
                     onSave={this.handleSaveCustomer}
                 />
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

@@ -23,10 +23,13 @@ import {
     Loading,
 } from "./../../../components";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions";
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -133,12 +136,7 @@ class ModifyModal extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Ảnh minh họa</Label>
-                            <Input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={this.handlePreviewImages}
-                            />
+                            <Input type="file" multiple accept="image/*" onChange={this.handlePreviewImages} />
                         </FormGroup>
                     </Form>
                     <Container>
@@ -147,10 +145,7 @@ class ModifyModal extends React.Component {
                                 Images.map((img) => {
                                     return (
                                         <Col lg={3} key={img["id"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "current")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "current")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -159,10 +154,7 @@ class ModifyModal extends React.Component {
                                 imagesPreview.map((img) => {
                                     return (
                                         <Col lg={3} key={img["name"]}>
-                                            <Button
-                                                close
-                                                onClick={() => this.handleRemoveImg(img, "preview")}
-                                            />
+                                            <Button close onClick={() => this.handleRemoveImg(img, "preview")} />
                                             <img src={img["url"]} height="100" width="100" />
                                         </Col>
                                     );
@@ -192,6 +184,20 @@ class ProductTypesList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Quản lý sản phẩm",
+                },
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Danh sách sản phẩm",
+                },
+            ])
+        );
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -221,9 +227,7 @@ class ProductTypesList extends React.Component {
     handleSaveProductType = (data) => {
         const { productType } = this.state;
         if (productType) {
-            this.props.dispatch(
-                ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data)
-            );
+            this.props.dispatch(ProductTypeActions.updateProductType(productType["ProductType"]["Id"], data));
         } else {
             this.props.dispatch(ProductTypeActions.createProductType(data));
         }
@@ -239,15 +243,17 @@ class ProductTypesList extends React.Component {
         const { productTypes, isLoading } = this.props;
         const { productType, modifyModal } = this.state;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_PRODUCT_TYPE}>
                 <Row>
                     <Col lg={9}>
                         <HeaderMain title="Thể loại sản phẩm" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
-                        <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo loại sản phẩm mới
-                        </Button>
+                        <Private PERMISSION={PERMISSIONS.CREATE_PRODUCT_TYPE} pageWrapper={false}>
+                            <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
+                                Tạo loại sản phẩm mới
+                            </Button>
+                        </Private>
                     </Col>
                 </Row>
                 <Row>
@@ -271,22 +277,20 @@ class ProductTypesList extends React.Component {
                                                     <td>{idx + 1}</td>
                                                     <td>{type["ProductType"]["Name"]}</td>
                                                     <td>
-                                                        {moment(
-                                                            type["ProductType"]["CreatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(type["ProductType"]["CreatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
-                                                        {moment(
-                                                            type["ProductType"]["UpdatedAt"]
-                                                        ).format("YYYY-MM-DD HH:mm:ss")}
+                                                        {moment(type["ProductType"]["UpdatedAt"]).format(
+                                                            "YYYY-MM-DD HH:mm:ss"
+                                                        )}
                                                     </td>
                                                     <td>
                                                         <Button
                                                             color="yellow"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                this.handleOpenModifyModal(type)
-                                                            }
+                                                            onClick={() => this.handleOpenModifyModal(type)}
                                                         >
                                                             Chỉnh sửa
                                                         </Button>{" "}
@@ -294,9 +298,7 @@ class ProductTypesList extends React.Component {
                                                             size="sm"
                                                             color="danger"
                                                             onClick={() =>
-                                                                this.handleDeleteProductType(
-                                                                    type["ProductType"]["Id"]
-                                                                )
+                                                                this.handleDeleteProductType(type["ProductType"]["Id"])
                                                             }
                                                         >
                                                             Xoá
@@ -321,7 +323,7 @@ class ProductTypesList extends React.Component {
                     onSave={this.handleSaveProductType}
                 />
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

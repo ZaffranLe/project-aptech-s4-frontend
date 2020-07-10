@@ -18,6 +18,7 @@ import {
 import { HeaderMain } from "../../components/HeaderMain";
 import { connect } from "react-redux";
 import { ProductActions } from "../../../redux/_actions/Products/ProductsA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { ProductTypeActions } from "../../../redux/_actions/ProductTypes/ProductTypesA";
 import { ManufacturerActions } from "../../../redux/_actions/Manufacturers/ManufacturersA";
 import { v4 } from "uuid";
@@ -43,6 +44,20 @@ class CreateProduct extends React.Component {
     componentDidMount() {
         this.props.dispatch(ManufacturerActions.getAllManufacturer());
         this.props.dispatch(ProductTypeActions.getAllProductType());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Sản phẩm",
+                },
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Thêm sản phẩm mới",
+                },
+            ])
+        );
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -143,7 +158,6 @@ class CreateProduct extends React.Component {
             Name,
             IdDisplay,
             Description,
-            Quantity,
             IdProductType,
             UnitPrice,
             IdManufacturer,

@@ -2,10 +2,7 @@ import actionTypes from "../../_constants/actionTypes";
 
 const defaultState = {
     isLoggedIn: false,
-    User: {
-        UserInfo: {},
-        ListPermission: [],
-    },
+    User: "",
     isLoading: false,
 };
 
@@ -31,10 +28,7 @@ export const LoginReducer = (state = defaultState, action) => {
                 ...state,
                 isLoading: false,
                 isLoggedIn: false,
-                User: {
-                    UserInfo: {},
-                    ListPermission: [],
-                },
+                User: "",
             };
         case actionTypes.LOGIN_FAILED:
         case actionTypes.LOGOUT_FAILED:

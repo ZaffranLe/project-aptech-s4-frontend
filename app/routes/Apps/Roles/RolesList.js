@@ -120,7 +120,12 @@ class ModifyModal extends React.Component {
                             <Input value={Description} onChange={this.handleChange("Description")} />
                         </FormGroup>
                         <Container className="table-bordered">
-                            <Input value={search} onChange={this.handleChange("search")} placeholder="Tìm kiếm..." className="mt-4 mb-2" />
+                            <Input
+                                value={search}
+                                onChange={this.handleChange("search")}
+                                placeholder="Tìm kiếm..."
+                                className="mt-4 mb-2"
+                            />
                             {permissions.length > 0 && (
                                 <>
                                     <Table hover>
@@ -136,11 +141,14 @@ class ModifyModal extends React.Component {
                                             {permissions
                                                 .filter(
                                                     (permission) =>
-                                                        permission["Name"].includes(search.trim()) || permission["Description"].includes(search.trim())
+                                                        permission["Name"].includes(search.trim()) ||
+                                                        permission["Description"].includes(search.trim())
                                                 )
                                                 .slice(itemsPerPage * currentPage, itemsPerPage * (currentPage + 1))
                                                 .map((permission, idx) => {
-                                                    const hasPermission = RolePermissions.find((data) => data["Id"] == permission["Id"]);
+                                                    const hasPermission = RolePermissions.find(
+                                                        (data) => data["Id"] == permission["Id"]
+                                                    );
                                                     return (
                                                         <tr key={idx}>
                                                             <td>{itemsPerPage * currentPage + idx + 1}</td>
@@ -151,7 +159,9 @@ class ModifyModal extends React.Component {
                                                                     type="checkbox"
                                                                     id={idx}
                                                                     defaultChecked={hasPermission}
-                                                                    onChange={this.handleCheckPermission(permission["Id"])}
+                                                                    onChange={this.handleCheckPermission(
+                                                                        permission["Id"]
+                                                                    )}
                                                                 />
                                                             </td>
                                                         </tr>
@@ -251,16 +261,18 @@ class RolesList extends React.Component {
         const { roles, permissions, isLoading } = this.props;
         const { role, modifyModal } = this.state;
         return (
-            // <Private PERMISSION={PERMISSIONS.VIEW_ORDER_MENU}>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_ROLE}>
                 <React.Fragment>
                     <Row>
                         <Col lg={9}>
                             <HeaderMain title="Chức vụ" className="mb-5 mt-4" />
                         </Col>
                         <Col lg={3} className="text-right mt-4">
-                            <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                                Tạo chức vụ mới
-                            </Button>
+                            <Private PERMISSION={PERMISSIONS.CREATE_ROLE} pageWrapper={false}>
+                                <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
+                                    Tạo chức vụ mới
+                                </Button>
+                            </Private>
                         </Col>
                     </Row>
                     <Row>
@@ -284,12 +296,26 @@ class RolesList extends React.Component {
                                                         <td>{idx + 1}</td>
                                                         <td>{role["Role"]["Name"]}</td>
                                                         <td>{role["Role"]["Description"]}</td>
-                                                        <td>{moment(role["Role"]["CreatedAt"]).format("YYYY-MM-DD HH:mm:ss")}</td>
                                                         <td>
-                                                            <Button color="yellow" size="sm" onClick={() => this.handleOpenModifyModal(role)}>
+                                                            {moment(role["Role"]["CreatedAt"]).format(
+                                                                "YYYY-MM-DD HH:mm:ss"
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            <Button
+                                                                color="yellow"
+                                                                size="sm"
+                                                                onClick={() => this.handleOpenModifyModal(role)}
+                                                            >
                                                                 Chỉnh sửa
                                                             </Button>{" "}
-                                                            <Button size="sm" color="danger" onClick={() => this.handleDeleteRole(role["Role"]["Id"])}>
+                                                            <Button
+                                                                size="sm"
+                                                                color="danger"
+                                                                onClick={() =>
+                                                                    this.handleDeleteRole(role["Role"]["Id"])
+                                                                }
+                                                            >
                                                                 Xoá
                                                             </Button>
                                                         </td>
@@ -314,7 +340,7 @@ class RolesList extends React.Component {
                     />
                     <Loading isLoading={isLoading} />
                 </React.Fragment>
-            // </Private>
+            </Private>
         );
     }
 }

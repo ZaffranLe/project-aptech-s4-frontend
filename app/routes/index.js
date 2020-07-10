@@ -115,6 +115,7 @@ import RolesList from "./Apps/Roles";
 import ProvidersList from "./Apps/Providers";
 import PostsList from "./Apps/Posts";
 import CreatePost from "./Apps/CreatePost";
+import Cart from "./Apps/Cart";
 
 // ----------- Layout Imports ---------------
 import { DefaultNavbar } from "./../layout/components/DefaultNavbar";
@@ -122,6 +123,7 @@ import { DefaultSidebar } from "./../layout/components/DefaultSidebar";
 
 import { SidebarANavbar } from "./../layout/components/SidebarANavbar";
 import { SidebarASidebar } from "./../layout/components/SidebarASidebar";
+import ProductDetail from "./Apps/Products/ProductDetail";
 
 //------ Route Definitions --------
 // eslint-disable-next-line no-unused-vars
@@ -229,6 +231,8 @@ export const RoutedContent = () => {
 
             <Route component={CreateProduct} path="/apps/products/create" />
             <Route component={ProductsList} path="/apps/products" />
+            <Route component={ProductDetail} path="/products/:id" />
+            <Route component={Cart} path="/cart" />
             <Route component={ProductsForCustomer} path="/products" />
             <Route component={ProductTypesList} path="/apps/product/types" />
             <Route component={ManufacturersList} path="/apps/manufacturers" />

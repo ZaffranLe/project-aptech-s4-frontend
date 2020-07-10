@@ -27,6 +27,8 @@ import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions";
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -226,15 +228,17 @@ class ManufacturersList extends React.Component {
         const { manufacturers, isLoading } = this.props;
         const { manufacturer, modifyModal } = this.state;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_MANUFACTURER}>
                 <Row>
                     <Col lg={9}>
                         <HeaderMain title="Nhà sản xuất" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
-                        <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo nhà sản xuất mới
-                        </Button>
+                        <Private PERMISSION={PERMISSIONS.CREATE_MANUFACTURER} pageWrapper={false}>
+                            <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
+                                Tạo nhà sản xuất mới
+                            </Button>
+                        </Private>
                     </Col>
                 </Row>
                 <Row>
@@ -306,7 +310,7 @@ class ManufacturersList extends React.Component {
                     onSave={this.handleSaveManufacturer}
                 />
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

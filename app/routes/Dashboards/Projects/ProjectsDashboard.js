@@ -22,11 +22,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { TasksMedia } from "../../components/ProjectsDashboards/TasksMedia";
 import EventsCarousel from "./EventsCarousel";
 import { OrderReceiptActions } from "../../../redux/_actions/OrderReceipts/OrderReceiptsA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 
 const ProjectsDashboard = () => {
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(OrderReceiptActions.getAllOrderReceipt());
+        dispatch(NavbarActions.switchPage([]));
     }, []);
 
     const isLoading = useSelector((state) => state.OrderReceiptsReducer.isLoading);

@@ -3,11 +3,6 @@ import { connect } from "react-redux";
 import {
     Row,
     Col,
-    CardColumns,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     Input,
     Form,
     FormGroup,
@@ -23,10 +18,13 @@ import {
     ModalFooter,
 } from "./../../../components";
 import { ProviderActions } from "../../../redux/_actions/Providers/ProvidersA";
+import { NavbarActions } from "../../../redux/_actions/Navbar/NavbarA";
 import { v1, v4 } from "uuid";
 import { HeaderMain } from "../../components/HeaderMain";
 import moment from "moment";
 import _ from "lodash";
+import Private from "../../../components/Private";
+import { PERMISSIONS } from "../../../utils/_permissions";
 
 class ModifyModal extends React.Component {
     constructor(props) {
@@ -205,6 +203,20 @@ class ProvidersList extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(ProviderActions.getAllProvider());
+        this.props.dispatch(
+            NavbarActions.switchPage([
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Đơn hàng",
+                },
+                {
+                    hasLink: false,
+                    link: "",
+                    title: "Nhà cung cấp",
+                },
+            ])
+        );
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
@@ -250,15 +262,17 @@ class ProvidersList extends React.Component {
         const { providers, isLoading } = this.props;
         const { provider, modifyModal } = this.state;
         return (
-            <React.Fragment>
+            <Private PERMISSION={PERMISSIONS.VIEW_LIST_PROVIDER}>
                 <Row>
                     <Col lg={9}>
                         <HeaderMain title="Nhà cung cấp" className="mb-5 mt-4" />
                     </Col>
                     <Col lg={3} className="text-right mt-4">
-                        <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
-                            Tạo nhà cung cấp mới
-                        </Button>
+                        <Private PERMISSION={PERMISSIONS.CRETAE_PROVIDER} pageWarpper={false}>
+                            <Button color="primary" onClick={() => this.handleOpenModifyModal()}>
+                                Tạo nhà cung cấp mới
+                            </Button>
+                        </Private>
                     </Col>
                 </Row>
                 <Row>
@@ -332,7 +346,7 @@ class ProvidersList extends React.Component {
                     onSave={this.handleSaveProvider}
                 />
                 <Loading isLoading={isLoading} />
-            </React.Fragment>
+            </Private>
         );
     }
 }

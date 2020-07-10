@@ -1,22 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import Error404 from "../../routes/Pages/Error404";
+import { PERMISSIONS } from "../../utils/_permissions";
 
-class Private extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const Private = (props) => {
+    const { PERMISSION = null, pageWrapper = true } = props;
+    const isLoggedIn = useSelector((state) => state.LoginReducer.isLoggedIn);
+    const User = useSelector((state) => state.LoginReducer.User);
+    return isLoggedIn && (User["ListPermission"].includes(PERMISSION) || PERMISSION == null) ? (
+        React.cloneElement(props.children, { ...props, children: props.children.props.children })
+    ) : pageWrapper ? (
+        <Error404 />
+    ) : (
+        <></>
+    );
+};
 
-    render() {
-        const { isLoggedIn, User, PERMISSION, pageWrapper = true } = this.props;
-        if (isLoggedIn && User["ListPermission"].includes(PERMISSION)) {
-            return <>{this.props.children}</>;
-        } else {
-            return pageWrapper ? <Error404 /> : <></>;
-        }
-    }
-}
-
-const mapStateToProps = ({ LoginReducer }) => LoginReducer;
-
-export default connect(mapStateToProps, null)(Private);
+export default Private;
